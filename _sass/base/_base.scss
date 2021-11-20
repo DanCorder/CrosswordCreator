@@ -1,0 +1,23 @@
+body {
+    font-family: "Verdana", "Arial", sans-serif;
+    background-color: $lighter-colour;
+    color: $text-colour;
+    background-image: url("/CrosswordCreator/assets/images/background.png");
+    background-repeat: repeat;
+}
+
+a {
+    color: $medium-colour;
+    &:visited {
+        color: $darker-colour;
+    }
+}
+
+.clearfix {
+    clear: both;
+}
+.clearfix:after {
+    clear: both; 
+    content: "";
+    display: table; 
+}

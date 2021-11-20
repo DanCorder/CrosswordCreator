@@ -1,0 +1,7 @@
+.content-block {
+    background-color: $text-background-colour;
+    margin: $content-margin ($content-margin / 2);
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
+}
