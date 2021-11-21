@@ -15,3 +15,4 @@ Planned tools:
   * [ ] letter clues
   * [ ] keywords
 * [ ] Print out
+* [ ] Saving/loading crosswords
