@@ -30,3 +30,13 @@ To download a new word list to `src/data`:
 * `node getWordList.js`
 
 If you want a different word list you can edit `getWordList.js` or manually download a new list from http://app.aspell.net/create and save it over `src/data/wordList.txt`.
+
+## Development
+
+This site is designed to hosted on Github pages, but you can use Jekyll to create the final static pages and upload them anywhere. No server side processing is needed.
+
+### Running locally
+
+* Install Jekyll
+* Switch to the root directory of this project
+* `bundle exec jekyll serve`
