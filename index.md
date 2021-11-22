@@ -21,3 +21,7 @@ title: Crossword Creator
     <input id="findMatchingWordsInput" /> <button id="findMatchingWordsButton">Search</button>
     <div id="findMatchingWordsOutput"></div>
 </div>
+
+<div class="content-block">
+    <a href="/CrosswordCreator/credits">Credits/Copyright</a>
+</div>
