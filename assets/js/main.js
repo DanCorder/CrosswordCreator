@@ -41,7 +41,7 @@ function findMatchingWords(pattern) {
     }
 
     const wordsOfSameLength = wordList[pattern.length];
-    const regex = new RegExp(pattern.replaceAll('.', '\\w'));
+    const regex = new RegExp(pattern.replaceAll('.', '\\w').replaceAll(' ', '\\w'));
 
     Object.keys(wordsOfSameLength).forEach(candidate => {
         if (regex.test(candidate)) {

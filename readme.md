@@ -9,7 +9,7 @@ Planned tools:
   * [ ] Symmetry
   * [ ] Clue numbering
 * [ ] Area for notes
-* [ ] Find words to fit with existing clues
+* [x] Find words to fit with existing clues
 * [ ] Anagram generation
   * [ ] Same length word
   * [ ] Multiple shorter words
