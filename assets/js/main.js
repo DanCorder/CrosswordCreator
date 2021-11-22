@@ -34,8 +34,12 @@ getMatchesInput.addEventListener("keypress", (e) => {
 });
 
 function findMatchingWords(pattern) {
-    const wordsOfSameLength = wordList[pattern.length];
     let matches = [];
+    if (pattern === '') {
+        return matches;
+    }
+
+    const wordsOfSameLength = wordList[pattern.length];
     const regex = new RegExp(pattern.replace('.', '\\w'));
 
     Object.keys(wordsOfSameLength).forEach(candidate => {
