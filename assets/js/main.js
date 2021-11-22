@@ -24,6 +24,7 @@ getMatchesButton.onclick = function(ev) {
         getMatchesOutput.innerHTML = "No matches found";
     } else {
         getMatchesOutput.innerHTML = matches
+            .sort(new Intl.Collator().compare)
             .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
             .join('<br/>');
     }
