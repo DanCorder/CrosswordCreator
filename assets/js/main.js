@@ -11,7 +11,7 @@ fetch('assets/js/processedWordList.json')
     });
 
 const getMatchesInput = document.getElementById('findMatchingWordsInput');
-const getMatchesButton = document.getElementById('findMatchingWordsOutput');
+const getMatchesButton = document.getElementById('findMatchingWordsButton');
 const getMatchesOutput = document.getElementById('findMatchingWordsOutput');
 
 getMatchesButton.onclick = function(ev) {
