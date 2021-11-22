@@ -22,17 +22,23 @@ wordListFile.on('line', function(word) {
         return;
     }
 
-    let wordsOfSameLength = wordsByLength[word.length];
+    // Remove apostrophes (and anything else)
+    cleanWord = clean(word);
+
+    // We're not supporting crosswords larger than 15x15
+    if (cleanWord.length > 15) {
+        return;
+    }
+
+    let wordsOfSameLength = wordsByLength[cleanWord.length];
     if (!wordsOfSameLength)
     {
         wordsOfSameLength = [];
         wordsByLength[word.length] = wordsOfSameLength;
     }
-
-    // Remove apostrophes (and anything else)
-    cleanWord = clean(word);
+    
     // Don't add both George's and Georges
-    if (!wordsOfSameLength.includes (cleanWord)) {
+    if (!wordsOfSameLength.includes(cleanWord)) {
         wordsOfSameLength.push(cleanWord);
     }
 });
