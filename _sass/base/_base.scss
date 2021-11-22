@@ -1,15 +1,15 @@
 body {
     font-family: "Verdana", "Arial", sans-serif;
-    background-color: $lighter-colour;
+    background-color: $text-background-colour;
     color: $text-colour;
     background-image: url("/CrosswordCreator/assets/images/background.png");
     background-repeat: repeat;
 }
 
 a {
-    color: $medium-colour;
+    color: $darker-colour;
     &:visited {
-        color: $darker-colour;
+        color: $medium-colour;
     }
 }
 
