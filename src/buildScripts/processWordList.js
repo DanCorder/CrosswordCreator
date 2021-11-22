@@ -34,7 +34,7 @@ wordListFile.on('line', function(word) {
     if (!wordsOfSameLength)
     {
         wordsOfSameLength = [];
-        wordsByLength[word.length] = wordsOfSameLength;
+        wordsByLength[cleanWord.length] = wordsOfSameLength;
     }
     
     // Don't add both George's and Georges
