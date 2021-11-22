@@ -1,9 +1,10 @@
+// Script to download a word list from aspell.net
 const fs = require('fs');
 const http = require('http');
 
 function saveResponse(response)
 {
-    let file = fs.createWriteStream('./data/wordList.txt');
+    let file = fs.createWriteStream('../data/wordList.txt');
 
     if (response.statusCode !== 200) {
         console.error(`HTTP error: ${response.statusCode}`);

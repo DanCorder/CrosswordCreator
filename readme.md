@@ -11,6 +11,9 @@ Planned tools:
 * [ ] Area for notes
 * [ ] Find words to fit with existing clues
 * [ ] Anagram generation
+  * [ ] Same length word
+  * [ ] Multiple shorter words
+  * [ ] Fix some words
 * [ ] Reference pages
   * [ ] letter clues
   * [ ] keywords
