@@ -30,17 +30,16 @@ wordListFile.on('line', function(word) {
         return;
     }
 
+    if (!wordsByLength.hasOwnProperty(cleanWord.length)) {
+        wordsByLength[cleanWord.length] = {};
+    }
     let wordsOfSameLength = wordsByLength[cleanWord.length];
-    if (!wordsOfSameLength)
-    {
-        wordsOfSameLength = [];
-        wordsByLength[cleanWord.length] = wordsOfSameLength;
+
+    // Combine Georges and George's into a single entry, but keep both original words.
+    if (!wordsOfSameLength.hasOwnProperty(cleanWord)) {
+        wordsOfSameLength[cleanWord] = []
     }
-    
-    // Don't add both George's and Georges
-    if (!wordsOfSameLength.includes(cleanWord)) {
-        wordsOfSameLength.push(cleanWord);
-    }
+    wordsOfSameLength[cleanWord].push(word);
 });
 
 wordListFile.on('close', function() {
@@ -57,5 +56,6 @@ wordListFile.on('close', function() {
 function clean(word) {
     word = word.trim();
     word = word.replaceAll("'", "");
+    word = word.toLowerCase();
     return word;
 }
