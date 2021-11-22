@@ -1,3 +1,5 @@
+const dictionaryUrlPrefix = 'https://www.dictionary.com/browse/';
+
 let wordListDownloaded = false;
 let wordList = {};
 
@@ -19,7 +21,9 @@ document.getElementById('findMatchingWordsButton').onclick = function(ev) {
     if (matches.length === 0) {
         output.innerHTML = "No matches found";
     } else {
-        output.innerHTML = matches.join('<br/>');
+        output.innerHTML = matches
+            .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
+            .join('<br/>');
     }
 };
 
