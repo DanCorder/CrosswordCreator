@@ -10,22 +10,28 @@ fetch('assets/js/processedWordList.json')
         wordListDownloaded = true;
     });
 
-document.getElementById('findMatchingWordsButton').onclick = function(ev) {
+const getMatchesInput = document.getElementById('findMatchingWordsInput');
+const getMatchesButton = document.getElementById('findMatchingWordsOutput');
+const getMatchesOutput = document.getElementById('findMatchingWordsOutput');
+
+getMatchesButton.onclick = function(ev) {
     if (!wordListDownloaded) {
         alert('Word list is still downloading, please try again or refresh the page');
         return;
     }
-    const input = document.getElementById('findMatchingWordsInput');
-    const output = document.getElementById('findMatchingWordsOutput');
-    const matches = findMatchingWords(input.value);
+    const matches = findMatchingWords(getMatchesInput.value);
     if (matches.length === 0) {
-        output.innerHTML = "No matches found";
+        getMatchesOutput.innerHTML = "No matches found";
     } else {
-        output.innerHTML = matches
+        getMatchesOutput.innerHTML = matches
             .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
             .join('<br/>');
     }
 };
+
+getMatchesInput.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") getMatchesButton.click();
+});
 
 function findMatchingWords(pattern) {
     const wordsOfSameLength = wordList[pattern.length];
