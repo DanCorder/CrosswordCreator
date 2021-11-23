@@ -23,5 +23,12 @@ title: Crossword Creator
 </div>
 
 <div class="content-block">
+    <h2>Find Anagrams</h2>
+    <p>Currently only finds single word anagrams</p>
+    <input id="findAnagramsInput" /> <button id="findAnagramsButton">Search</button>
+    <div id="findAnagramsOutput"></div>
+</div>
+
+<div class="content-block">
     <a href="/CrosswordCreator/credits">Credits/Copyright</a>
 </div>

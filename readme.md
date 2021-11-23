@@ -13,7 +13,7 @@ Planned tools:
 * [ ] Area for notes
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
-  * [ ] Same length word
+  * [x] Same length word
   * [ ] Multiple shorter words
   * [ ] Fix some words
 * [ ] Reference pages
