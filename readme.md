@@ -10,12 +10,17 @@ Planned tools:
 * [ ] Grid creation
   * [ ] Symmetry
   * [ ] Clue numbering
+  * [ ] Fill grid with random words
+    * [ ] Use words from supplied list
 * [ ] Area for notes
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
   * [x] Same length word
   * [ ] Multiple shorter words
   * [ ] Fix some words
+  * [ ] Exclude some words
+  * [ ] Find all single words within the letters
+  * [ ] Allow choice of dictionary
 * [ ] Reference pages
   * [ ] letter clues
   * [ ] keywords

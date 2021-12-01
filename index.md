@@ -24,9 +24,16 @@ title: Crossword Creator
 
 <div class="content-block">
     <h2>Find Anagrams</h2>
-    <p>Currently only finds single word anagrams</p>
+    <p>Currently only finds full word anagrams</p>
     <input id="findAnagramsInput" /> <button id="findAnagramsButton">Search</button>
     <div id="findAnagramsOutput"></div>
+</div>
+
+<div class="content-block">
+    <h2>Find Single Anagrams</h2>
+    <p>Find all single word anagrams within the input, not necessarily using all letters</p>
+    <input id="findSingleAnagramsInput" /> <button id="findSingleAnagramsButton">Search</button>
+    <div id="findSingleAnagramsOutput"></div>
 </div>
 
 <div class="content-block">

@@ -61,6 +61,30 @@ getAnagramsInput.addEventListener("keypress", (e) => {
     if (e.key == "Enter") getAnagramsButton.click();
 });
 
+const getSingleAnagramsInput = document.getElementById('findSingleAnagramsInput');
+const getSingleAnagramsButton = document.getElementById('findSingleAnagramsButton');
+const getSingleAnagramsOutput = document.getElementById('findSingleAnagramsOutput');
+
+getSingleAnagramsButton.onclick = function(ev) {
+    if (!wordListDownloaded) {
+        alert('Word list is still downloading, please try again or refresh the page');
+        return;
+    }
+    const matches = getAllSingleWordAnagrams(getSingleAnagramsInput.value);
+    if (matches.length === 0) {
+        getSingleAnagramsOutput.innerHTML = "No matches found";
+    } else {
+        getSingleAnagramsOutput.innerHTML = matches
+            .sort(compareByLengthThenAlphabetical)
+            .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
+            .join('<br/>');
+    }
+};
+
+getSingleAnagramsInput.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") getSingleAnagramsButton.click();
+});
+
 function findMatchingWords(pattern) {
     let matches = [];
     if (pattern === '') {
@@ -129,4 +153,44 @@ function sortString(str) {
     return sorted.join('');
 }
 
-  
+function getAllSingleWordAnagrams(parentWord) {
+    const parentLetters = sortString(parentWord);
+    let anagrams = [];
+    for (let letters of generatePowerSetStrings(parentLetters)) {
+        const result = anagramList[letters.length].find(a => a.letters === letters);
+        if (result !== undefined) {
+            anagrams = anagrams.concat(result.words);
+        }
+    }
+    anagrams = [ ...new Set(anagrams)]; // Deduplicate entires
+    return anagrams.filter(a => a !== parentWord);
+}
+
+// Generates the power set of letters from the supplied  string
+// Preserves the order of the original string in the substrings
+// Written as a generator so that we don't have to keep the whole
+// power set in memory at once.
+function* generatePowerSetStrings(set) {
+    for (let flags = 1; flags < (1 << set.length); flags++) {
+        let subset = '';
+        for (let index = 0; index < set.length; index++) {
+            if (flags & (1 << index)) {
+                subset += set[index];
+            }
+        }
+        yield subset;
+      }
+}
+
+function compareByLengthThenAlphabetical(first, second) {
+    if (first.length !== second.length) {
+        return second.length - first.length;
+    }
+    if (first < second) {
+        return -1;
+    }
+    if (first > second) {
+        return 1;
+    }
+    return 0;
+}
