@@ -1,6 +1,7 @@
 // Script to take the raw word list and turn into a format useful for the website
 const fs = require('fs');
 const readline = require('readline');
+const maxWordLength = 15;
 
 const wordsByLength = {};
 
@@ -26,7 +27,7 @@ wordListFile.on('line', function(word) {
     cleanWord = clean(word);
 
     // We're not supporting crosswords larger than 15x15
-    if (cleanWord.length > 15) {
+    if (cleanWord.length > maxWordLength) {
         return;
     }
 

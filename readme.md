@@ -16,7 +16,7 @@ Planned tools:
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
   * [x] Same length word
-  * [ ] Multiple shorter words
+  * [x] Multiple shorter words
   * [ ] Fix some words
   * [ ] Exclude some words
   * [x] Find all single words within the letters

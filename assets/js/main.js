@@ -13,13 +13,40 @@ fetch('assets/js/processedWordList.json')
         wordListDownloaded = true;
     });
 
-bindControlsToMethod('findMatchingWords', findMatchingWords, new Intl.Collator().compare);
-bindControlsToMethod('findAnagrams', findAnagrams, new Intl.Collator().compare);
-bindControlsToMethod('findSingleAnagrams', findAllSingleWordAnagrams, compareByLengthThenAlphabetical);
+bindControlsToMethod('findMatchingWords', findMatchingWords, new Intl.Collator().compare, singleWordResultFormatter);
+bindControlsToMethod('findAnagrams', findAnagrams, sortAnagramResults, anagramResultFormatter);
+bindControlsToMethod('findSingleAnagrams', findAllSingleWordAnagrams, compareByLengthThenAlphabetical, singleWordResultFormatter);
+
+function singleWordResultFormatter(result) {
+    return `<div><a href="${dictionaryUrlPrefix}${result}" target="_blank">${result}</a></div>`;
+}
+
+function anagramResultFormatter(result) {
+    return `<div class="anagram-block__result">${
+        result
+            .map(wordGroup => `<div class="anagram-block__word-group">${
+                wordGroup
+                    .map(word => `<a href="${dictionaryUrlPrefix}${word}" target="_blank">${word}</a>`)
+                    .join('<br/>')
+                }</div>`)
+            .join('')
+        }</div>`;
+}
+
+// Sort by longest word (always first in the result), then alphabetically
+function sortAnagramResults(first, second) {
+    if (second[0][0].length !== first[0][0].length) {
+        return second[0][0].length - first[0][0].length;
+    }
+    if (second[0][0] > first[0][0]) {
+        return -1;
+    }
+    return 1;
+}
 
 // Helper to bind a text input, output div, button, and search method together
 // The controls should all have IDs of the form <controlNamePrefix>(Input|Output|Button)
-function bindControlsToMethod(controlNamePrefix, searchMethod, resultComparer) {
+function bindControlsToMethod(controlNamePrefix, searchMethod, resultComparer, resultFormatter) {
     const input = document.getElementById(controlNamePrefix + 'Input');
     const button = document.getElementById(controlNamePrefix + 'Button');
     const output = document.getElementById(controlNamePrefix + 'Output');
@@ -35,8 +62,8 @@ function bindControlsToMethod(controlNamePrefix, searchMethod, resultComparer) {
         } else {
             output.innerHTML = matches
                 .sort(resultComparer)
-                .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
-                .join('<br/>');
+                .map(resultFormatter)    
+                .join('');
         }
     };
 
