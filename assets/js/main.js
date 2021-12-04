@@ -13,77 +13,37 @@ fetch('assets/js/processedWordList.json')
         wordListDownloaded = true;
     });
 
-const getMatchesInput = document.getElementById('findMatchingWordsInput');
-const getMatchesButton = document.getElementById('findMatchingWordsButton');
-const getMatchesOutput = document.getElementById('findMatchingWordsOutput');
+bindControlsToMethod('findMatchingWords', findMatchingWords, new Intl.Collator().compare);
+bindControlsToMethod('findAnagrams', findAnagrams, new Intl.Collator().compare);
+bindControlsToMethod('findSingleAnagrams', findAllSingleWordAnagrams, compareByLengthThenAlphabetical);
 
-getMatchesButton.onclick = function(ev) {
-    if (!wordListDownloaded) {
-        alert('Word list is still downloading, please try again or refresh the page');
-        return;
-    }
-    const matches = findMatchingWords(getMatchesInput.value);
-    if (matches.length === 0) {
-        getMatchesOutput.innerHTML = "No matches found";
-    } else {
-        getMatchesOutput.innerHTML = matches
-            .sort(new Intl.Collator().compare)
-            .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
-            .join('<br/>');
-    }
-};
+// Helper to bind a text input, output div, button, and search method together
+// The controls should all have IDs of the form <controlNamePrefix>(Input|Output|Button)
+function bindControlsToMethod(controlNamePrefix, searchMethod, resultComparer) {
+    const input = document.getElementById(controlNamePrefix + 'Input');
+    const button = document.getElementById(controlNamePrefix + 'Button');
+    const output = document.getElementById(controlNamePrefix + 'Output');
 
-getMatchesInput.addEventListener("keypress", (e) => {
-    if (e.key == "Enter") getMatchesButton.click();
-});
+    button.onclick = function(ev) {
+        if (!wordListDownloaded) {
+            alert('Word list is still downloading, please try again or refresh the page');
+            return;
+        }
+        const matches = searchMethod(input.value);
+        if (matches.length === 0) {
+            output.innerHTML = "No matches found";
+        } else {
+            output.innerHTML = matches
+                .sort(resultComparer)
+                .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
+                .join('<br/>');
+        }
+    };
 
-const getAnagramsInput = document.getElementById('findAnagramsInput');
-const getAnagramsButton = document.getElementById('findAnagramsButton');
-const getAnagramsOutput = document.getElementById('findAnagramsOutput');
-
-getAnagramsButton.onclick = function(ev) {
-    if (!wordListDownloaded) {
-        alert('Word list is still downloading, please try again or refresh the page');
-        return;
-    }
-    const matches = findAnagrams(getAnagramsInput.value);
-    if (matches.length === 0) {
-        getAnagramsOutput.innerHTML = "No matches found";
-    } else {
-        getAnagramsOutput.innerHTML = matches
-            .sort(new Intl.Collator().compare)
-            .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
-            .join('<br/>');
-    }
-};
-
-getAnagramsInput.addEventListener("keypress", (e) => {
-    if (e.key == "Enter") getAnagramsButton.click();
-});
-
-const getSingleAnagramsInput = document.getElementById('findSingleAnagramsInput');
-const getSingleAnagramsButton = document.getElementById('findSingleAnagramsButton');
-const getSingleAnagramsOutput = document.getElementById('findSingleAnagramsOutput');
-
-getSingleAnagramsButton.onclick = function(ev) {
-    if (!wordListDownloaded) {
-        alert('Word list is still downloading, please try again or refresh the page');
-        return;
-    }
-    const matches = findAllSingleWordAnagrams(getSingleAnagramsInput.value);
-    if (matches.length === 0) {
-        getSingleAnagramsOutput.innerHTML = "No matches found";
-    } else {
-        getSingleAnagramsOutput.innerHTML = matches
-            .sort(compareByLengthThenAlphabetical)
-            .map(match => `<a href="${dictionaryUrlPrefix}${match}" target="_blank">${match}</a>`)    
-            .join('<br/>');
-    }
-};
-
-getSingleAnagramsInput.addEventListener("keypress", (e) => {
-    if (e.key == "Enter") getSingleAnagramsButton.click();
-});
+    input.addEventListener("keypress", (e) => {
+        if (e.key == "Enter") button.click();
+    });
+}
 
 function compareByLengthThenAlphabetical(first, second) {
     if (first.length !== second.length) {
