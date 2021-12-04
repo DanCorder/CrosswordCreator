@@ -19,7 +19,7 @@ Planned tools:
   * [ ] Multiple shorter words
   * [ ] Fix some words
   * [ ] Exclude some words
-  * [ ] Find all single words within the letters
+  * [x] Find all single words within the letters
   * [ ] Allow choice of dictionary
 * [ ] Reference pages
   * [ ] letter clues
