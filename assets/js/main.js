@@ -14,8 +14,16 @@ fetch('assets/js/processedWordList.json')
     });
 
 bindControlsToMethod('findMatchingWords', findMatchingWords, new Intl.Collator().compare, singleWordResultFormatter);
-bindControlsToMethod('findAnagrams', findAnagrams, sortAnagramResults, anagramResultFormatter);
+bindControlsToMethod('findAnagrams', findAnagramsExcludingLetters, sortAnagramResults, anagramResultFormatter);
 bindControlsToMethod('findSingleAnagrams', findAllSingleWordAnagrams, compareByLengthThenAlphabetical, singleWordResultFormatter);
+
+function findAnagramsExcludingLetters(lettersToAnagram) {
+    const exclude = document.getElementById('findAnagramsExclude').value.toLowerCase();
+    const charsToStrip = /[^a-z]/ig
+    const excludeClean = exclude.replaceAll(charsToStrip, '');
+    [...excludeClean].forEach(letter => lettersToAnagram = lettersToAnagram.replace(letter, ''));
+    return findAnagrams(lettersToAnagram);
+}
 
 function singleWordResultFormatter(result) {
     return `<div><a href="${dictionaryUrlPrefix}${result}" target="_blank">${result}</a></div>`;
