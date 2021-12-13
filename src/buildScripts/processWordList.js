@@ -47,7 +47,7 @@ wordListFile.on('close', function() {
     // JSON doesn't support comments, so use this to keep the word list copyright notice at the top of the file
     wordsByLength[0] = headerText
 
-    let output = fs.createWriteStream('../../assets/js/processedWordList.json');
+    let output = fs.createWriteStream('../../public/assets/js/processedWordList.json');
     output.write(JSON.stringify(wordsByLength));
     output.end();
 
