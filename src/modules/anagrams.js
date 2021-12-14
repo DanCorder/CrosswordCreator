@@ -1,36 +1,4 @@
-const maxWordLength = 15;
 const anagramList = {};
-
-// Creates a data structure in the form:
-// {
-//    4: [ 
-//      { letters: "aprt", words: [ "part", "tarp", "trap" ] },
-//      { letters: "arst", words: [ "arts", "rats", "star", "tars" ] },
-//    ]
-// }
-// Entries are alphabetically ordered by the "letters" value
-function populateAnagramList(wordList) {
-    for (let i = 1; i <= maxWordLength; i++) {
-        const words = wordList[i];
-        const processed = {};
-        Object.keys(words).forEach(word => {
-            const sortedLetters = sortString(word);
-            if (!processed.hasOwnProperty(sortedLetters)) {
-                processed[sortedLetters] = [];
-            }
-            processed[sortedLetters].push(word);
-        });
-        anagramList[i] = Object.entries(processed).sort(function(x, y) {
-            if (x[0] < y[0]) {
-                return -1;
-            }
-            if (x[0] > y[0]) {
-                return 1;
-            }
-            return 0;
-        }).map(x => { return { letters: x[0], words: x[1].sort() } } );
-    }
-}
 
 // For e.g. "look" returns results like:
 // [

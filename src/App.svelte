@@ -1,3 +1,19 @@
+<script lang="ts">
+    import type { WordList } from "./modules/WordList";
+    import { AnagramList, createAnagramList } from "./modules/AnagramList";
+	import WordFit from './components/WordFit.svelte';
+
+    let wordList: WordList = null;
+    let anagramList: AnagramList = null;
+
+    fetch('assets/js/processedWordList.json')
+        .then(response => response.json())
+        .then(data => {
+            wordList = data;
+            anagramList = createAnagramList(wordList);
+        });
+</script>
+
 <div class='main'>
     <div class="content-block">
         <h1>Tools for cryptic crossword creation - under construction</h1>
@@ -11,12 +27,7 @@
         </ul>
     </div>
 
-    <div class="content-block">
-        <h2>Find Words That Fit</h2>
-        <p>Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces</p>
-        <input id="findMatchingWordsInput" /> <button id="findMatchingWordsButton">Search</button>
-        <div id="findMatchingWordsOutput"></div>
-    </div>
+    <WordFit {wordList} />
 
     <div class="content-block">
         <h2>Find Anagrams</h2>
@@ -39,7 +50,7 @@
 </div>
 
 <style lang="scss">
-    .content-block {
+    :global(.content-block) {
         background-color: $text-background-colour;
         margin: $content-margin calc($content-margin / 2);
         padding: 20px;
@@ -47,7 +58,7 @@
         box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
     }
 
-    a {
+    :global(a) {
         color: $darker-colour;
         &:visited {
             color: $medium-colour;
