@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { WordList } from "../modules/WordList";
     import { findMatchingWords } from "../modules/WordList";
+    import Result from "../components/Result.svelte";
 
     export let wordList: WordList;
 
@@ -21,7 +22,7 @@
     <input bind:value={pattern} /> <button on:click={handleClick}>Search</button>
     <div>
         {#each results as result}
-            {result}
+            <Result {result} />
         {/each}
     </div>
 </div>

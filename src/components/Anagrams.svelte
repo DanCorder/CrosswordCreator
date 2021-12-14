@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { WordList } from "../modules/WordList";
     import { AnagramList, createAnagramList, findAllSingleWordAnagrams } from "../modules/AnagramList";
+    import Result from './Result.svelte';
 
     export let wordList: WordList;
     let anagramList: AnagramList;
@@ -23,7 +24,7 @@
     <input bind:value={letters} /> <button on:click={handleClick}>Search</button>
     <div>
         {#each results as result}
-            {result}
+            <Result {result} />
         {/each}
     </div>
 </div>
