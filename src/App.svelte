@@ -2,6 +2,7 @@
     import type { WordList } from "./modules/WordList";
     import { AnagramList, createAnagramList } from "./modules/AnagramList";
 	import WordFit from './components/WordFit.svelte';
+    import Anagrams from './components/Anagrams.svelte';
 
     let wordList: WordList = null;
     let anagramList: AnagramList = null;
@@ -37,12 +38,7 @@
         <div id="findAnagramsOutput"></div>
     </div>
 
-    <div class="content-block">
-        <h2>Find Single Anagrams</h2>
-        <p>Find all single word anagrams within the input, not necessarily using all letters</p>
-        <input id="findSingleAnagramsInput" /> <button id="findSingleAnagramsButton">Search</button>
-        <div id="findSingleAnagramsOutput"></div>
-    </div>
+    <Anagrams {wordList} />
 
     <div class="content-block">
         <a href="/CrosswordCreator/credits">Credits/Copyright</a>

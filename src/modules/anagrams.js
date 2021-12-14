@@ -77,34 +77,6 @@ function sortResultByLengthThenAlphabetically(first, second) {
     return 1;
 }
 
-function findAllSingleWordAnagrams(parentWord) {
-    const parentLetters = sortString(parentWord);
-    let anagrams = [];
-    for (let letters of generatePowerSetStrings(parentLetters)) {
-        const result = anagramList[letters.length].find(a => a.letters === letters);
-        if (result !== undefined) {
-            anagrams = anagrams.concat(result.words);
-        }
-    }
-    anagrams = [ ...(new Set(anagrams)) ]; // Deduplicate entires
-    return anagrams.filter(a => a !== parentWord);
-}
-
-// Generates the power set of letters from the supplied string
-// Preserves the order of the original string in the substrings
-// Written as a generator so that we don't have to keep the whole power set in memory at once.
-function* generatePowerSetStrings(letters) {
-    for (let flags = 1; flags < (1 << letters.length); flags++) {
-        let subset = '';
-        for (let index = 0; index < letters.length; index++) {
-            if (flags & (1 << index)) {
-                subset += letters[index];
-            }
-        }
-        yield subset;
-      }
-}
-
 // Generate all sub groupings of letters
 function* generateAllLetterCombinations(letters) {
     for (let restrictedGrowthString of generateRestrictedGrowthStrings(letters.length)) {
@@ -173,4 +145,4 @@ function sortString(str) {
     return sorted.join('');
 }
 
-export { populateAnagramList, findAnagrams, findAllSingleWordAnagrams };
+export { findAnagrams };

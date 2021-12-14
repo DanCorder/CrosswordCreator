@@ -15,6 +15,21 @@ function sortString(str: string): string {
     return sorted.join('');
 }
 
+// Generates the power set of letters from the supplied string
+// Preserves the order of the original string in the substrings
+// Written as a generator so that we don't have to keep the whole power set in memory at once.
+function* generatePowerSetStrings(letters: string) {
+    for (let flags = 1; flags < (1 << letters.length); flags++) {
+        let subset = '';
+        for (let index = 0; index < letters.length; index++) {
+            if (flags & (1 << index)) {
+                subset += letters[index];
+            }
+        }
+        yield subset;
+      }
+}
+
 export function createAnagramList(wordList: WordList): AnagramList {
     const maxWordLength = 15;
     const ret = new AnagramList();
@@ -41,4 +56,17 @@ export function createAnagramList(wordList: WordList): AnagramList {
     }
 
     return ret;
+}
+
+export function findAllSingleWordAnagrams(parentWord: string, anagramList: AnagramList) {
+    const parentLetters = sortString(parentWord);
+    let anagrams = [];
+    for (let letters of generatePowerSetStrings(parentLetters)) {
+        const result = anagramList[letters.length].find(a => a.letters === letters);
+        if (result !== undefined) {
+            anagrams = anagrams.concat(result.words);
+        }
+    }
+    anagrams = [ ...(new Set(anagrams)) ]; // Deduplicate entires
+    return anagrams.filter(a => a !== parentWord);
 }
