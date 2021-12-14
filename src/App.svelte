@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
-    import { AnagramList, createAnagramList } from "./modules/AnagramList";
+    import { AnagramList, createAnagramList } from "./modules/Anagramer";
 	import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
 
