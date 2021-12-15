@@ -30,14 +30,6 @@
 
     <WordFit {wordList} />
 
-    <div class="content-block">
-        <h2>Find Anagrams</h2>
-        <p>All single letters can be considered words in some way. To reduce the number of results we limit single letter words to just 'a' and 'I'.</p>
-        <p>Find up to 1000 results</p>
-        <input id="findAnagramsInput" /> <button id="findAnagramsButton">Search</button> Exclude these letters <input id="findAnagramsExclude" />
-        <div id="findAnagramsOutput"></div>
-    </div>
-
     <Anagrams {wordList} />
 
     <div class="content-block">

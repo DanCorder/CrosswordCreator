@@ -387,25 +387,6 @@ var app = (function () {
 
     class AnagramList {
     }
-    function sortString(str) {
-        var arr = str.split('');
-        var sorted = arr.sort();
-        return sorted.join('');
-    }
-    // Generates the power set of letters from the supplied string
-    // Preserves the order of the original string in the substrings
-    // Written as a generator so that we don't have to keep the whole power set in memory at once.
-    function* generatePowerSetStrings(letters) {
-        for (let flags = 1; flags < (1 << letters.length); flags++) {
-            let subset = '';
-            for (let index = 0; index < letters.length; index++) {
-                if (flags & (1 << index)) {
-                    subset += letters[index];
-                }
-            }
-            yield subset;
-        }
-    }
     function createAnagramList(wordList) {
         const maxWordLength = 15;
         const ret = new AnagramList();
@@ -441,7 +422,157 @@ var app = (function () {
             }
         }
         anagrams = [...(new Set(anagrams))]; // Deduplicate entires
-        return anagrams.filter(a => a !== parentWord);
+        return anagrams
+            .filter(a => a !== parentWord)
+            .map(r => [[r]]);
+    }
+    // For e.g. "look" returns results like:
+    // [
+    //   [ [ "loo" ], [ "k" ] ]
+    //   [ [ "ko", "ok"], [ "lo" ] ]
+    //   [ [ "kolo" ] ]
+    // ]
+    function findAnagrams(letters, anagramList, maxResults = 1000, ignoreWeirdSingleLetters = true) {
+        const sortedLetters = sortString(letters);
+        const results = [];
+        for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
+            const result = [];
+            let foundResult = true;
+            for (let i = 0; i < letterGroups.length; i++) {
+                const letterGroup = letterGroups[i];
+                if (ignoreWeirdSingleLetters
+                    && letterGroup.length === 1
+                    && letterGroup[0] !== 'a'
+                    && letterGroup[0] !== 'i') {
+                    foundResult = false;
+                    break;
+                }
+                const anagrams = anagramList[letterGroup.length].find(x => x.letters === letterGroup);
+                if (anagrams === undefined) {
+                    // We can't anagram all of the groups so move on to the next set of groups
+                    foundResult = false;
+                    break;
+                }
+                const filteredWords = anagrams.words.filter(x => x !== letters);
+                if (filteredWords.length === 0) {
+                    foundResult = false;
+                    break;
+                }
+                result.push(anagrams.words.filter(x => x !== letters));
+            }
+            if (foundResult) {
+                result.sort(sortResultByLengthThenAlphabetically);
+                let foundDuplicate = false;
+                for (let i = 0; i < results.length; i++) {
+                    const savedResult = results[i];
+                    if (savedResult.length !== result.length) {
+                        continue;
+                    }
+                    let areIdentical = true;
+                    for (let j = 0; j < savedResult.length; j++) {
+                        if (savedResult[j][0] !== result[j][0]) {
+                            areIdentical = false;
+                            break;
+                        }
+                    }
+                    if (areIdentical) {
+                        foundDuplicate = true;
+                        break;
+                    }
+                }
+                if (!foundDuplicate) {
+                    results.push(result);
+                }
+            }
+            if (results.length >= maxResults) {
+                break;
+            }
+        }
+        return results;
+    }
+    function sortResultByLengthThenAlphabetically(first, second) {
+        if (second[0].length !== first[0].length) {
+            return second[0].length - first[0].length;
+        }
+        if (second[0] > first[0]) {
+            return -1;
+        }
+        return 1;
+    }
+    function sortString(str) {
+        var arr = str.split('');
+        var sorted = arr.sort();
+        return sorted.join('');
+    }
+    // Generates the power set of letters from the supplied string
+    // Preserves the order of the original string in the substrings
+    // Written as a generator so that we don't have to keep the whole power set in memory at once.
+    function* generatePowerSetStrings(letters) {
+        for (let flags = 1; flags < (1 << letters.length); flags++) {
+            let subset = '';
+            for (let index = 0; index < letters.length; index++) {
+                if (flags & (1 << index)) {
+                    subset += letters[index];
+                }
+            }
+            yield subset;
+        }
+    }
+    // Generate all sub groupings of letters
+    function* generateAllLetterCombinations(letters) {
+        for (let restrictedGrowthString of generateRestrictedGrowthStrings(letters.length)) {
+            const letterGroups = [];
+            for (let i = 0; i < letters.length; i++) {
+                const set = restrictedGrowthString[i];
+                if (letterGroups[set] === undefined) {
+                    letterGroups[set] = "";
+                }
+                letterGroups[set] += letters[i];
+            }
+            yield letterGroups;
+        }
+    }
+    // Generate all set partitions for a set of a given length. Yields an array of integers
+    // representing the sets that each letter at that index belongs to.
+    // Implementation of algorithm from "The Art Of Computer Programming" by Donald E. Knuth
+    // with some refactoring
+    function* generateRestrictedGrowthStrings(length) {
+        let restrictedGrowthString = [];
+        let maxValues = [];
+        for (let i = 0; i < length; i++) {
+            restrictedGrowthString.push(0);
+            maxValues.push(1);
+        }
+        const lastIndex = length - 1;
+        while (true) {
+            yield restrictedGrowthString;
+            if (restrictedGrowthString[lastIndex] === maxValues[lastIndex]) {
+                // Find the first value from the right in restrictedGrowthString that is below its maximum
+                let j = lastIndex - 1;
+                while (restrictedGrowthString[j] === maxValues[j]) {
+                    j--;
+                }
+                // If the only value left is the first then we are done as that value always belongs to
+                // set 0
+                if (j === 0) {
+                    return;
+                }
+                // Otherwise increment it
+                restrictedGrowthString[j] += 1;
+                // If restrictedGrowthString[j] has reached its maximum then the digits to the right will
+                // need a maximum one higher so they can belong to a new set.
+                const newMax = maxValues[j] + (restrictedGrowthString[j] === maxValues[j] ? 1 : 0);
+                // Reset all the elements to the right
+                j++;
+                for (; j < length; j++) {
+                    restrictedGrowthString[j] = 0;
+                    maxValues[j] = newMax;
+                }
+            }
+            else {
+                restrictedGrowthString[lastIndex] += 1;
+            }
+        }
     }
 
     function findMatchingWords(pattern, wordList) {
@@ -463,20 +594,158 @@ var app = (function () {
 
     const file$3 = "src/components/Result.svelte";
 
-    function create_fragment$3(ctx) {
-    	let div;
+    function get_each_context$2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[1] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[4] = list[i];
+    	return child_ctx;
+    }
+
+    // (8:12) {#each wordSet as word}
+    function create_each_block_1(ctx) {
+    	let li;
     	let a;
+    	let t_value = /*word*/ ctx[4] + "";
     	let t;
     	let a_href_value;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			li = element("li");
     			a = element("a");
-    			t = text(/*result*/ ctx[0]);
-    			attr_dev(a, "href", a_href_value = "" + (dictionaryUrlPrefix + /*result*/ ctx[0]));
+    			t = text(t_value);
+    			attr_dev(a, "href", a_href_value = "" + (dictionaryUrlPrefix + /*word*/ ctx[4]));
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file$3, 5, 4, 124);
+    			add_location(a, file$3, 8, 20, 283);
+    			add_location(li, file$3, 8, 16, 279);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, li, anchor);
+    			append_dev(li, a);
+    			append_dev(a, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*result*/ 1 && t_value !== (t_value = /*word*/ ctx[4] + "")) set_data_dev(t, t_value);
+
+    			if (dirty & /*result*/ 1 && a_href_value !== (a_href_value = "" + (dictionaryUrlPrefix + /*word*/ ctx[4]))) {
+    				attr_dev(a, "href", a_href_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(li);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(8:12) {#each wordSet as word}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (6:4) {#each result as wordSet}
+    function create_each_block$2(ctx) {
+    	let ul;
+    	let t;
+    	let each_value_1 = /*wordSet*/ ctx[1];
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			ul = element("ul");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t = space();
+    			attr_dev(ul, "class", "anagram-block__word-group svelte-141jf7s");
+    			add_location(ul, file$3, 6, 8, 188);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, ul, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(ul, null);
+    			}
+
+    			append_dev(ul, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*dictionaryUrlPrefix, result*/ 1) {
+    				each_value_1 = /*wordSet*/ ctx[1];
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(ul, t);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(ul);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$2.name,
+    		type: "each",
+    		source: "(6:4) {#each result as wordSet}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let div;
+    	let each_value = /*result*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(div, "class", "anagram-block__result svelte-141jf7s");
     			add_location(div, file$3, 4, 0, 114);
     		},
     		l: function claim(nodes) {
@@ -484,20 +753,41 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			append_dev(div, a);
-    			append_dev(a, t);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*result*/ 1) set_data_dev(t, /*result*/ ctx[0]);
+    			if (dirty & /*result, dictionaryUrlPrefix*/ 1) {
+    				each_value = /*result*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
 
-    			if (dirty & /*result*/ 1 && a_href_value !== (a_href_value = "" + (dictionaryUrlPrefix + /*result*/ ctx[0]))) {
-    				attr_dev(a, "href", a_href_value);
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$2(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
     		}
     	};
 
@@ -868,17 +1158,17 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[6] = list[i];
+    	child_ctx[7] = list[i];
     	return child_ctx;
     }
 
-    // (21:8) {#each results as result}
+    // (28:8) {#each results as result}
     function create_each_block(ctx) {
     	let result;
     	let current;
 
     	result = new Result({
-    			props: { result: /*result*/ ctx[6] },
+    			props: { result: /*result*/ ctx[7] },
     			$$inline: true
     		});
 
@@ -892,7 +1182,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const result_changes = {};
-    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[6];
+    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[7];
     			result.$set(result_changes);
     		},
     		i: function intro(local) {
@@ -913,7 +1203,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(21:8) {#each results as result}",
+    		source: "(28:8) {#each results as result}",
     		ctx
     	});
 
@@ -924,12 +1214,16 @@ var app = (function () {
     	let div1;
     	let h2;
     	let t1;
-    	let p;
+    	let p0;
+    	let button0;
     	let t3;
-    	let input;
     	let t4;
-    	let button;
+    	let p1;
+    	let button1;
     	let t6;
+    	let t7;
+    	let input;
+    	let t8;
     	let div0;
     	let current;
     	let mounted;
@@ -950,29 +1244,35 @@ var app = (function () {
     		c: function create() {
     			div1 = element("div");
     			h2 = element("h2");
-    			h2.textContent = "Find Single Anagrams";
+    			h2.textContent = "Find Anagrams";
     			t1 = space();
-    			p = element("p");
-    			p.textContent = "Find all single word anagrams within the input, not necessarily using all letters";
-    			t3 = space();
-    			input = element("input");
+    			p0 = element("p");
+    			button0 = element("button");
+    			button0.textContent = "Find single words";
+    			t3 = text(" Find all single word anagrams within the input, not necessarily using all letters");
     			t4 = space();
-    			button = element("button");
-    			button.textContent = "Search";
-    			t6 = space();
+    			p1 = element("p");
+    			button1 = element("button");
+    			button1.textContent = "Find full anagrams";
+    			t6 = text(" Find full multi-word anagrams (up to 1000 results)");
+    			t7 = space();
+    			input = element("input");
+    			t8 = space();
     			div0 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(h2, file$1, 16, 4, 507);
-    			add_location(p, file$1, 17, 4, 541);
-    			add_location(input, file$1, 18, 4, 634);
-    			add_location(button, file$1, 18, 35, 665);
-    			add_location(div0, file$1, 19, 4, 716);
+    			add_location(h2, file$1, 22, 4, 703);
+    			add_location(button0, file$1, 23, 7, 733);
+    			add_location(p0, file$1, 23, 4, 730);
+    			add_location(button1, file$1, 24, 7, 895);
+    			add_location(p1, file$1, 24, 4, 892);
+    			add_location(input, file$1, 25, 4, 1017);
+    			add_location(div0, file$1, 26, 4, 1052);
     			attr_dev(div1, "class", "content-block");
-    			add_location(div1, file$1, 15, 0, 475);
+    			add_location(div1, file$1, 21, 0, 671);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -981,13 +1281,17 @@ var app = (function () {
     			insert_dev(target, div1, anchor);
     			append_dev(div1, h2);
     			append_dev(div1, t1);
-    			append_dev(div1, p);
-    			append_dev(div1, t3);
+    			append_dev(div1, p0);
+    			append_dev(p0, button0);
+    			append_dev(p0, t3);
+    			append_dev(div1, t4);
+    			append_dev(div1, p1);
+    			append_dev(p1, button1);
+    			append_dev(p1, t6);
+    			append_dev(div1, t7);
     			append_dev(div1, input);
     			set_input_value(input, /*letters*/ ctx[1]);
-    			append_dev(div1, t4);
-    			append_dev(div1, button);
-    			append_dev(div1, t6);
+    			append_dev(div1, t8);
     			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -998,8 +1302,9 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[4]),
-    					listen_dev(button, "click", /*handleClick*/ ctx[2], false, false, false)
+    					listen_dev(button0, "click", /*findSingleWordAnagrams*/ ctx[2], false, false, false),
+    					listen_dev(button1, "click", /*findAllAnagrams*/ ctx[3], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[5])
     				];
 
     				mounted = true;
@@ -1083,12 +1388,20 @@ var app = (function () {
     	let results = [];
     	let letters = "";
 
-    	function handleClick() {
+    	function findSingleWordAnagrams() {
     		if (!wordList) {
     			alert("Word list not downloaded yet, please try again");
     		}
 
     		$$invalidate(0, results = findAllSingleWordAnagrams(letters, anagramList));
+    	}
+
+    	function findAllAnagrams() {
+    		if (!wordList) {
+    			alert("Word list not downloaded yet, please try again");
+    		}
+
+    		$$invalidate(0, results = findAnagrams(letters, anagramList));
     	}
 
     	const writable_props = ['wordList'];
@@ -1103,22 +1416,24 @@ var app = (function () {
     	}
 
     	$$self.$$set = $$props => {
-    		if ('wordList' in $$props) $$invalidate(3, wordList = $$props.wordList);
+    		if ('wordList' in $$props) $$invalidate(4, wordList = $$props.wordList);
     	};
 
     	$$self.$capture_state = () => ({
     		createAnagramList,
     		findAllSingleWordAnagrams,
+    		findAnagrams,
     		Result,
     		wordList,
     		anagramList,
     		results,
     		letters,
-    		handleClick
+    		findSingleWordAnagrams,
+    		findAllAnagrams
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('wordList' in $$props) $$invalidate(3, wordList = $$props.wordList);
+    		if ('wordList' in $$props) $$invalidate(4, wordList = $$props.wordList);
     		if ('anagramList' in $$props) anagramList = $$props.anagramList;
     		if ('results' in $$props) $$invalidate(0, results = $$props.results);
     		if ('letters' in $$props) $$invalidate(1, letters = $$props.letters);
@@ -1129,18 +1444,25 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*wordList*/ 8) {
+    		if ($$self.$$.dirty & /*wordList*/ 16) {
     			anagramList = !wordList ? null : createAnagramList(wordList);
     		}
     	};
 
-    	return [results, letters, handleClick, wordList, input_input_handler];
+    	return [
+    		results,
+    		letters,
+    		findSingleWordAnagrams,
+    		findAllAnagrams,
+    		wordList,
+    		input_input_handler
+    	];
     }
 
     class Anagrams extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { wordList: 3 });
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { wordList: 4 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1152,7 +1474,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*wordList*/ ctx[3] === undefined && !('wordList' in props)) {
+    		if (/*wordList*/ ctx[4] === undefined && !('wordList' in props)) {
     			console.warn("<Anagrams> was created without expected prop 'wordList'");
     		}
     	}
@@ -1170,7 +1492,7 @@ var app = (function () {
     const file = "src/App.svelte";
 
     function create_fragment(ctx) {
-    	let div4;
+    	let div2;
     	let div0;
     	let h1;
     	let t1;
@@ -1192,24 +1514,9 @@ var app = (function () {
     	let t11;
     	let wordfit;
     	let t12;
-    	let div2;
-    	let h2;
-    	let t14;
-    	let p0;
-    	let t16;
-    	let p1;
-    	let t18;
-    	let input0;
-    	let t19;
-    	let button;
-    	let t21;
-    	let input1;
-    	let t22;
-    	let div1;
-    	let t23;
     	let anagrams;
-    	let t24;
-    	let div3;
+    	let t13;
+    	let div1;
     	let a5;
     	let current;
 
@@ -1225,7 +1532,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div4 = element("div");
+    			div2 = element("div");
     			div0 = element("div");
     			h1 = element("h1");
     			h1.textContent = "Tools for cryptic crossword creation - under construction";
@@ -1253,80 +1560,48 @@ var app = (function () {
     			t11 = space();
     			create_component(wordfit.$$.fragment);
     			t12 = space();
-    			div2 = element("div");
-    			h2 = element("h2");
-    			h2.textContent = "Find Anagrams";
-    			t14 = space();
-    			p0 = element("p");
-    			p0.textContent = "All single letters can be considered words in some way. To reduce the number of results we limit single letter words to just 'a' and 'I'.";
-    			t16 = space();
-    			p1 = element("p");
-    			p1.textContent = "Find up to 1000 results";
-    			t18 = space();
-    			input0 = element("input");
-    			t19 = space();
-    			button = element("button");
-    			button.textContent = "Search";
-    			t21 = text(" Exclude these letters ");
-    			input1 = element("input");
-    			t22 = space();
-    			div1 = element("div");
-    			t23 = space();
     			create_component(anagrams.$$.fragment);
-    			t24 = space();
-    			div3 = element("div");
+    			t13 = space();
+    			div1 = element("div");
     			a5 = element("a");
     			a5.textContent = "Credits/Copyright";
-    			add_location(h1, file, 15, 8, 469);
+    			add_location(h1, file, 15, 8, 467);
     			attr_dev(a0, "href", "https://www.wordplays.com/anagrammer");
     			attr_dev(a0, "target", "_blank");
-    			add_location(a0, file, 18, 16, 566);
-    			add_location(li0, file, 18, 12, 562);
+    			add_location(a0, file, 18, 16, 564);
+    			add_location(li0, file, 18, 12, 560);
     			attr_dev(a1, "href", "https://www.dictionary.com/");
     			attr_dev(a1, "target", "_blank");
-    			add_location(a1, file, 19, 16, 663);
-    			add_location(li1, file, 19, 12, 659);
+    			add_location(a1, file, 19, 16, 661);
+    			add_location(li1, file, 19, 12, 657);
     			attr_dev(a2, "href", "https://www.thesaurus.com/");
     			attr_dev(a2, "target", "_blank");
-    			add_location(a2, file, 20, 16, 758);
-    			add_location(li2, file, 20, 12, 754);
+    			add_location(a2, file, 20, 16, 756);
+    			add_location(li2, file, 20, 12, 752);
     			attr_dev(a3, "href", "https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|");
     			attr_dev(a3, "target", "_blank");
-    			add_location(a3, file, 21, 16, 851);
-    			add_location(li3, file, 21, 12, 847);
+    			add_location(a3, file, 21, 16, 849);
+    			add_location(li3, file, 21, 12, 845);
     			attr_dev(a4, "href", "https://en.wikipedia.org/wiki/Crossword_abbreviations");
     			attr_dev(a4, "target", "_blank");
-    			add_location(a4, file, 22, 16, 994);
-    			add_location(li4, file, 22, 12, 990);
-    			add_location(ul, file, 17, 8, 545);
+    			add_location(a4, file, 22, 16, 992);
+    			add_location(li4, file, 22, 12, 988);
+    			add_location(ul, file, 17, 8, 543);
     			attr_dev(div0, "class", "content-block");
-    			add_location(div0, file, 14, 4, 433);
-    			add_location(h2, file, 29, 8, 1195);
-    			add_location(p0, file, 30, 8, 1226);
-    			add_location(p1, file, 31, 8, 1379);
-    			attr_dev(input0, "id", "findAnagramsInput");
-    			add_location(input0, file, 32, 8, 1418);
-    			attr_dev(button, "id", "findAnagramsButton");
-    			add_location(button, file, 32, 41, 1451);
-    			attr_dev(input1, "id", "findAnagramsExclude");
-    			add_location(input1, file, 32, 111, 1521);
-    			attr_dev(div1, "id", "findAnagramsOutput");
-    			add_location(div1, file, 33, 8, 1564);
-    			attr_dev(div2, "class", "content-block");
-    			add_location(div2, file, 28, 4, 1159);
+    			add_location(div0, file, 14, 4, 431);
     			attr_dev(a5, "href", "/CrosswordCreator/credits");
-    			add_location(a5, file, 39, 8, 1681);
-    			attr_dev(div3, "class", "content-block");
-    			add_location(div3, file, 38, 4, 1645);
-    			attr_dev(div4, "class", "main");
-    			add_location(div4, file, 13, 0, 410);
+    			add_location(a5, file, 31, 8, 1222);
+    			attr_dev(div1, "class", "content-block");
+    			add_location(div1, file, 30, 4, 1186);
+    			attr_dev(div2, "class", "main");
+    			add_location(div2, file, 13, 0, 408);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div0);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
     			append_dev(div0, h1);
     			append_dev(div0, t1);
     			append_dev(div0, ul);
@@ -1344,28 +1619,13 @@ var app = (function () {
     			append_dev(ul, t9);
     			append_dev(ul, li4);
     			append_dev(li4, a4);
-    			append_dev(div4, t11);
-    			mount_component(wordfit, div4, null);
-    			append_dev(div4, t12);
-    			append_dev(div4, div2);
-    			append_dev(div2, h2);
-    			append_dev(div2, t14);
-    			append_dev(div2, p0);
-    			append_dev(div2, t16);
-    			append_dev(div2, p1);
-    			append_dev(div2, t18);
-    			append_dev(div2, input0);
-    			append_dev(div2, t19);
-    			append_dev(div2, button);
-    			append_dev(div2, t21);
-    			append_dev(div2, input1);
-    			append_dev(div2, t22);
+    			append_dev(div2, t11);
+    			mount_component(wordfit, div2, null);
+    			append_dev(div2, t12);
+    			mount_component(anagrams, div2, null);
+    			append_dev(div2, t13);
     			append_dev(div2, div1);
-    			append_dev(div4, t23);
-    			mount_component(anagrams, div4, null);
-    			append_dev(div4, t24);
-    			append_dev(div4, div3);
-    			append_dev(div3, a5);
+    			append_dev(div1, a5);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
@@ -1388,7 +1648,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div2);
     			destroy_component(wordfit);
     			destroy_component(anagrams);
     		}
