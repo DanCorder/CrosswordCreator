@@ -6,9 +6,9 @@
     const dictionaryUrlPrefix = 'https://www.dictionary.com/browse/';
 </script>
 
-<div class="anagram-block__result">
+<div>
     {#each result as wordSet}
-        <ul class="anagram-block__word-group">
+        <ul>
             {#each wordSet as word}
                 <li><a href="{dictionaryUrlPrefix}{word}" target="_blank">{word}</a></li>
             {/each}

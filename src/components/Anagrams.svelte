@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { WordList } from "../modules/WordList";
     import { AnagramList, AnagramResult, createAnagramList, findAllSingleWordAnagrams, findAnagrams } from "../modules/Anagramer";
-    import Result from './Result.svelte';
+    import Result from './AnagramResult.svelte';
 
     export let wordList: WordList;
     let anagramList: AnagramList;

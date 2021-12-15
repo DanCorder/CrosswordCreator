@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { WordList } from "../modules/WordList";
     import { findMatchingWords } from "../modules/WordList";
-    import Result from "../components/Result.svelte";
+    import Result from "./WordResult.svelte";
 
     export let wordList: WordList;
 
