@@ -21,6 +21,8 @@ Planned tools:
   * [ ] Exclude some words
   * [x] Find all single words within the letters
   * [ ] Allow choice of dictionary
+  * [ ] Minimum word length
+  * [ ] Improve performance for long words
 * [ ] Reference pages
   * [ ] letter clues
   * [ ] keywords
