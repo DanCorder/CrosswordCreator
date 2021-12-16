@@ -2,9 +2,9 @@
 
 Currently under construction
 
-This project creates a github pages site containing tools to help with creating cryptic crosswords.
+This project creates a static site containing tools to help with creating cryptic crosswords.
 
-This site is designed to be hosted on Github pages, but you can use Jekyll to create the final static pages and upload them anywhere. No server side processing is needed.
+This site is hosted on Github pages, but as it doesn't use Jekyll you should be able to upload the final files to any static web host. No server side processing is needed.
 
 Planned tools:
 * [ ] Grid creation
@@ -21,6 +21,8 @@ Planned tools:
   * [ ] Exclude some words
   * [x] Find all single words within the letters
   * [ ] Allow choice of dictionary
+  * [ ] Minimum word length
+  * [ ] Improve performance for long words
 * [ ] Reference pages
   * [ ] letter clues
   * [ ] keywords
