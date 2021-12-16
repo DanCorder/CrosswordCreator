@@ -42,8 +42,16 @@ If you want a different word list you can edit `getWordList.js` or manually down
 
 ## Development
 
+The javascript and most of the CSS on the site is built using (Svelte)[https://svelte.dev/]
+
 ### Running locally
 
-* Install Jekyll
-* Switch to the root directory of this project
-* `bundle exec jekyll serve`
+* Open a command prompt in the project's root directory
+* Before running for the first time run `npm install`
+* `npm run dev`
+* View the site at http://localhost:5000/
+
+### Releases
+
+The code built by the dev server will run fine if released accidentally, it will just time out trying to find a live update script.
+To build for release run: `npm run build`
