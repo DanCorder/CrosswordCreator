@@ -36,7 +36,8 @@ export default {
         sourcemap: true,
         format: 'iife',
         name: 'app',
-        file: 'public/build/bundle.js'
+        // Github pages only allows us to use the root folder or the "docs" folder
+        file: 'docs/build/bundle.js'
     },
     plugins: [
         svelte({
