@@ -23,13 +23,19 @@
         }
         results = findAnagrams(letters, anagramList);
 	}
+
+    function handleKeyDownAll(event: KeyboardEvent) {
+        if (event.key === "Enter") {
+            findAllAnagrams();
+        }
+    }
 </script>
 
 <div class="content-block">
     <h2>Find Anagrams</h2>
     <p><button on:click={findSingleWordAnagrams}>Find single words</button> Find all single word anagrams within the input, not necessarily using all letters</p>
     <p><button on:click={findAllAnagrams}>Find full anagrams</button> Find full multi-word anagrams (up to 1000 results)</p>
-    <input bind:value={letters} />
+    <input bind:value={letters} on:keydown={handleKeyDownAll} />
     <div>
         {#each results as result}
             <Result {result} />

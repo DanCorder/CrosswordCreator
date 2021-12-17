@@ -14,12 +14,18 @@
         }
         results = findMatchingWords(pattern, wordList);
 	}
+
+    function handleKeyDown(event: KeyboardEvent) {
+        if (event.key === "Enter") {
+            handleClick();
+        }
+    }
 </script>
 
 <div class="content-block">
     <h2>Find Words That Fit</h2>
     <p>Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces</p>
-    <input bind:value={pattern} /> <button on:click={handleClick}>Search</button>
+    <input bind:value={pattern} on:keydown={handleKeyDown}/> <button on:click={handleClick}>Search</button>
     <div>
         {#each results as result}
             <Result {result} />

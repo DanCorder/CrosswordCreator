@@ -1,1 +1,1855 @@
-var app=function(){"use strict";function t(){}function e(t){return t()}function n(){return Object.create(null)}function r(t){t.forEach(e)}function o(t){return"function"==typeof t}function l(t,e){return t!=t?e==e:t!==e||t&&"object"==typeof t||"function"==typeof t}function s(t,e){t.appendChild(e)}function c(t,e,n){t.insertBefore(e,n||null)}function i(t){t.parentNode.removeChild(t)}function u(t,e){for(let n=0;n<t.length;n+=1)t[n]&&t[n].d(e)}function f(t){return document.createElement(t)}function a(t){return document.createTextNode(t)}function d(){return a(" ")}function h(t,e,n,r){return t.addEventListener(e,n,r),()=>t.removeEventListener(e,n,r)}function g(t,e,n){null==n?t.removeAttribute(e):t.getAttribute(e)!==n&&t.setAttribute(e,n)}function p(t,e){e=""+e,t.wholeText!==e&&(t.data=e)}function m(t,e){t.value=null==e?"":e}let $;function w(t){$=t}const b=[],y=[],k=[],v=[],x=Promise.resolve();let _=!1;function L(t){k.push(t)}let C=!1;const j=new Set;function E(){if(!C){C=!0;do{for(let t=0;t<b.length;t+=1){const e=b[t];w(e),F(e.$$)}for(w(null),b.length=0;y.length;)y.pop()();for(let t=0;t<k.length;t+=1){const e=k[t];j.has(e)||(j.add(e),e())}k.length=0}while(b.length);for(;v.length;)v.pop()();_=!1,C=!1,j.clear()}}function F(t){if(null!==t.fragment){t.update(),r(t.before_update);const e=t.dirty;t.dirty=[-1],t.fragment&&t.fragment.p(t.ctx,e),t.after_update.forEach(L)}}const A=new Set;let O;function T(){O={r:0,c:[],p:O}}function W(){O.r||r(O.c),O=O.p}function S(t,e){t&&t.i&&(A.delete(t),t.i(e))}function z(t,e,n,r){if(t&&t.o){if(A.has(t))return;A.add(t),O.c.push((()=>{A.delete(t),r&&(n&&t.d(1),r())})),t.o(e)}}function B(t){t&&t.c()}function M(t,n,l,s){const{fragment:c,on_mount:i,on_destroy:u,after_update:f}=t.$$;c&&c.m(n,l),s||L((()=>{const n=i.map(e).filter(o);u?u.push(...n):r(n),t.$$.on_mount=[]})),f.forEach(L)}function N(t,e){const n=t.$$;null!==n.fragment&&(r(n.on_destroy),n.fragment&&n.fragment.d(e),n.on_destroy=n.fragment=null,n.ctx=[])}function q(t,e){-1===t.$$.dirty[0]&&(b.push(t),_||(_=!0,x.then(E)),t.$$.dirty.fill(0)),t.$$.dirty[e/31|0]|=1<<e%31}function H(e,o,l,s,c,u,f,a=[-1]){const d=$;w(e);const h=e.$$={fragment:null,ctx:null,props:u,update:t,not_equal:c,bound:n(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(o.context||(d?d.$$.context:[])),callbacks:n(),dirty:a,skip_bound:!1,root:o.target||d.$$.root};f&&f(h.root);let g=!1;if(h.ctx=l?l(e,o.props||{},((t,n,...r)=>{const o=r.length?r[0]:n;return h.ctx&&c(h.ctx[t],h.ctx[t]=o)&&(!h.skip_bound&&h.bound[t]&&h.bound[t](o),g&&q(e,t)),n})):[],h.update(),g=!0,r(h.before_update),h.fragment=!!s&&s(h.ctx),o.target){if(o.hydrate){const t=function(t){return Array.from(t.childNodes)}(o.target);h.fragment&&h.fragment.l(t),t.forEach(i)}else h.fragment&&h.fragment.c();o.intro&&S(e.$$.fragment),M(e,o.target,o.anchor,o.customElement),E()}w(d)}class P{$destroy(){N(this,1),this.$destroy=t}$on(t,e){const n=this.$$.callbacks[t]||(this.$$.callbacks[t]=[]);return n.push(e),()=>{const t=n.indexOf(e);-1!==t&&n.splice(t,1)}}$set(t){var e;this.$$set&&(e=t,0!==Object.keys(e).length)&&(this.$$.skip_bound=!0,this.$$set(t),this.$$.skip_bound=!1)}}class D{}function R(t){const e=new D;for(let n=1;n<=15;n++){const r=t[n],o={};Object.keys(r).forEach((t=>{const e=I(t);o.hasOwnProperty(e)||(o[e]=[]),o[e].push(t)})),e[n]=Object.entries(o).sort((function(t,e){return t[0]<e[0]?-1:t[0]>e[0]?1:0})).map((t=>({letters:t[0],words:t[1].sort()})))}return e}function U(t,e,n=1e3,r=!0){const o=I(t),l=[];for(const s of function*(t){for(let e of function*(t){let e=[],n=[];for(let r=0;r<t;r++)e.push(0),n.push(1);const r=t-1;for(;;)if(yield e,e[r]===n[r]){let o=r-1;for(;e[o]===n[o];)o--;if(0===o)return;e[o]+=1;const l=n[o]+(e[o]===n[o]?1:0);for(o++;o<t;o++)e[o]=0,n[o]=l}else e[r]+=1}(t.length)){const n=[];for(let r=0;r<t.length;r++){const o=e[r];void 0===n[o]&&(n[o]=""),n[o]+=t[r]}yield n}}(o)){const o=[];let c=!0;for(let n=0;n<s.length;n++){const l=s[n];if(r&&1===l.length&&"a"!==l[0]&&"i"!==l[0]){c=!1;break}const i=e[l.length].find((t=>t.letters===l));if(void 0===i){c=!1;break}if(0===i.words.filter((e=>e!==t)).length){c=!1;break}o.push(i.words.filter((e=>e!==t)))}if(c){o.sort(G);let t=!1;for(let e=0;e<l.length;e++){const n=l[e];if(n.length!==o.length)continue;let r=!0;for(let t=0;t<n.length;t++)if(n[t][0]!==o[t][0]){r=!1;break}if(r){t=!0;break}}t||l.push(o)}if(l.length>=n)break}return l}function G(t,e){return e[0].length!==t[0].length?e[0].length-t[0].length:e[0]>t[0]?-1:1}function I(t){return t.split("").sort().join("")}function J(e){let n,r,o,l;return{c(){n=f("div"),r=f("a"),o=a(e[0]),g(r,"href",l=""+(K+e[0])),g(r,"target","_blank"),g(n,"class","svelte-5xtzbs")},m(t,e){c(t,n,e),s(n,r),s(r,o)},p(t,[e]){1&e&&p(o,t[0]),1&e&&l!==(l=""+(K+t[0]))&&g(r,"href",l)},i:t,o:t,d(t){t&&i(n)}}}const K="https://www.dictionary.com/browse/";function Q(t,e,n){let{result:r}=e;return t.$$set=t=>{"result"in t&&n(0,r=t.result)},[r]}class V extends P{constructor(t){super(),H(this,t,Q,J,l,{result:0})}}function X(t,e,n){const r=t.slice();return r[5]=e[n],r}function Y(t){let e,n;return e=new V({props:{result:t[5]}}),{c(){B(e.$$.fragment)},m(t,r){M(e,t,r),n=!0},p(t,n){const r={};1&n&&(r.result=t[5]),e.$set(r)},i(t){n||(S(e.$$.fragment,t),n=!0)},o(t){z(e.$$.fragment,t),n=!1},d(t){N(e,t)}}}function Z(t){let e,n,o,l,a,p,$,w,b,y,k,v,x,_=t[0],L=[];for(let e=0;e<_.length;e+=1)L[e]=Y(X(t,_,e));const C=t=>z(L[t],1,1,(()=>{L[t]=null}));return{c(){e=f("div"),n=f("h2"),n.textContent="Find Words That Fit",o=d(),l=f("p"),l.textContent="Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces",a=d(),p=f("input"),$=d(),w=f("button"),w.textContent="Search",b=d(),y=f("div");for(let t=0;t<L.length;t+=1)L[t].c();g(e,"class","content-block")},m(r,i){c(r,e,i),s(e,n),s(e,o),s(e,l),s(e,a),s(e,p),m(p,t[1]),s(e,$),s(e,w),s(e,b),s(e,y);for(let t=0;t<L.length;t+=1)L[t].m(y,null);k=!0,v||(x=[h(p,"input",t[4]),h(w,"click",t[2])],v=!0)},p(t,[e]){if(2&e&&p.value!==t[1]&&m(p,t[1]),1&e){let n;for(_=t[0],n=0;n<_.length;n+=1){const r=X(t,_,n);L[n]?(L[n].p(r,e),S(L[n],1)):(L[n]=Y(r),L[n].c(),S(L[n],1),L[n].m(y,null))}for(T(),n=_.length;n<L.length;n+=1)C(n);W()}},i(t){if(!k){for(let t=0;t<_.length;t+=1)S(L[t]);k=!0}},o(t){L=L.filter(Boolean);for(let t=0;t<L.length;t+=1)z(L[t]);k=!1},d(t){t&&i(e),u(L,t),v=!1,r(x)}}}function tt(t,e,n){let{wordList:r}=e,o=[],l="";return t.$$set=t=>{"wordList"in t&&n(3,r=t.wordList)},[o,l,function(){r||alert("Word list not downloaded yet, please try again"),n(0,o=function(t,e){let n=[];if(""===t)return n;const r=e[t.length],o=new RegExp(t.replaceAll(".","\\w").replaceAll(" ","\\w"));return Object.keys(r).forEach((t=>{o.test(t)&&(n=n.concat(r[t]))})),n}(l,r))},r,function(){l=this.value,n(1,l)}]}class et extends P{constructor(t){super(),H(this,t,tt,Z,l,{wordList:3})}}function nt(t,e,n){const r=t.slice();return r[1]=e[n],r}function rt(t,e,n){const r=t.slice();return r[4]=e[n],r}function ot(t){let e,n,r,o,l=t[4]+"";return{c(){e=f("li"),n=f("a"),r=a(l),g(n,"href",o=""+(ct+t[4])),g(n,"target","_blank")},m(t,o){c(t,e,o),s(e,n),s(n,r)},p(t,e){1&e&&l!==(l=t[4]+"")&&p(r,l),1&e&&o!==(o=""+(ct+t[4]))&&g(n,"href",o)},d(t){t&&i(e)}}}function lt(t){let e,n,r=t[1],o=[];for(let e=0;e<r.length;e+=1)o[e]=ot(rt(t,r,e));return{c(){e=f("ul");for(let t=0;t<o.length;t+=1)o[t].c();n=d(),g(e,"class","svelte-141jf7s")},m(t,r){c(t,e,r);for(let t=0;t<o.length;t+=1)o[t].m(e,null);s(e,n)},p(t,l){if(1&l){let s;for(r=t[1],s=0;s<r.length;s+=1){const c=rt(t,r,s);o[s]?o[s].p(c,l):(o[s]=ot(c),o[s].c(),o[s].m(e,n))}for(;s<o.length;s+=1)o[s].d(1);o.length=r.length}},d(t){t&&i(e),u(o,t)}}}function st(e){let n,r=e[0],o=[];for(let t=0;t<r.length;t+=1)o[t]=lt(nt(e,r,t));return{c(){n=f("div");for(let t=0;t<o.length;t+=1)o[t].c();g(n,"class","svelte-141jf7s")},m(t,e){c(t,n,e);for(let t=0;t<o.length;t+=1)o[t].m(n,null)},p(t,[e]){if(1&e){let l;for(r=t[0],l=0;l<r.length;l+=1){const s=nt(t,r,l);o[l]?o[l].p(s,e):(o[l]=lt(s),o[l].c(),o[l].m(n,null))}for(;l<o.length;l+=1)o[l].d(1);o.length=r.length}},i:t,o:t,d(t){t&&i(n),u(o,t)}}}const ct="https://www.dictionary.com/browse/";function it(t,e,n){let{result:r}=e;return t.$$set=t=>{"result"in t&&n(0,r=t.result)},[r]}class ut extends P{constructor(t){super(),H(this,t,it,st,l,{result:0})}}function ft(t,e,n){const r=t.slice();return r[7]=e[n],r}function at(t){let e,n;return e=new ut({props:{result:t[7]}}),{c(){B(e.$$.fragment)},m(t,r){M(e,t,r),n=!0},p(t,n){const r={};1&n&&(r.result=t[7]),e.$set(r)},i(t){n||(S(e.$$.fragment,t),n=!0)},o(t){z(e.$$.fragment,t),n=!1},d(t){N(e,t)}}}function dt(t){let e,n,o,l,p,$,w,b,y,k,v,x,_,L,C,j,E,F=t[0],A=[];for(let e=0;e<F.length;e+=1)A[e]=at(ft(t,F,e));const O=t=>z(A[t],1,1,(()=>{A[t]=null}));return{c(){e=f("div"),n=f("h2"),n.textContent="Find Anagrams",o=d(),l=f("p"),p=f("button"),p.textContent="Find single words",$=a(" Find all single word anagrams within the input, not necessarily using all letters"),w=d(),b=f("p"),y=f("button"),y.textContent="Find full anagrams",k=a(" Find full multi-word anagrams (up to 1000 results)"),v=d(),x=f("input"),_=d(),L=f("div");for(let t=0;t<A.length;t+=1)A[t].c();g(e,"class","content-block")},m(r,i){c(r,e,i),s(e,n),s(e,o),s(e,l),s(l,p),s(l,$),s(e,w),s(e,b),s(b,y),s(b,k),s(e,v),s(e,x),m(x,t[1]),s(e,_),s(e,L);for(let t=0;t<A.length;t+=1)A[t].m(L,null);C=!0,j||(E=[h(p,"click",t[2]),h(y,"click",t[3]),h(x,"input",t[5])],j=!0)},p(t,[e]){if(2&e&&x.value!==t[1]&&m(x,t[1]),1&e){let n;for(F=t[0],n=0;n<F.length;n+=1){const r=ft(t,F,n);A[n]?(A[n].p(r,e),S(A[n],1)):(A[n]=at(r),A[n].c(),S(A[n],1),A[n].m(L,null))}for(T(),n=F.length;n<A.length;n+=1)O(n);W()}},i(t){if(!C){for(let t=0;t<F.length;t+=1)S(A[t]);C=!0}},o(t){A=A.filter(Boolean);for(let t=0;t<A.length;t+=1)z(A[t]);C=!1},d(t){t&&i(e),u(A,t),j=!1,r(E)}}}function ht(t,e,n){let r,{wordList:o}=e,l=[],s="";return t.$$set=t=>{"wordList"in t&&n(4,o=t.wordList)},t.$$.update=()=>{16&t.$$.dirty&&(r=o?R(o):null)},[l,s,function(){o||alert("Word list not downloaded yet, please try again"),n(0,l=function(t,e){const n=I(t);let r=[];for(let t of function*(t){for(let e=1;e<1<<t.length;e++){let n="";for(let r=0;r<t.length;r++)e&1<<r&&(n+=t[r]);yield n}}(n)){const n=e[t.length].find((e=>e.letters===t));void 0!==n&&(r=r.concat(n.words))}return r=[...new Set(r)],r.filter((e=>e!==t)).map((t=>[[t]]))}(s,r))},function(){o||alert("Word list not downloaded yet, please try again"),n(0,l=U(s,r))},o,function(){s=this.value,n(1,s)}]}class gt extends P{constructor(t){super(),H(this,t,ht,dt,l,{wordList:4})}}function pt(t){let e,n,r,o,l,u,a,h,p;return o=new et({props:{wordList:t[0]}}),u=new gt({props:{wordList:t[0]}}),{c(){e=f("div"),n=f("div"),n.innerHTML='<h1>Tools for cryptic crossword creation - under construction</h1> \n\n        <ul><li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li> \n            <li><a href="https://www.dictionary.com/" target="_blank">Free dictionary</a></li> \n            <li><a href="https://www.thesaurus.com/" target="_blank">Free thesaurus</a></li> \n            <li><a href="https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|" target="_blank">Different clue types</a></li> \n            <li><a href="https://en.wikipedia.org/wiki/Crossword_abbreviations" target="_blank">Clues for letters</a></li></ul>',r=d(),B(o.$$.fragment),l=d(),B(u.$$.fragment),a=d(),h=f("div"),h.innerHTML='<a href="/CrosswordCreator/credits">Credits/Copyright</a>',g(n,"class","content-block"),g(h,"class","content-block"),g(e,"class","main")},m(t,i){c(t,e,i),s(e,n),s(e,r),M(o,e,null),s(e,l),M(u,e,null),s(e,a),s(e,h),p=!0},p(t,[e]){const n={};1&e&&(n.wordList=t[0]),o.$set(n);const r={};1&e&&(r.wordList=t[0]),u.$set(r)},i(t){p||(S(o.$$.fragment,t),S(u.$$.fragment,t),p=!0)},o(t){z(o.$$.fragment,t),z(u.$$.fragment,t),p=!1},d(t){t&&i(e),N(o),N(u)}}}function mt(t,e,n){let r=null;return fetch("assets/js/processedWordList.json").then((t=>t.json())).then((t=>{n(0,r=t),R(r)})),[r]}return new class extends P{constructor(t){super(),H(this,t,mt,pt,l,{})}}({target:document.body})}();
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+var app = (function () {
+    'use strict';
+
+    function noop() { }
+    function add_location(element, file, line, column, char) {
+        element.__svelte_meta = {
+            loc: { file, line, column, char }
+        };
+    }
+    function run(fn) {
+        return fn();
+    }
+    function blank_object() {
+        return Object.create(null);
+    }
+    function run_all(fns) {
+        fns.forEach(run);
+    }
+    function is_function(thing) {
+        return typeof thing === 'function';
+    }
+    function safe_not_equal(a, b) {
+        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+    }
+    function is_empty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+    function append(target, node) {
+        target.appendChild(node);
+    }
+    function insert(target, node, anchor) {
+        target.insertBefore(node, anchor || null);
+    }
+    function detach(node) {
+        node.parentNode.removeChild(node);
+    }
+    function destroy_each(iterations, detaching) {
+        for (let i = 0; i < iterations.length; i += 1) {
+            if (iterations[i])
+                iterations[i].d(detaching);
+        }
+    }
+    function element(name) {
+        return document.createElement(name);
+    }
+    function text(data) {
+        return document.createTextNode(data);
+    }
+    function space() {
+        return text(' ');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
+    function children(element) {
+        return Array.from(element.childNodes);
+    }
+    function set_input_value(input, value) {
+        input.value = value == null ? '' : value;
+    }
+    function custom_event(type, detail, bubbles = false) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, bubbles, false, detail);
+        return e;
+    }
+
+    let current_component;
+    function set_current_component(component) {
+        current_component = component;
+    }
+
+    const dirty_components = [];
+    const binding_callbacks = [];
+    const render_callbacks = [];
+    const flush_callbacks = [];
+    const resolved_promise = Promise.resolve();
+    let update_scheduled = false;
+    function schedule_update() {
+        if (!update_scheduled) {
+            update_scheduled = true;
+            resolved_promise.then(flush);
+        }
+    }
+    function add_render_callback(fn) {
+        render_callbacks.push(fn);
+    }
+    let flushing = false;
+    const seen_callbacks = new Set();
+    function flush() {
+        if (flushing)
+            return;
+        flushing = true;
+        do {
+            // first, call beforeUpdate functions
+            // and update components
+            for (let i = 0; i < dirty_components.length; i += 1) {
+                const component = dirty_components[i];
+                set_current_component(component);
+                update(component.$$);
+            }
+            set_current_component(null);
+            dirty_components.length = 0;
+            while (binding_callbacks.length)
+                binding_callbacks.pop()();
+            // then, once components are updated, call
+            // afterUpdate functions. This may cause
+            // subsequent updates...
+            for (let i = 0; i < render_callbacks.length; i += 1) {
+                const callback = render_callbacks[i];
+                if (!seen_callbacks.has(callback)) {
+                    // ...so guard against infinite loops
+                    seen_callbacks.add(callback);
+                    callback();
+                }
+            }
+            render_callbacks.length = 0;
+        } while (dirty_components.length);
+        while (flush_callbacks.length) {
+            flush_callbacks.pop()();
+        }
+        update_scheduled = false;
+        flushing = false;
+        seen_callbacks.clear();
+    }
+    function update($$) {
+        if ($$.fragment !== null) {
+            $$.update();
+            run_all($$.before_update);
+            const dirty = $$.dirty;
+            $$.dirty = [-1];
+            $$.fragment && $$.fragment.p($$.ctx, dirty);
+            $$.after_update.forEach(add_render_callback);
+        }
+    }
+    const outroing = new Set();
+    let outros;
+    function group_outros() {
+        outros = {
+            r: 0,
+            c: [],
+            p: outros // parent group
+        };
+    }
+    function check_outros() {
+        if (!outros.r) {
+            run_all(outros.c);
+        }
+        outros = outros.p;
+    }
+    function transition_in(block, local) {
+        if (block && block.i) {
+            outroing.delete(block);
+            block.i(local);
+        }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
+        }
+    }
+    function create_component(block) {
+        block && block.c();
+    }
+    function mount_component(component, target, anchor, customElement) {
+        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        fragment && fragment.m(target, anchor);
+        if (!customElement) {
+            // onMount happens before the initial afterUpdate
+            add_render_callback(() => {
+                const new_on_destroy = on_mount.map(run).filter(is_function);
+                if (on_destroy) {
+                    on_destroy.push(...new_on_destroy);
+                }
+                else {
+                    // Edge case - component was destroyed immediately,
+                    // most likely as a result of a binding initialising
+                    run_all(new_on_destroy);
+                }
+                component.$$.on_mount = [];
+            });
+        }
+        after_update.forEach(add_render_callback);
+    }
+    function destroy_component(component, detaching) {
+        const $$ = component.$$;
+        if ($$.fragment !== null) {
+            run_all($$.on_destroy);
+            $$.fragment && $$.fragment.d(detaching);
+            // TODO null out other refs, including component.$$ (but need to
+            // preserve final state?)
+            $$.on_destroy = $$.fragment = null;
+            $$.ctx = [];
+        }
+    }
+    function make_dirty(component, i) {
+        if (component.$$.dirty[0] === -1) {
+            dirty_components.push(component);
+            schedule_update();
+            component.$$.dirty.fill(0);
+        }
+        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
+    }
+    function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
+        const parent_component = current_component;
+        set_current_component(component);
+        const $$ = component.$$ = {
+            fragment: null,
+            ctx: null,
+            // state
+            props,
+            update: noop,
+            not_equal,
+            bound: blank_object(),
+            // lifecycle
+            on_mount: [],
+            on_destroy: [],
+            on_disconnect: [],
+            before_update: [],
+            after_update: [],
+            context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
+            // everything else
+            callbacks: blank_object(),
+            dirty,
+            skip_bound: false,
+            root: options.target || parent_component.$$.root
+        };
+        append_styles && append_styles($$.root);
+        let ready = false;
+        $$.ctx = instance
+            ? instance(component, options.props || {}, (i, ret, ...rest) => {
+                const value = rest.length ? rest[0] : ret;
+                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+                    if (!$$.skip_bound && $$.bound[i])
+                        $$.bound[i](value);
+                    if (ready)
+                        make_dirty(component, i);
+                }
+                return ret;
+            })
+            : [];
+        $$.update();
+        ready = true;
+        run_all($$.before_update);
+        // `false` as a special case of no DOM component
+        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
+        if (options.target) {
+            if (options.hydrate) {
+                const nodes = children(options.target);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.l(nodes);
+                nodes.forEach(detach);
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.c();
+            }
+            if (options.intro)
+                transition_in(component.$$.fragment);
+            mount_component(component, options.target, options.anchor, options.customElement);
+            flush();
+        }
+        set_current_component(parent_component);
+    }
+    /**
+     * Base class for Svelte components. Used when dev=false.
+     */
+    class SvelteComponent {
+        $destroy() {
+            destroy_component(this, 1);
+            this.$destroy = noop;
+        }
+        $on(type, callback) {
+            const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+            callbacks.push(callback);
+            return () => {
+                const index = callbacks.indexOf(callback);
+                if (index !== -1)
+                    callbacks.splice(index, 1);
+            };
+        }
+        $set($$props) {
+            if (this.$$set && !is_empty($$props)) {
+                this.$$.skip_bound = true;
+                this.$$set($$props);
+                this.$$.skip_bound = false;
+            }
+        }
+    }
+
+    function dispatch_dev(type, detail) {
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.44.2' }, detail), true));
+    }
+    function append_dev(target, node) {
+        dispatch_dev('SvelteDOMInsert', { target, node });
+        append(target, node);
+    }
+    function insert_dev(target, node, anchor) {
+        dispatch_dev('SvelteDOMInsert', { target, node, anchor });
+        insert(target, node, anchor);
+    }
+    function detach_dev(node) {
+        dispatch_dev('SvelteDOMRemove', { node });
+        detach(node);
+    }
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+        const modifiers = options === true ? ['capture'] : options ? Array.from(Object.keys(options)) : [];
+        if (has_prevent_default)
+            modifiers.push('preventDefault');
+        if (has_stop_propagation)
+            modifiers.push('stopPropagation');
+        dispatch_dev('SvelteDOMAddEventListener', { node, event, handler, modifiers });
+        const dispose = listen(node, event, handler, options);
+        return () => {
+            dispatch_dev('SvelteDOMRemoveEventListener', { node, event, handler, modifiers });
+            dispose();
+        };
+    }
+    function attr_dev(node, attribute, value) {
+        attr(node, attribute, value);
+        if (value == null)
+            dispatch_dev('SvelteDOMRemoveAttribute', { node, attribute });
+        else
+            dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
+    }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev('SvelteDOMSetData', { node: text, data });
+        text.data = data;
+    }
+    function validate_each_argument(arg) {
+        if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
+            let msg = '{#each} only iterates over array-like objects.';
+            if (typeof Symbol === 'function' && arg && Symbol.iterator in arg) {
+                msg += ' You can use a spread to convert this iterable into an array.';
+            }
+            throw new Error(msg);
+        }
+    }
+    function validate_slots(name, slot, keys) {
+        for (const slot_key of Object.keys(slot)) {
+            if (!~keys.indexOf(slot_key)) {
+                console.warn(`<${name}> received an unexpected slot "${slot_key}".`);
+            }
+        }
+    }
+    /**
+     * Base class for Svelte components with some minor dev-enhancements. Used when dev=true.
+     */
+    class SvelteComponentDev extends SvelteComponent {
+        constructor(options) {
+            if (!options || (!options.target && !options.$$inline)) {
+                throw new Error("'target' is a required option");
+            }
+            super();
+        }
+        $destroy() {
+            super.$destroy();
+            this.$destroy = () => {
+                console.warn('Component was already destroyed'); // eslint-disable-line no-console
+            };
+        }
+        $capture_state() { }
+        $inject_state() { }
+    }
+
+    class AnagramList {
+    }
+    function createAnagramList(wordList) {
+        const maxWordLength = 15;
+        const ret = new AnagramList();
+        for (let i = 1; i <= maxWordLength; i++) {
+            const words = wordList[i];
+            const processed = {};
+            Object.keys(words).forEach(word => {
+                const sortedLetters = sortString(word);
+                if (!processed.hasOwnProperty(sortedLetters)) {
+                    processed[sortedLetters] = [];
+                }
+                processed[sortedLetters].push(word);
+            });
+            ret[i] = Object.entries(processed).sort(function (x, y) {
+                if (x[0] < y[0]) {
+                    return -1;
+                }
+                if (x[0] > y[0]) {
+                    return 1;
+                }
+                return 0;
+            }).map(x => { return { letters: x[0], words: x[1].sort() }; });
+        }
+        return ret;
+    }
+    function findAllSingleWordAnagrams(parentWord, anagramList) {
+        const parentLetters = sortString(parentWord);
+        let anagrams = [];
+        for (let letters of generatePowerSetStrings(parentLetters)) {
+            const result = anagramList[letters.length].find(a => a.letters === letters);
+            if (result !== undefined) {
+                anagrams = anagrams.concat(result.words);
+            }
+        }
+        anagrams = [...(new Set(anagrams))]; // Deduplicate entires
+        return anagrams
+            .filter(a => a !== parentWord)
+            .map(r => [[r]]);
+    }
+    // For e.g. "look" returns results like:
+    // [
+    //   [ [ "loo" ], [ "k" ] ]
+    //   [ [ "ko", "ok"], [ "lo" ] ]
+    //   [ [ "kolo" ] ]
+    // ]
+    function findAnagrams(letters, anagramList, maxResults = 1000, ignoreWeirdSingleLetters = true) {
+        const sortedLetters = sortString(letters);
+        const results = [];
+        for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
+            const result = [];
+            let foundResult = true;
+            for (let i = 0; i < letterGroups.length; i++) {
+                const letterGroup = letterGroups[i];
+                if (ignoreWeirdSingleLetters
+                    && letterGroup.length === 1
+                    && letterGroup[0] !== 'a'
+                    && letterGroup[0] !== 'i') {
+                    foundResult = false;
+                    break;
+                }
+                const anagrams = anagramList[letterGroup.length].find(x => x.letters === letterGroup);
+                if (anagrams === undefined) {
+                    // We can't anagram all of the groups so move on to the next set of groups
+                    foundResult = false;
+                    break;
+                }
+                const filteredWords = anagrams.words.filter(x => x !== letters);
+                if (filteredWords.length === 0) {
+                    foundResult = false;
+                    break;
+                }
+                result.push(anagrams.words.filter(x => x !== letters));
+            }
+            if (foundResult) {
+                result.sort(sortResultByLengthThenAlphabetically);
+                let foundDuplicate = false;
+                for (let i = 0; i < results.length; i++) {
+                    const savedResult = results[i];
+                    if (savedResult.length !== result.length) {
+                        continue;
+                    }
+                    let areIdentical = true;
+                    for (let j = 0; j < savedResult.length; j++) {
+                        if (savedResult[j][0] !== result[j][0]) {
+                            areIdentical = false;
+                            break;
+                        }
+                    }
+                    if (areIdentical) {
+                        foundDuplicate = true;
+                        break;
+                    }
+                }
+                if (!foundDuplicate) {
+                    results.push(result);
+                }
+            }
+            if (results.length >= maxResults) {
+                break;
+            }
+        }
+        return results;
+    }
+    function sortResultByLengthThenAlphabetically(first, second) {
+        if (second[0].length !== first[0].length) {
+            return second[0].length - first[0].length;
+        }
+        if (second[0] > first[0]) {
+            return -1;
+        }
+        return 1;
+    }
+    function sortString(str) {
+        var arr = str.split('');
+        var sorted = arr.sort();
+        return sorted.join('');
+    }
+    // Generates the power set of letters from the supplied string
+    // Preserves the order of the original string in the substrings
+    // Written as a generator so that we don't have to keep the whole power set in memory at once.
+    function* generatePowerSetStrings(letters) {
+        for (let flags = 1; flags < (1 << letters.length); flags++) {
+            let subset = '';
+            for (let index = 0; index < letters.length; index++) {
+                if (flags & (1 << index)) {
+                    subset += letters[index];
+                }
+            }
+            yield subset;
+        }
+    }
+    // Generate all sub groupings of letters
+    function* generateAllLetterCombinations(letters) {
+        for (let restrictedGrowthString of generateRestrictedGrowthStrings(letters.length)) {
+            const letterGroups = [];
+            for (let i = 0; i < letters.length; i++) {
+                const set = restrictedGrowthString[i];
+                if (letterGroups[set] === undefined) {
+                    letterGroups[set] = "";
+                }
+                letterGroups[set] += letters[i];
+            }
+            yield letterGroups;
+        }
+    }
+    // Generate all set partitions for a set of a given length. Yields an array of integers
+    // representing the sets that each letter at that index belongs to.
+    // Implementation of algorithm from "The Art Of Computer Programming" by Donald E. Knuth
+    // with some refactoring
+    function* generateRestrictedGrowthStrings(length) {
+        let restrictedGrowthString = [];
+        let maxValues = [];
+        for (let i = 0; i < length; i++) {
+            restrictedGrowthString.push(0);
+            maxValues.push(1);
+        }
+        const lastIndex = length - 1;
+        while (true) {
+            yield restrictedGrowthString;
+            if (restrictedGrowthString[lastIndex] === maxValues[lastIndex]) {
+                // Find the first value from the right in restrictedGrowthString that is below its maximum
+                let j = lastIndex - 1;
+                while (restrictedGrowthString[j] === maxValues[j]) {
+                    j--;
+                }
+                // If the only value left is the first then we are done as that value always belongs to
+                // set 0
+                if (j === 0) {
+                    return;
+                }
+                // Otherwise increment it
+                restrictedGrowthString[j] += 1;
+                // If restrictedGrowthString[j] has reached its maximum then the digits to the right will
+                // need a maximum one higher so they can belong to a new set.
+                const newMax = maxValues[j] + (restrictedGrowthString[j] === maxValues[j] ? 1 : 0);
+                // Reset all the elements to the right
+                j++;
+                for (; j < length; j++) {
+                    restrictedGrowthString[j] = 0;
+                    maxValues[j] = newMax;
+                }
+            }
+            else {
+                restrictedGrowthString[lastIndex] += 1;
+            }
+        }
+    }
+
+    function findMatchingWords(pattern, wordList) {
+        let matches = [];
+        if (pattern === '') {
+            return matches;
+        }
+        const wordsOfSameLength = wordList[pattern.length];
+        const regex = new RegExp(pattern.replaceAll('.', '\\w').replaceAll(' ', '\\w'));
+        Object.keys(wordsOfSameLength).forEach(candidate => {
+            if (regex.test(candidate)) {
+                matches = matches.concat(wordsOfSameLength[candidate]);
+            }
+        });
+        return matches;
+    }
+
+    /* src\components\WordResult.svelte generated by Svelte v3.44.2 */
+
+    const file$4 = "src\\components\\WordResult.svelte";
+
+    function create_fragment$4(ctx) {
+    	let div;
+    	let a;
+    	let t;
+    	let a_href_value;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			a = element("a");
+    			t = text(/*result*/ ctx[0]);
+    			attr_dev(a, "href", a_href_value = "" + (dictionaryUrlPrefix$1 + /*result*/ ctx[0]));
+    			attr_dev(a, "target", "_blank");
+    			add_location(a, file$4, 5, 4, 126);
+    			attr_dev(div, "class", "svelte-5xtzbs");
+    			add_location(div, file$4, 4, 0, 116);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, a);
+    			append_dev(a, t);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*result*/ 1) set_data_dev(t, /*result*/ ctx[0]);
+
+    			if (dirty & /*result*/ 1 && a_href_value !== (a_href_value = "" + (dictionaryUrlPrefix$1 + /*result*/ ctx[0]))) {
+    				attr_dev(a, "href", a_href_value);
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$4.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    const dictionaryUrlPrefix$1 = 'https://www.dictionary.com/browse/';
+
+    function instance$4($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('WordResult', slots, []);
+    	let { result } = $$props;
+    	const writable_props = ['result'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<WordResult> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('result' in $$props) $$invalidate(0, result = $$props.result);
+    	};
+
+    	$$self.$capture_state = () => ({ result, dictionaryUrlPrefix: dictionaryUrlPrefix$1 });
+
+    	$$self.$inject_state = $$props => {
+    		if ('result' in $$props) $$invalidate(0, result = $$props.result);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [result];
+    }
+
+    class WordResult extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { result: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "WordResult",
+    			options,
+    			id: create_fragment$4.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*result*/ ctx[0] === undefined && !('result' in props)) {
+    			console.warn("<WordResult> was created without expected prop 'result'");
+    		}
+    	}
+
+    	get result() {
+    		throw new Error("<WordResult>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set result(value) {
+    		throw new Error("<WordResult>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\WordFit.svelte generated by Svelte v3.44.2 */
+    const file$3 = "src\\components\\WordFit.svelte";
+
+    function get_each_context$2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[6] = list[i];
+    	return child_ctx;
+    }
+
+    // (24:8) {#each results as result}
+    function create_each_block$2(ctx) {
+    	let result;
+    	let current;
+
+    	result = new WordResult({
+    			props: { result: /*result*/ ctx[6] },
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(result.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(result, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const result_changes = {};
+    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[6];
+    			result.$set(result_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(result.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(result.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(result, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$2.name,
+    		type: "each",
+    		source: "(24:8) {#each results as result}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let div1;
+    	let h2;
+    	let t1;
+    	let p;
+    	let t3;
+    	let input;
+    	let t4;
+    	let button;
+    	let t6;
+    	let div0;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let each_value = /*results*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			div1 = element("div");
+    			h2 = element("h2");
+    			h2.textContent = "Find Words That Fit";
+    			t1 = space();
+    			p = element("p");
+    			p.textContent = "Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces";
+    			t3 = space();
+    			input = element("input");
+    			t4 = space();
+    			button = element("button");
+    			button.textContent = "Search";
+    			t6 = space();
+    			div0 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			add_location(h2, file$3, 19, 4, 500);
+    			add_location(p, file$3, 20, 4, 533);
+    			add_location(input, file$3, 21, 4, 644);
+    			add_location(button, file$3, 21, 61, 701);
+    			add_location(div0, file$3, 22, 4, 752);
+    			attr_dev(div1, "class", "content-block");
+    			add_location(div1, file$3, 18, 0, 468);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, h2);
+    			append_dev(div1, t1);
+    			append_dev(div1, p);
+    			append_dev(div1, t3);
+    			append_dev(div1, input);
+    			set_input_value(input, /*pattern*/ ctx[1]);
+    			append_dev(div1, t4);
+    			append_dev(div1, button);
+    			append_dev(div1, t6);
+    			append_dev(div1, div0);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div0, null);
+    			}
+
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[5]),
+    					listen_dev(input, "keydown", /*handleKeyDown*/ ctx[3], false, false, false),
+    					listen_dev(button, "click", /*handleClick*/ ctx[2], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*pattern*/ 2 && input.value !== /*pattern*/ ctx[1]) {
+    				set_input_value(input, /*pattern*/ ctx[1]);
+    			}
+
+    			if (dirty & /*results*/ 1) {
+    				each_value = /*results*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$2(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div0, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div1);
+    			destroy_each(each_blocks, detaching);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$3.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$3($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('WordFit', slots, []);
+    	let { wordList } = $$props;
+    	let results = [];
+    	let pattern = "";
+
+    	function handleClick() {
+    		if (!wordList) {
+    			alert("Word list not downloaded yet, please try again");
+    		}
+
+    		$$invalidate(0, results = findMatchingWords(pattern, wordList));
+    	}
+
+    	function handleKeyDown(event) {
+    		if (event.key === "Enter") {
+    			handleClick();
+    		}
+    	}
+
+    	const writable_props = ['wordList'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<WordFit> was created with unknown prop '${key}'`);
+    	});
+
+    	function input_input_handler() {
+    		pattern = this.value;
+    		$$invalidate(1, pattern);
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('wordList' in $$props) $$invalidate(4, wordList = $$props.wordList);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		findMatchingWords,
+    		Result: WordResult,
+    		wordList,
+    		results,
+    		pattern,
+    		handleClick,
+    		handleKeyDown
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('wordList' in $$props) $$invalidate(4, wordList = $$props.wordList);
+    		if ('results' in $$props) $$invalidate(0, results = $$props.results);
+    		if ('pattern' in $$props) $$invalidate(1, pattern = $$props.pattern);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [results, pattern, handleClick, handleKeyDown, wordList, input_input_handler];
+    }
+
+    class WordFit extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { wordList: 4 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "WordFit",
+    			options,
+    			id: create_fragment$3.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*wordList*/ ctx[4] === undefined && !('wordList' in props)) {
+    			console.warn("<WordFit> was created without expected prop 'wordList'");
+    		}
+    	}
+
+    	get wordList() {
+    		throw new Error("<WordFit>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set wordList(value) {
+    		throw new Error("<WordFit>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\AnagramResult.svelte generated by Svelte v3.44.2 */
+
+    const file$2 = "src\\components\\AnagramResult.svelte";
+
+    function get_each_context$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[1] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[4] = list[i];
+    	return child_ctx;
+    }
+
+    // (8:12) {#each wordSet as word}
+    function create_each_block_1(ctx) {
+    	let li;
+    	let a;
+    	let t_value = /*word*/ ctx[4] + "";
+    	let t;
+    	let a_href_value;
+
+    	const block = {
+    		c: function create() {
+    			li = element("li");
+    			a = element("a");
+    			t = text(t_value);
+    			attr_dev(a, "href", a_href_value = "" + (dictionaryUrlPrefix + /*word*/ ctx[4]));
+    			attr_dev(a, "target", "_blank");
+    			add_location(a, file$2, 8, 20, 221);
+    			add_location(li, file$2, 8, 16, 217);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, li, anchor);
+    			append_dev(li, a);
+    			append_dev(a, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*result*/ 1 && t_value !== (t_value = /*word*/ ctx[4] + "")) set_data_dev(t, t_value);
+
+    			if (dirty & /*result*/ 1 && a_href_value !== (a_href_value = "" + (dictionaryUrlPrefix + /*word*/ ctx[4]))) {
+    				attr_dev(a, "href", a_href_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(li);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(8:12) {#each wordSet as word}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (6:4) {#each result as wordSet}
+    function create_each_block$1(ctx) {
+    	let ul;
+    	let t;
+    	let each_value_1 = /*wordSet*/ ctx[1];
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			ul = element("ul");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t = space();
+    			attr_dev(ul, "class", "svelte-141jf7s");
+    			add_location(ul, file$2, 6, 8, 160);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, ul, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(ul, null);
+    			}
+
+    			append_dev(ul, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*dictionaryUrlPrefix, result*/ 1) {
+    				each_value_1 = /*wordSet*/ ctx[1];
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(ul, t);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(ul);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$1.name,
+    		type: "each",
+    		source: "(6:4) {#each result as wordSet}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$2(ctx) {
+    	let div;
+    	let each_value = /*result*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(div, "class", "svelte-141jf7s");
+    			add_location(div, file$2, 4, 0, 116);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*result, dictionaryUrlPrefix*/ 1) {
+    				each_value = /*result*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$2.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    const dictionaryUrlPrefix = 'https://www.dictionary.com/browse/';
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('AnagramResult', slots, []);
+    	let { result } = $$props;
+    	const writable_props = ['result'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<AnagramResult> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('result' in $$props) $$invalidate(0, result = $$props.result);
+    	};
+
+    	$$self.$capture_state = () => ({ result, dictionaryUrlPrefix });
+
+    	$$self.$inject_state = $$props => {
+    		if ('result' in $$props) $$invalidate(0, result = $$props.result);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [result];
+    }
+
+    class AnagramResult extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { result: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "AnagramResult",
+    			options,
+    			id: create_fragment$2.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*result*/ ctx[0] === undefined && !('result' in props)) {
+    			console.warn("<AnagramResult> was created without expected prop 'result'");
+    		}
+    	}
+
+    	get result() {
+    		throw new Error("<AnagramResult>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set result(value) {
+    		throw new Error("<AnagramResult>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\Anagrams.svelte generated by Svelte v3.44.2 */
+    const file$1 = "src\\components\\Anagrams.svelte";
+
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[8] = list[i];
+    	return child_ctx;
+    }
+
+    // (33:8) {#each results as result}
+    function create_each_block(ctx) {
+    	let result;
+    	let current;
+
+    	result = new AnagramResult({
+    			props: { result: /*result*/ ctx[8] },
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(result.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(result, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const result_changes = {};
+    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[8];
+    			result.$set(result_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(result.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(result.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(result, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(33:8) {#each results as result}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let div1;
+    	let h2;
+    	let t1;
+    	let p0;
+    	let button0;
+    	let t3;
+    	let t4;
+    	let p1;
+    	let button1;
+    	let t6;
+    	let t7;
+    	let input;
+    	let t8;
+    	let div0;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let each_value = /*results*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			div1 = element("div");
+    			h2 = element("h2");
+    			h2.textContent = "Find Anagrams";
+    			t1 = space();
+    			p0 = element("p");
+    			button0 = element("button");
+    			button0.textContent = "Find single words";
+    			t3 = text(" Find all single word anagrams within the input, not necessarily using all letters");
+    			t4 = space();
+    			p1 = element("p");
+    			button1 = element("button");
+    			button1.textContent = "Find full anagrams";
+    			t6 = text(" Find full multi-word anagrams (up to 1000 results)");
+    			t7 = space();
+    			input = element("input");
+    			t8 = space();
+    			div0 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			add_location(h2, file$1, 27, 4, 837);
+    			add_location(button0, file$1, 28, 7, 867);
+    			add_location(p0, file$1, 28, 4, 864);
+    			add_location(button1, file$1, 29, 7, 1029);
+    			add_location(p1, file$1, 29, 4, 1026);
+    			add_location(input, file$1, 30, 4, 1151);
+    			add_location(div0, file$1, 31, 4, 1216);
+    			attr_dev(div1, "class", "content-block");
+    			add_location(div1, file$1, 26, 0, 805);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, h2);
+    			append_dev(div1, t1);
+    			append_dev(div1, p0);
+    			append_dev(p0, button0);
+    			append_dev(p0, t3);
+    			append_dev(div1, t4);
+    			append_dev(div1, p1);
+    			append_dev(p1, button1);
+    			append_dev(p1, t6);
+    			append_dev(div1, t7);
+    			append_dev(div1, input);
+    			set_input_value(input, /*letters*/ ctx[1]);
+    			append_dev(div1, t8);
+    			append_dev(div1, div0);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div0, null);
+    			}
+
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(button0, "click", /*findSingleWordAnagrams*/ ctx[2], false, false, false),
+    					listen_dev(button1, "click", /*findAllAnagrams*/ ctx[3], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[6]),
+    					listen_dev(input, "keydown", /*handleKeyDownAll*/ ctx[4], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*letters*/ 2 && input.value !== /*letters*/ ctx[1]) {
+    				set_input_value(input, /*letters*/ ctx[1]);
+    			}
+
+    			if (dirty & /*results*/ 1) {
+    				each_value = /*results*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div0, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div1);
+    			destroy_each(each_blocks, detaching);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Anagrams', slots, []);
+    	let { wordList } = $$props;
+    	let anagramList;
+    	let results = [];
+    	let letters = "";
+
+    	function findSingleWordAnagrams() {
+    		if (!wordList) {
+    			alert("Word list not downloaded yet, please try again");
+    		}
+
+    		$$invalidate(0, results = findAllSingleWordAnagrams(letters, anagramList));
+    	}
+
+    	function findAllAnagrams() {
+    		if (!wordList) {
+    			alert("Word list not downloaded yet, please try again");
+    		}
+
+    		$$invalidate(0, results = findAnagrams(letters, anagramList));
+    	}
+
+    	function handleKeyDownAll(event) {
+    		if (event.key === "Enter") {
+    			findAllAnagrams();
+    		}
+    	}
+
+    	const writable_props = ['wordList'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Anagrams> was created with unknown prop '${key}'`);
+    	});
+
+    	function input_input_handler() {
+    		letters = this.value;
+    		$$invalidate(1, letters);
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('wordList' in $$props) $$invalidate(5, wordList = $$props.wordList);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		createAnagramList,
+    		findAllSingleWordAnagrams,
+    		findAnagrams,
+    		Result: AnagramResult,
+    		wordList,
+    		anagramList,
+    		results,
+    		letters,
+    		findSingleWordAnagrams,
+    		findAllAnagrams,
+    		handleKeyDownAll
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('wordList' in $$props) $$invalidate(5, wordList = $$props.wordList);
+    		if ('anagramList' in $$props) anagramList = $$props.anagramList;
+    		if ('results' in $$props) $$invalidate(0, results = $$props.results);
+    		if ('letters' in $$props) $$invalidate(1, letters = $$props.letters);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*wordList*/ 32) {
+    			anagramList = !wordList ? null : createAnagramList(wordList);
+    		}
+    	};
+
+    	return [
+    		results,
+    		letters,
+    		findSingleWordAnagrams,
+    		findAllAnagrams,
+    		handleKeyDownAll,
+    		wordList,
+    		input_input_handler
+    	];
+    }
+
+    class Anagrams extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { wordList: 5 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Anagrams",
+    			options,
+    			id: create_fragment$1.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*wordList*/ ctx[5] === undefined && !('wordList' in props)) {
+    			console.warn("<Anagrams> was created without expected prop 'wordList'");
+    		}
+    	}
+
+    	get wordList() {
+    		throw new Error("<Anagrams>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set wordList(value) {
+    		throw new Error("<Anagrams>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\App.svelte generated by Svelte v3.44.2 */
+    const file = "src\\App.svelte";
+
+    function create_fragment(ctx) {
+    	let div2;
+    	let div0;
+    	let h1;
+    	let t1;
+    	let ul;
+    	let li0;
+    	let a0;
+    	let t3;
+    	let li1;
+    	let a1;
+    	let t5;
+    	let li2;
+    	let a2;
+    	let t7;
+    	let li3;
+    	let a3;
+    	let t9;
+    	let li4;
+    	let a4;
+    	let t11;
+    	let wordfit;
+    	let t12;
+    	let anagrams;
+    	let t13;
+    	let div1;
+    	let a5;
+    	let current;
+
+    	wordfit = new WordFit({
+    			props: { wordList: /*wordList*/ ctx[0] },
+    			$$inline: true
+    		});
+
+    	anagrams = new Anagrams({
+    			props: { wordList: /*wordList*/ ctx[0] },
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			div2 = element("div");
+    			div0 = element("div");
+    			h1 = element("h1");
+    			h1.textContent = "Tools for cryptic crossword creation - under construction";
+    			t1 = space();
+    			ul = element("ul");
+    			li0 = element("li");
+    			a0 = element("a");
+    			a0.textContent = "Anagrams";
+    			t3 = space();
+    			li1 = element("li");
+    			a1 = element("a");
+    			a1.textContent = "Free dictionary";
+    			t5 = space();
+    			li2 = element("li");
+    			a2 = element("a");
+    			a2.textContent = "Free thesaurus";
+    			t7 = space();
+    			li3 = element("li");
+    			a3 = element("a");
+    			a3.textContent = "Different clue types";
+    			t9 = space();
+    			li4 = element("li");
+    			a4 = element("a");
+    			a4.textContent = "Clues for letters";
+    			t11 = space();
+    			create_component(wordfit.$$.fragment);
+    			t12 = space();
+    			create_component(anagrams.$$.fragment);
+    			t13 = space();
+    			div1 = element("div");
+    			a5 = element("a");
+    			a5.textContent = "Credits/Copyright";
+    			add_location(h1, file, 15, 8, 478);
+    			attr_dev(a0, "href", "https://www.wordplays.com/anagrammer");
+    			attr_dev(a0, "target", "_blank");
+    			add_location(a0, file, 18, 16, 575);
+    			add_location(li0, file, 18, 12, 571);
+    			attr_dev(a1, "href", "https://www.dictionary.com/");
+    			attr_dev(a1, "target", "_blank");
+    			add_location(a1, file, 19, 16, 672);
+    			add_location(li1, file, 19, 12, 668);
+    			attr_dev(a2, "href", "https://www.thesaurus.com/");
+    			attr_dev(a2, "target", "_blank");
+    			add_location(a2, file, 20, 16, 767);
+    			add_location(li2, file, 20, 12, 763);
+    			attr_dev(a3, "href", "https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|");
+    			attr_dev(a3, "target", "_blank");
+    			add_location(a3, file, 21, 16, 860);
+    			add_location(li3, file, 21, 12, 856);
+    			attr_dev(a4, "href", "https://en.wikipedia.org/wiki/Crossword_abbreviations");
+    			attr_dev(a4, "target", "_blank");
+    			add_location(a4, file, 22, 16, 1003);
+    			add_location(li4, file, 22, 12, 999);
+    			add_location(ul, file, 17, 8, 554);
+    			attr_dev(div0, "class", "content-block");
+    			add_location(div0, file, 14, 4, 442);
+    			attr_dev(a5, "href", "/CrosswordCreator/credits");
+    			add_location(a5, file, 31, 8, 1233);
+    			attr_dev(div1, "class", "content-block");
+    			add_location(div1, file, 30, 4, 1197);
+    			attr_dev(div2, "class", "main");
+    			add_location(div2, file, 13, 0, 419);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div0, h1);
+    			append_dev(div0, t1);
+    			append_dev(div0, ul);
+    			append_dev(ul, li0);
+    			append_dev(li0, a0);
+    			append_dev(ul, t3);
+    			append_dev(ul, li1);
+    			append_dev(li1, a1);
+    			append_dev(ul, t5);
+    			append_dev(ul, li2);
+    			append_dev(li2, a2);
+    			append_dev(ul, t7);
+    			append_dev(ul, li3);
+    			append_dev(li3, a3);
+    			append_dev(ul, t9);
+    			append_dev(ul, li4);
+    			append_dev(li4, a4);
+    			append_dev(div2, t11);
+    			mount_component(wordfit, div2, null);
+    			append_dev(div2, t12);
+    			mount_component(anagrams, div2, null);
+    			append_dev(div2, t13);
+    			append_dev(div2, div1);
+    			append_dev(div1, a5);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			const wordfit_changes = {};
+    			if (dirty & /*wordList*/ 1) wordfit_changes.wordList = /*wordList*/ ctx[0];
+    			wordfit.$set(wordfit_changes);
+    			const anagrams_changes = {};
+    			if (dirty & /*wordList*/ 1) anagrams_changes.wordList = /*wordList*/ ctx[0];
+    			anagrams.$set(anagrams_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(wordfit.$$.fragment, local);
+    			transition_in(anagrams.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(wordfit.$$.fragment, local);
+    			transition_out(anagrams.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div2);
+    			destroy_component(wordfit);
+    			destroy_component(anagrams);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('App', slots, []);
+    	let wordList = null;
+    	let anagramList = null;
+
+    	fetch('assets/js/processedWordList.json').then(response => response.json()).then(data => {
+    		$$invalidate(0, wordList = data);
+    		anagramList = createAnagramList(wordList);
+    	});
+
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({
+    		createAnagramList,
+    		WordFit,
+    		Anagrams,
+    		wordList,
+    		anagramList
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('wordList' in $$props) $$invalidate(0, wordList = $$props.wordList);
+    		if ('anagramList' in $$props) anagramList = $$props.anagramList;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [wordList];
+    }
+
+    class App extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance, create_fragment, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "App",
+    			options,
+    			id: create_fragment.name
+    		});
+    	}
+    }
+
+    const app = new App({
+        target: document.body,
+    });
+
+    return app;
+
+})();
+//# sourceMappingURL=bundle.js.map
