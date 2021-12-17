@@ -67,9 +67,9 @@ export function findAnagrams(
     ignoreWeirdSingleLetters = true): AnagramResult[] {
 
     const sortedLetters = sortString(letters);
-    const results = [];
+    const results: AnagramResult[] = [];
     for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
-        const result = [];
+        const result: AnagramResult = [];
         let foundResult = true;
         for (let i = 0; i < letterGroups.length; i++) {
             const letterGroup = letterGroups[i];
@@ -126,7 +126,7 @@ export function findAnagrams(
     return results;
 }
 
-function sortResultByLengthThenAlphabetically(first, second) {
+function sortResultByLengthThenAlphabetically(first: string[], second: string[]): number {
     if (second[0].length !== first[0].length) {
         return second[0].length - first[0].length;
     }
@@ -145,7 +145,7 @@ function sortString(str: string): string {
 // Generates the power set of letters from the supplied string
 // Preserves the order of the original string in the substrings
 // Written as a generator so that we don't have to keep the whole power set in memory at once.
-function* generatePowerSetStrings(letters: string) {
+function* generatePowerSetStrings(letters: string): Generator<string, void, string> {
     for (let flags = 1; flags < (1 << letters.length); flags++) {
         let subset = '';
         for (let index = 0; index < letters.length; index++) {
@@ -154,13 +154,13 @@ function* generatePowerSetStrings(letters: string) {
             }
         }
         yield subset;
-      }
+    }
 }
 
 // Generate all sub groupings of letters
-function* generateAllLetterCombinations(letters: string) {
+function* generateAllLetterCombinations(letters: string): Generator<string[], void, string> {
     for (let restrictedGrowthString of generateRestrictedGrowthStrings(letters.length)) {
-        const letterGroups = [];
+        const letterGroups: string[] = [];
         for (let i = 0; i < letters.length; i++) {
             const set = restrictedGrowthString[i];
             if (letterGroups[set] === undefined) {
@@ -176,9 +176,9 @@ function* generateAllLetterCombinations(letters: string) {
 // representing the sets that each letter at that index belongs to.
 // Implementation of algorithm from "The Art Of Computer Programming" by Donald E. Knuth
 // with some refactoring
-function* generateRestrictedGrowthStrings(length: number) {
-    let restrictedGrowthString = [];
-    let maxValues = [];
+function* generateRestrictedGrowthStrings(length: number): Generator<number[], void, number> {
+    let restrictedGrowthString: number[] = [];
+    let maxValues: number[] = [];
     for (let i = 0; i < length; i++) {
         restrictedGrowthString.push(0);
         maxValues.push(1);
