@@ -21,7 +21,7 @@ Planned tools:
   * [ ] Exclude some words
   * [x] Find all single words within the letters
   * [ ] Allow choice of dictionary
-  * [ ] Minimum word length
+  * [x] Minimum word length
   * [ ] Improve performance for long words
 * [ ] Reference pages
   * [ ] letter clues
@@ -55,3 +55,4 @@ The javascript and most of the CSS on the site is built using (Svelte)[https://s
 
 The code built by the dev server will run fine if released accidentally, it will just time out trying to find a live update script.
 To build for release run: `npm run build`
+To deploy simply push to the main branch and Github Pages will update from the docs directory (assuming you have configured Github pages :))

@@ -70,6 +70,20 @@ var app = (function () {
     function set_input_value(input, value) {
         input.value = value == null ? '' : value;
     }
+    function select_option(select, value) {
+        for (let i = 0; i < select.options.length; i += 1) {
+            const option = select.options[i];
+            if (option.__value === value) {
+                option.selected = true;
+                return;
+            }
+        }
+        select.selectedIndex = -1; // no option should be selected
+    }
+    function select_value(select) {
+        const selected_option = select.querySelector(':checked') || select.options[0];
+        return selected_option && selected_option.__value;
+    }
     function custom_event(type, detail, bubbles = false) {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, bubbles, false, detail);
@@ -415,10 +429,13 @@ var app = (function () {
         }
         return ret;
     }
-    function findAllSingleWordAnagrams(parentWord, anagramList) {
+    function findAllSingleWordAnagrams(parentWord, anagramList, minimumWordLength = 3) {
         const parentLetters = sortString(parentWord);
         let anagrams = [];
         for (let letters of generatePowerSetStrings(parentLetters)) {
+            if (letters.length < minimumWordLength) {
+                continue;
+            }
             const result = anagramList[letters.length].find(a => a.letters === letters);
             if (result !== undefined) {
                 anagrams = anagrams.concat(result.words);
@@ -435,10 +452,13 @@ var app = (function () {
     //   [ [ "ko", "ok"], [ "lo" ] ]
     //   [ [ "kolo" ] ]
     // ]
-    function findAnagrams(letters, anagramList, maxResults = 1000, ignoreWeirdSingleLetters = true) {
+    function findAnagrams(letters, anagramList, minimumWordLength = 3, maxResults = 1000, ignoreWeirdSingleLetters = true) {
         const sortedLetters = sortString(letters);
         const results = [];
         for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
+            if (!letterGroups.every(str => str.length >= minimumWordLength)) {
+                continue;
+            }
             const result = [];
             let foundResult = true;
             for (let i = 0; i < letterGroups.length; i++) {
@@ -1392,11 +1412,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[8] = list[i];
+    	child_ctx[10] = list[i];
     	return child_ctx;
     }
 
-    // (37:8) {:else}
+    // (58:8) {:else}
     function create_else_block(ctx) {
     	let div;
 
@@ -1405,7 +1425,7 @@ var app = (function () {
     			div = element("div");
     			div.textContent = "No results";
     			attr_dev(div, "class", "no-results svelte-19au53g");
-    			add_location(div, file$1, 37, 12, 1377);
+    			add_location(div, file$1, 58, 12, 2185);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1422,14 +1442,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(37:8) {:else}",
+    		source: "(58:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (33:8) {#if results.length > 0}
+    // (54:8) {#if results.length > 0}
     function create_if_block(ctx) {
     	let each_1_anchor;
     	let current;
@@ -1518,20 +1538,20 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(33:8) {#if results.length > 0}",
+    		source: "(54:8) {#if results.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (34:12) {#each results as result}
+    // (55:12) {#each results as result}
     function create_each_block(ctx) {
     	let result;
     	let current;
 
     	result = new AnagramResult({
-    			props: { result: /*result*/ ctx[8] },
+    			props: { result: /*result*/ ctx[10] },
     			$$inline: true
     		});
 
@@ -1545,7 +1565,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const result_changes = {};
-    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[8];
+    			if (dirty & /*results*/ 1) result_changes.result = /*result*/ ctx[10];
     			result.$set(result_changes);
     		},
     		i: function intro(local) {
@@ -1566,7 +1586,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(34:12) {#each results as result}",
+    		source: "(55:12) {#each results as result}",
     		ctx
     	});
 
@@ -1578,15 +1598,33 @@ var app = (function () {
     	let h2;
     	let t1;
     	let p0;
-    	let button0;
-    	let t3;
-    	let t4;
-    	let p1;
-    	let button1;
-    	let t6;
-    	let t7;
     	let input;
-    	let t8;
+    	let t2;
+    	let select;
+    	let option0;
+    	let option1;
+    	let option2;
+    	let option3;
+    	let option4;
+    	let option5;
+    	let option6;
+    	let option7;
+    	let option8;
+    	let option9;
+    	let option10;
+    	let option11;
+    	let option12;
+    	let option13;
+    	let option14;
+    	let t18;
+    	let p1;
+    	let button0;
+    	let t20;
+    	let t21;
+    	let p2;
+    	let button1;
+    	let t23;
+    	let t24;
     	let div0;
     	let current_block_type_index;
     	let if_block;
@@ -1611,28 +1649,109 @@ var app = (function () {
     			h2.textContent = "Find Anagrams";
     			t1 = space();
     			p0 = element("p");
+    			input = element("input");
+    			t2 = text("\n        Minimum word length\n        ");
+    			select = element("select");
+    			option0 = element("option");
+    			option0.textContent = "1";
+    			option1 = element("option");
+    			option1.textContent = "2";
+    			option2 = element("option");
+    			option2.textContent = "3";
+    			option3 = element("option");
+    			option3.textContent = "4";
+    			option4 = element("option");
+    			option4.textContent = "5";
+    			option5 = element("option");
+    			option5.textContent = "6";
+    			option6 = element("option");
+    			option6.textContent = "7";
+    			option7 = element("option");
+    			option7.textContent = "8";
+    			option8 = element("option");
+    			option8.textContent = "9";
+    			option9 = element("option");
+    			option9.textContent = "10";
+    			option10 = element("option");
+    			option10.textContent = "11";
+    			option11 = element("option");
+    			option11.textContent = "12";
+    			option12 = element("option");
+    			option12.textContent = "13";
+    			option13 = element("option");
+    			option13.textContent = "14";
+    			option14 = element("option");
+    			option14.textContent = "15";
+    			t18 = space();
+    			p1 = element("p");
     			button0 = element("button");
     			button0.textContent = "Find single words";
-    			t3 = text(" Find all single word anagrams within the input, not necessarily using all letters");
-    			t4 = space();
-    			p1 = element("p");
+    			t20 = text(" Find all single word anagrams within the input, not necessarily using all letters");
+    			t21 = space();
+    			p2 = element("p");
     			button1 = element("button");
     			button1.textContent = "Find full anagrams";
-    			t6 = text(" Find full multi-word anagrams (up to 1000 results)");
-    			t7 = space();
-    			input = element("input");
-    			t8 = space();
+    			t23 = text(" Find full multi-word anagrams (up to 1000 results)");
+    			t24 = space();
     			div0 = element("div");
     			if_block.c();
-    			add_location(h2, file$1, 27, 4, 837);
-    			add_location(button0, file$1, 28, 7, 867);
-    			add_location(p0, file$1, 28, 4, 864);
-    			add_location(button1, file$1, 29, 7, 1029);
-    			add_location(p1, file$1, 29, 4, 1026);
-    			add_location(input, file$1, 30, 4, 1151);
-    			add_location(div0, file$1, 31, 4, 1216);
+    			add_location(h2, file$1, 28, 4, 903);
+    			add_location(input, file$1, 30, 8, 942);
+    			option0.__value = 1;
+    			option0.value = option0.__value;
+    			add_location(option0, file$1, 33, 12, 1091);
+    			option1.__value = 2;
+    			option1.value = option1.__value;
+    			add_location(option1, file$1, 34, 12, 1132);
+    			option2.__value = 3;
+    			option2.value = option2.__value;
+    			add_location(option2, file$1, 35, 12, 1173);
+    			option3.__value = 4;
+    			option3.value = option3.__value;
+    			add_location(option3, file$1, 36, 12, 1214);
+    			option4.__value = 5;
+    			option4.value = option4.__value;
+    			add_location(option4, file$1, 37, 12, 1255);
+    			option5.__value = 6;
+    			option5.value = option5.__value;
+    			add_location(option5, file$1, 38, 12, 1296);
+    			option6.__value = 7;
+    			option6.value = option6.__value;
+    			add_location(option6, file$1, 39, 12, 1337);
+    			option7.__value = 8;
+    			option7.value = option7.__value;
+    			add_location(option7, file$1, 40, 12, 1378);
+    			option8.__value = 9;
+    			option8.value = option8.__value;
+    			add_location(option8, file$1, 41, 12, 1419);
+    			option9.__value = 10;
+    			option9.value = option9.__value;
+    			add_location(option9, file$1, 42, 12, 1460);
+    			option10.__value = 11;
+    			option10.value = option10.__value;
+    			add_location(option10, file$1, 43, 12, 1503);
+    			option11.__value = 12;
+    			option11.value = option11.__value;
+    			add_location(option11, file$1, 44, 12, 1546);
+    			option12.__value = 13;
+    			option12.value = option12.__value;
+    			add_location(option12, file$1, 45, 12, 1589);
+    			option13.__value = 14;
+    			option13.value = option13.__value;
+    			add_location(option13, file$1, 46, 12, 1632);
+    			option14.__value = 15;
+    			option14.value = option14.__value;
+    			add_location(option14, file$1, 47, 12, 1675);
+    			if (/*minimumWordLength*/ ctx[2] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[8].call(select));
+    			add_location(select, file$1, 32, 8, 1039);
+    			add_location(p0, file$1, 29, 4, 930);
+    			add_location(button0, file$1, 50, 7, 1740);
+    			add_location(p1, file$1, 50, 4, 1737);
+    			add_location(button1, file$1, 51, 7, 1902);
+    			add_location(p2, file$1, 51, 4, 1899);
+    			add_location(div0, file$1, 52, 4, 2024);
     			attr_dev(div1, "class", "content-block");
-    			add_location(div1, file$1, 26, 0, 805);
+    			add_location(div1, file$1, 27, 0, 871);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1642,26 +1761,46 @@ var app = (function () {
     			append_dev(div1, h2);
     			append_dev(div1, t1);
     			append_dev(div1, p0);
-    			append_dev(p0, button0);
-    			append_dev(p0, t3);
-    			append_dev(div1, t4);
-    			append_dev(div1, p1);
-    			append_dev(p1, button1);
-    			append_dev(p1, t6);
-    			append_dev(div1, t7);
-    			append_dev(div1, input);
+    			append_dev(p0, input);
     			set_input_value(input, /*letters*/ ctx[1]);
-    			append_dev(div1, t8);
+    			append_dev(p0, t2);
+    			append_dev(p0, select);
+    			append_dev(select, option0);
+    			append_dev(select, option1);
+    			append_dev(select, option2);
+    			append_dev(select, option3);
+    			append_dev(select, option4);
+    			append_dev(select, option5);
+    			append_dev(select, option6);
+    			append_dev(select, option7);
+    			append_dev(select, option8);
+    			append_dev(select, option9);
+    			append_dev(select, option10);
+    			append_dev(select, option11);
+    			append_dev(select, option12);
+    			append_dev(select, option13);
+    			append_dev(select, option14);
+    			select_option(select, /*minimumWordLength*/ ctx[2]);
+    			append_dev(div1, t18);
+    			append_dev(div1, p1);
+    			append_dev(p1, button0);
+    			append_dev(p1, t20);
+    			append_dev(div1, t21);
+    			append_dev(div1, p2);
+    			append_dev(p2, button1);
+    			append_dev(p2, t23);
+    			append_dev(div1, t24);
     			append_dev(div1, div0);
     			if_blocks[current_block_type_index].m(div0, null);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*findSingleWordAnagrams*/ ctx[2], false, false, false),
-    					listen_dev(button1, "click", /*findAllAnagrams*/ ctx[3], false, false, false),
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[6]),
-    					listen_dev(input, "keydown", /*handleKeyDownAll*/ ctx[4], false, false, false)
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[7]),
+    					listen_dev(input, "keydown", /*handleKeyDownAll*/ ctx[5], false, false, false),
+    					listen_dev(select, "change", /*select_change_handler*/ ctx[8]),
+    					listen_dev(button0, "click", /*findSingleWordAnagrams*/ ctx[3], false, false, false),
+    					listen_dev(button1, "click", /*findAllAnagrams*/ ctx[4], false, false, false)
     				];
 
     				mounted = true;
@@ -1670,6 +1809,10 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*letters*/ 2 && input.value !== /*letters*/ ctx[1]) {
     				set_input_value(input, /*letters*/ ctx[1]);
+    			}
+
+    			if (dirty & /*minimumWordLength*/ 4) {
+    				select_option(select, /*minimumWordLength*/ ctx[2]);
     			}
 
     			let previous_block_index = current_block_type_index;
@@ -1733,13 +1876,14 @@ var app = (function () {
     	let anagramList;
     	let results = [];
     	let letters = "";
+    	let minimumWordLength = 3;
 
     	function findSingleWordAnagrams() {
     		if (!wordList) {
     			alert("Word list not downloaded yet, please try again");
     		}
 
-    		$$invalidate(0, results = findAllSingleWordAnagrams(letters, anagramList));
+    		$$invalidate(0, results = findAllSingleWordAnagrams(letters, anagramList, minimumWordLength));
     	}
 
     	function findAllAnagrams() {
@@ -1747,7 +1891,7 @@ var app = (function () {
     			alert("Word list not downloaded yet, please try again");
     		}
 
-    		$$invalidate(0, results = findAnagrams(letters, anagramList));
+    		$$invalidate(0, results = findAnagrams(letters, anagramList, minimumWordLength));
     	}
 
     	function handleKeyDownAll(event) {
@@ -1767,8 +1911,13 @@ var app = (function () {
     		$$invalidate(1, letters);
     	}
 
+    	function select_change_handler() {
+    		minimumWordLength = select_value(this);
+    		$$invalidate(2, minimumWordLength);
+    	}
+
     	$$self.$$set = $$props => {
-    		if ('wordList' in $$props) $$invalidate(5, wordList = $$props.wordList);
+    		if ('wordList' in $$props) $$invalidate(6, wordList = $$props.wordList);
     	};
 
     	$$self.$capture_state = () => ({
@@ -1780,16 +1929,18 @@ var app = (function () {
     		anagramList,
     		results,
     		letters,
+    		minimumWordLength,
     		findSingleWordAnagrams,
     		findAllAnagrams,
     		handleKeyDownAll
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('wordList' in $$props) $$invalidate(5, wordList = $$props.wordList);
+    		if ('wordList' in $$props) $$invalidate(6, wordList = $$props.wordList);
     		if ('anagramList' in $$props) anagramList = $$props.anagramList;
     		if ('results' in $$props) $$invalidate(0, results = $$props.results);
     		if ('letters' in $$props) $$invalidate(1, letters = $$props.letters);
+    		if ('minimumWordLength' in $$props) $$invalidate(2, minimumWordLength = $$props.minimumWordLength);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -1797,7 +1948,7 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*wordList*/ 32) {
+    		if ($$self.$$.dirty & /*wordList*/ 64) {
     			anagramList = !wordList ? null : createAnagramList(wordList);
     		}
     	};
@@ -1805,18 +1956,20 @@ var app = (function () {
     	return [
     		results,
     		letters,
+    		minimumWordLength,
     		findSingleWordAnagrams,
     		findAllAnagrams,
     		handleKeyDownAll,
     		wordList,
-    		input_input_handler
+    		input_input_handler,
+    		select_change_handler
     	];
     }
 
     class Anagrams extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { wordList: 5 });
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { wordList: 6 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1828,7 +1981,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*wordList*/ ctx[5] === undefined && !('wordList' in props)) {
+    		if (/*wordList*/ ctx[6] === undefined && !('wordList' in props)) {
     			console.warn("<Anagrams> was created without expected prop 'wordList'");
     		}
     	}

@@ -39,10 +39,17 @@ export function createAnagramList(wordList: WordList): AnagramList {
     return ret;
 }
 
-export function findAllSingleWordAnagrams(parentWord: string, anagramList: AnagramList): AnagramResult[] {
+export function findAllSingleWordAnagrams(
+    parentWord: string,
+    anagramList: AnagramList,
+    minimumWordLength = 3,): AnagramResult[] {
+
     const parentLetters = sortString(parentWord);
     let anagrams: string[] = [];
     for (let letters of generatePowerSetStrings(parentLetters)) {
+        if (letters.length < minimumWordLength) {
+            continue;
+        }
         const result = anagramList[letters.length].find(a => a.letters === letters);
         if (result !== undefined) {
             anagrams = anagrams.concat(result.words);
@@ -63,12 +70,16 @@ export function findAllSingleWordAnagrams(parentWord: string, anagramList: Anagr
 export function findAnagrams(
     letters: string,
     anagramList: AnagramList,
+    minimumWordLength = 3,
     maxResults = 1000,
     ignoreWeirdSingleLetters = true): AnagramResult[] {
 
     const sortedLetters = sortString(letters);
     const results: AnagramResult[] = [];
     for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
+        if (!letterGroups.every(str => str.length >= minimumWordLength)) {
+            continue;
+        }
         const result: AnagramResult = [];
         let foundResult = true;
         for (let i = 0; i < letterGroups.length; i++) {
