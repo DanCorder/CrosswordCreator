@@ -37,8 +37,18 @@
     <p><button on:click={findAllAnagrams}>Find full anagrams</button> Find full multi-word anagrams (up to 1000 results)</p>
     <input bind:value={letters} on:keydown={handleKeyDownAll} />
     <div>
-        {#each results as result}
-            <Result {result} />
-        {/each}
+        {#if results.length > 0}
+            {#each results as result}
+                <Result {result} />
+            {/each}
+        {:else}
+            <div class="no-results">No results</div>
+        {/if}
     </div>
 </div>
+
+<style>
+    div.no-results {
+        margin-top: 0.5em;
+    }
+</style>

@@ -51,6 +51,9 @@ var app = (function () {
     function space() {
         return text(' ');
     }
+    function empty() {
+        return text('');
+    }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
@@ -711,7 +714,136 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (24:8) {#each results as result}
+    // (28:8) {:else}
+    function create_else_block$1(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			div.textContent = "No results";
+    			attr_dev(div, "class", "no-results svelte-19au53g");
+    			add_location(div, file$3, 28, 12, 913);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$1.name,
+    		type: "else",
+    		source: "(28:8) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (24:8) {#if results.length > 0}
+    function create_if_block$1(ctx) {
+    	let each_1_anchor;
+    	let current;
+    	let each_value = /*results*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*results*/ 1) {
+    				each_value = /*results*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$2(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(24:8) {#if results.length > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (25:12) {#each results as result}
     function create_each_block$2(ctx) {
     	let result;
     	let current;
@@ -752,7 +884,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(24:8) {#each results as result}",
+    		source: "(25:12) {#each results as result}",
     		ctx
     	});
 
@@ -770,20 +902,21 @@ var app = (function () {
     	let button;
     	let t6;
     	let div0;
+    	let current_block_type_index;
+    	let if_block;
     	let current;
     	let mounted;
     	let dispose;
-    	let each_value = /*results*/ ctx[0];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
+    	const if_block_creators = [create_if_block$1, create_else_block$1];
+    	const if_blocks = [];
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+    	function select_block_type(ctx, dirty) {
+    		if (/*results*/ ctx[0].length > 0) return 0;
+    		return 1;
     	}
 
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	const block = {
     		c: function create() {
@@ -800,11 +933,7 @@ var app = (function () {
     			button.textContent = "Search";
     			t6 = space();
     			div0 = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
+    			if_block.c();
     			add_location(h2, file$3, 19, 4, 500);
     			add_location(p, file$3, 20, 4, 533);
     			add_location(input, file$3, 21, 4, 644);
@@ -828,11 +957,7 @@ var app = (function () {
     			append_dev(div1, button);
     			append_dev(div1, t6);
     			append_dev(div1, div0);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
-    			}
-
+    			if_blocks[current_block_type_index].m(div0, null);
     			current = true;
 
     			if (!mounted) {
@@ -850,55 +975,44 @@ var app = (function () {
     				set_input_value(input, /*pattern*/ ctx[1]);
     			}
 
-    			if (dirty & /*results*/ 1) {
-    				each_value = /*results*/ ctx[0];
-    				validate_each_argument(each_value);
-    				let i;
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
 
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$2(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block$2(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div0, null);
-    					}
-    				}
-
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
     				group_outros();
 
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
 
     				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div0, null);
     			}
     		},
     		i: function intro(local) {
     			if (current) return;
-
-    			for (let i = 0; i < each_value.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
+    			transition_in(if_block);
     			current = true;
     		},
     		o: function outro(local) {
-    			each_blocks = each_blocks.filter(Boolean);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
+    			transition_out(if_block);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
-    			destroy_each(each_blocks, detaching);
+    			if_blocks[current_block_type_index].d();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -1282,7 +1396,136 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (33:8) {#each results as result}
+    // (37:8) {:else}
+    function create_else_block(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			div.textContent = "No results";
+    			attr_dev(div, "class", "no-results svelte-19au53g");
+    			add_location(div, file$1, 37, 12, 1377);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(37:8) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (33:8) {#if results.length > 0}
+    function create_if_block(ctx) {
+    	let each_1_anchor;
+    	let current;
+    	let each_value = /*results*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*results*/ 1) {
+    				each_value = /*results*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(33:8) {#if results.length > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (34:12) {#each results as result}
     function create_each_block(ctx) {
     	let result;
     	let current;
@@ -1323,7 +1566,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(33:8) {#each results as result}",
+    		source: "(34:12) {#each results as result}",
     		ctx
     	});
 
@@ -1345,20 +1588,21 @@ var app = (function () {
     	let input;
     	let t8;
     	let div0;
+    	let current_block_type_index;
+    	let if_block;
     	let current;
     	let mounted;
     	let dispose;
-    	let each_value = /*results*/ ctx[0];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
+    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_blocks = [];
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	function select_block_type(ctx, dirty) {
+    		if (/*results*/ ctx[0].length > 0) return 0;
+    		return 1;
     	}
 
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	const block = {
     		c: function create() {
@@ -1379,11 +1623,7 @@ var app = (function () {
     			input = element("input");
     			t8 = space();
     			div0 = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
+    			if_block.c();
     			add_location(h2, file$1, 27, 4, 837);
     			add_location(button0, file$1, 28, 7, 867);
     			add_location(p0, file$1, 28, 4, 864);
@@ -1413,11 +1653,7 @@ var app = (function () {
     			set_input_value(input, /*letters*/ ctx[1]);
     			append_dev(div1, t8);
     			append_dev(div1, div0);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div0, null);
-    			}
-
+    			if_blocks[current_block_type_index].m(div0, null);
     			current = true;
 
     			if (!mounted) {
@@ -1436,55 +1672,44 @@ var app = (function () {
     				set_input_value(input, /*letters*/ ctx[1]);
     			}
 
-    			if (dirty & /*results*/ 1) {
-    				each_value = /*results*/ ctx[0];
-    				validate_each_argument(each_value);
-    				let i;
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
 
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div0, null);
-    					}
-    				}
-
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
     				group_outros();
 
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
 
     				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div0, null);
     			}
     		},
     		i: function intro(local) {
     			if (current) return;
-
-    			for (let i = 0; i < each_value.length; i += 1) {
-    				transition_in(each_blocks[i]);
-    			}
-
+    			transition_in(if_block);
     			current = true;
     		},
     		o: function outro(local) {
-    			each_blocks = each_blocks.filter(Boolean);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				transition_out(each_blocks[i]);
-    			}
-
+    			transition_out(if_block);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
-    			destroy_each(each_blocks, detaching);
+    			if_blocks[current_block_type_index].d();
     			mounted = false;
     			run_all(dispose);
     		}
