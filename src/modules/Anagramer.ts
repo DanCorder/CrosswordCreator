@@ -42,7 +42,8 @@ export function createAnagramList(wordList: WordList): AnagramList {
 export function findAllSingleWordAnagrams(
     parentWord: string,
     anagramList: AnagramList,
-    minimumWordLength = 3,): AnagramResult[] {
+    minimumWordLength = 3,
+    excludedWords: string[] = []): AnagramResult[] {
 
     const parentLetters = sortString(parentWord);
     let anagrams: string[] = [];
@@ -57,7 +58,7 @@ export function findAllSingleWordAnagrams(
     }
     anagrams = [ ...(new Set(anagrams)) ]; // Deduplicate entires
     return anagrams
-        .filter(a => a !== parentWord)
+        .filter(a => a !== parentWord && excludedWords.indexOf(a) === -1)
         .map(r => [[r]]);
 }
 
@@ -71,6 +72,7 @@ export function findAnagrams(
     letters: string,
     anagramList: AnagramList,
     minimumWordLength = 3,
+    excludedWords: string[] = [],
     maxResults = 1000,
     ignoreWeirdSingleLetters = true): AnagramResult[] {
 
@@ -91,18 +93,19 @@ export function findAnagrams(
                     foundResult = false;
                     break;
             }
-            const anagrams = anagramList[letterGroup.length].find(x => x.letters === letterGroup);
+            const anagrams: AnagramListEntry = anagramList[letterGroup.length].find(x => x.letters === letterGroup);
             if (anagrams === undefined) {
                 // We can't anagram all of the groups so move on to the next set of groups
                 foundResult = false;
                 break;
             }
-            const filteredWords = anagrams.words.filter(x => x !== letters);
+            const filteredWords = anagrams.words.filter(x => x !== letters && excludedWords.indexOf(x) === -1);
+
             if (filteredWords.length === 0) {
                 foundResult = false;
                 break;
             }
-            result.push(anagrams.words.filter(x => x !== letters));
+            result.push(filteredWords);
         }
 
         if (foundResult) {

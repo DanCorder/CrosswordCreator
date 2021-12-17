@@ -10,19 +10,22 @@
     let results: AnagramResult[] = [];
     let letters = "";
     let minimumWordLength = 3;
+    let excludedWordsString = "";
+    let excludedWords: string[];
+    $: excludedWords = excludedWordsString.split("\n");
 
     function findSingleWordAnagrams () {
         if (!wordList) {
             alert("Word list not downloaded yet, please try again");
         }
-        results = findAllSingleWordAnagrams(letters, anagramList, minimumWordLength);
+        results = findAllSingleWordAnagrams(letters, anagramList, minimumWordLength, excludedWords);
 	}
 
     function findAllAnagrams () {
         if (!wordList) {
             alert("Word list not downloaded yet, please try again");
         }
-        results = findAnagrams(letters, anagramList, minimumWordLength);
+        results = findAnagrams(letters, anagramList, minimumWordLength, excludedWords);
 	}
 
     function handleKeyDownAll(event: KeyboardEvent) {
@@ -57,6 +60,7 @@
     </p>
     <p><button on:click={findSingleWordAnagrams}>Find single words</button> Find all single word anagrams within the input, not necessarily using all letters</p>
     <p><button on:click={findAllAnagrams}>Find full anagrams</button> Find full multi-word anagrams (up to 1000 results)</p>
+    <p><textarea bind:value={excludedWords}></textarea> Excluded words (one per line)</p>
     <div>
         {#if results.length > 0}
             {#each results as result}
