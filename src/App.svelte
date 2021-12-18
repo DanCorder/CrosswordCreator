@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
     import { AnagramList, createAnagramList } from "./modules/Anagramer";
-	import WordFit from './components/WordFit.svelte';
+	import Grid from './components/Grid.svelte';
+    import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
 
     let wordList: WordList = null;
@@ -27,6 +28,8 @@
             <li><a href="https://en.wikipedia.org/wiki/Crossword_abbreviations" target="_blank">Clues for letters</a></li>
         </ul>
     </div>
+
+    <Grid />
 
     <WordFit {wordList} />
 
