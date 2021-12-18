@@ -48,7 +48,7 @@ If you want a different word list you can edit `getWordList.js` or manually down
 
 ## Development
 
-The javascript and most of the CSS on the site is built using (Svelte)[https://svelte.dev/]
+The javascript and most of the CSS on the site is built using [Svelte](https://svelte.dev/)
 
 ### Running locally
 
