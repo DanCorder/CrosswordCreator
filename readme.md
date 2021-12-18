@@ -17,8 +17,8 @@ Planned tools:
 * [ ] Anagram generation
   * [x] Same length word
   * [x] Multiple shorter words
-  * [ ] Fix some words
-  * [ ] Exclude some words
+  * [x] Fix some words
+  * [x] Exclude some words
   * [x] Find all single words within the letters
   * [ ] Allow choice of dictionary
   * [x] Minimum word length
