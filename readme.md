@@ -9,9 +9,9 @@ This site is hosted on Github pages, but as it doesn't use Jekyll you should be 
 Planned tools:
 * [ ] Grid creation
   * [ ] Display grid of given size
-  * [ ] Colour squares
+  * [x] Colour squares
   * [ ] Symmetry
-  * [ ] Clue numbering
+  * [x] Clue numbering
   * [ ] Fill grid with random words
     * [ ] Use words from supplied list
   * [ ] Random grid creation  

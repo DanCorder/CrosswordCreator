@@ -1,11 +1,10 @@
 <script lang="ts">
     import { Grid } from "../modules/Grid";
 
-    const grid = new Grid();
+    let grid = new Grid();
 
     function cellClickHandler(rowIndex: number, columnIndex: number) {
-        // Set this here rather than on the GridCell object so that Svelte picks up the change
-        grid.Cells[rowIndex][columnIndex].IsWhite = !grid.Cells[rowIndex][columnIndex].IsWhite;
+        grid = grid.toggleCell(rowIndex, columnIndex);
     }
 </script>
 
@@ -33,6 +32,8 @@
         height: 50px;
         width: 50px;
         border: solid 2px black;
+        font-size: 11px;
+        vertical-align: top;
     }
     .white {
         background-color: white;
