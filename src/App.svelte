@@ -1,25 +1,22 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
-    import { AnagramList, createAnagramList } from "./modules/Anagramer";
-	import Grid from './components/Grid.svelte';
+	import Credits from './components/Credits.svelte';
+    import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
 
     let wordList: WordList = null;
-    let anagramList: AnagramList = null;
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
         .then(data => {
             wordList = data;
-            anagramList = createAnagramList(wordList);
         });
 </script>
 
 <div class='main'>
     <div class="content-block">
         <h1>Tools for cryptic crossword creation - under construction</h1>
-
         <ul>
             <li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li>
             <li><a href="https://www.dictionary.com/" target="_blank">Free dictionary</a></li>
@@ -35,9 +32,7 @@
 
     <Anagrams {wordList} />
 
-    <div class="content-block">
-        <a href="/CrosswordCreator/credits">Credits/Copyright</a>
-    </div>
+    <Credits />
 </div>
 
 <style lang="scss">
