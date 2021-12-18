@@ -8,10 +8,13 @@ This site is hosted on Github pages, but as it doesn't use Jekyll you should be 
 
 Planned tools:
 * [ ] Grid creation
+  * [x] Display grid of given size
+  * [x] Colour squares
   * [ ] Symmetry
-  * [ ] Clue numbering
+  * [x] Clue numbering
   * [ ] Fill grid with random words
     * [ ] Use words from supplied list
+  * [ ] Random grid creation  
 * [ ] Area for notes
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
@@ -20,8 +23,11 @@ Planned tools:
   * [x] Fix some words
   * [x] Exclude some words
   * [x] Find all single words within the letters
-  * [ ] Allow choice of dictionary
   * [x] Minimum word length
+  * [ ] Allow choice of dictionary
+  * [ ] Allow users to upload replacement dictionary
+  * [ ] Allow users to upload additional words
+  * [ ] Get more results for long words
   * [ ] Improve performance for long words
 * [ ] Reference pages
   * [ ] letter clues
