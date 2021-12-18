@@ -8,7 +8,7 @@ This site is hosted on Github pages, but as it doesn't use Jekyll you should be 
 
 Planned tools:
 * [ ] Grid creation
-  * [ ] Display grid of given size
+  * [x] Display grid of given size
   * [x] Colour squares
   * [ ] Symmetry
   * [x] Clue numbering

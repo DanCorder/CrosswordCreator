@@ -627,23 +627,46 @@ var app = (function () {
     }
 
     class Grid {
-        constructor() {
+        constructor(size) {
             // Due to the way Svelte binds values we need to index cells by row then column (y then x).
             this.Cells = [];
-            const initialSize = 11;
-            for (let y = 0; y < initialSize; y++) {
-                const row = [];
-                for (let x = 0; x < initialSize; x++) {
-                    row.push(new GridCell());
-                }
-                this.Cells.push(row);
-            }
+            this.resizeGrid(size);
             this.numberCells();
         }
         toggleCell(rowIndex, columnIndex) {
             this.Cells[rowIndex][columnIndex].IsWhite = !this.Cells[rowIndex][columnIndex].IsWhite;
             this.numberCells();
             return this;
+        }
+        sizeGrid(newSize) {
+            this.resizeGrid(newSize);
+            this.numberCells();
+            return this;
+        }
+        resizeGrid(newSize) {
+            const cells = this.Cells;
+            const oldSize = cells.length;
+            if (oldSize === newSize) {
+                return this;
+            }
+            if (oldSize < newSize) {
+                for (let rowIndex = 0; rowIndex < newSize; rowIndex++) {
+                    const createNewRow = rowIndex >= oldSize;
+                    const row = createNewRow ? [] : cells[rowIndex];
+                    for (let columnIndex = createNewRow ? 0 : oldSize; columnIndex < newSize; columnIndex++) {
+                        row.push(new GridCell());
+                    }
+                    if (createNewRow) {
+                        this.Cells.push(row);
+                    }
+                }
+            }
+            else {
+                cells.splice(newSize, oldSize - newSize);
+                for (let rowIndex = 0; rowIndex < newSize; rowIndex++) {
+                    cells[rowIndex].splice(newSize, oldSize - newSize);
+                }
+            }
         }
         numberCells() {
             const cells = this.Cells;
@@ -666,6 +689,9 @@ var app = (function () {
                             cells[rowIndex][columnIndex].CellNumber = null;
                         }
                     }
+                    else {
+                        cells[rowIndex][columnIndex].CellNumber = null;
+                    }
                 }
             }
         }
@@ -682,37 +708,37 @@ var app = (function () {
 
     function get_each_context$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
-    	child_ctx[5] = i;
-    	return child_ctx;
-    }
-
-    function get_each_context_1$1(ctx, list, i) {
-    	const child_ctx = ctx.slice();
     	child_ctx[6] = list[i];
     	child_ctx[8] = i;
     	return child_ctx;
     }
 
-    // (13:20) {#each row as cell, columnIndex}
+    function get_each_context_1$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[9] = list[i];
+    	child_ctx[11] = i;
+    	return child_ctx;
+    }
+
+    // (35:20) {#each row as cell, columnIndex}
     function create_each_block_1$1(ctx) {
     	let td;
-    	let t_value = (/*cell*/ ctx[6].CellNumber ?? "") + "";
+    	let t_value = (/*cell*/ ctx[9].CellNumber ?? "") + "";
     	let t;
     	let td_class_value;
     	let mounted;
     	let dispose;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[2](/*rowIndex*/ ctx[5], /*columnIndex*/ ctx[8]);
+    		return /*click_handler*/ ctx[5](/*rowIndex*/ ctx[8], /*columnIndex*/ ctx[11]);
     	}
 
     	const block = {
     		c: function create() {
     			td = element("td");
     			t = text(t_value);
-    			attr_dev(td, "class", td_class_value = "cell " + (/*cell*/ ctx[6].IsWhite ? "white" : "black") + " svelte-15jmirt");
-    			add_location(td, file$5, 13, 24, 419);
+    			attr_dev(td, "class", td_class_value = "cell " + (/*cell*/ ctx[9].IsWhite ? "white" : "black") + " svelte-15jmirt");
+    			add_location(td, file$5, 35, 24, 1261);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -725,9 +751,9 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*grid*/ 1 && t_value !== (t_value = (/*cell*/ ctx[6].CellNumber ?? "") + "")) set_data_dev(t, t_value);
+    			if (dirty & /*grid*/ 2 && t_value !== (t_value = (/*cell*/ ctx[9].CellNumber ?? "") + "")) set_data_dev(t, t_value);
 
-    			if (dirty & /*grid*/ 1 && td_class_value !== (td_class_value = "cell " + (/*cell*/ ctx[6].IsWhite ? "white" : "black") + " svelte-15jmirt")) {
+    			if (dirty & /*grid*/ 2 && td_class_value !== (td_class_value = "cell " + (/*cell*/ ctx[9].IsWhite ? "white" : "black") + " svelte-15jmirt")) {
     				attr_dev(td, "class", td_class_value);
     			}
     		},
@@ -742,18 +768,18 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(13:20) {#each row as cell, columnIndex}",
+    		source: "(35:20) {#each row as cell, columnIndex}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (11:12) {#each grid.Cells as row, rowIndex}
+    // (33:12) {#each grid.Cells as row, rowIndex}
     function create_each_block$3(ctx) {
     	let tr;
     	let t;
-    	let each_value_1 = /*row*/ ctx[3];
+    	let each_value_1 = /*row*/ ctx[6];
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -770,7 +796,7 @@ var app = (function () {
     			}
 
     			t = space();
-    			add_location(tr, file$5, 11, 16, 335);
+    			add_location(tr, file$5, 33, 16, 1177);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -782,8 +808,8 @@ var app = (function () {
     			append_dev(tr, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*grid, cellClickHandler*/ 3) {
-    				each_value_1 = /*row*/ ctx[3];
+    			if (dirty & /*grid, cellClickHandler*/ 6) {
+    				each_value_1 = /*row*/ ctx[6];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -816,7 +842,7 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(11:12) {#each grid.Cells as row, rowIndex}",
+    		source: "(33:12) {#each grid.Cells as row, rowIndex}",
     		ctx
     	});
 
@@ -825,9 +851,30 @@ var app = (function () {
 
     function create_fragment$5(ctx) {
     	let div;
+    	let p;
+    	let t0;
+    	let select;
+    	let option0;
+    	let option1;
+    	let option2;
+    	let option3;
+    	let option4;
+    	let option5;
+    	let option6;
+    	let option7;
+    	let option8;
+    	let option9;
+    	let option10;
+    	let option11;
+    	let option12;
+    	let option13;
+    	let option14;
+    	let t16;
     	let table;
     	let tbody;
-    	let each_value = /*grid*/ ctx[0].Cells;
+    	let mounted;
+    	let dispose;
+    	let each_value = /*grid*/ ctx[1].Cells;
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -838,6 +885,40 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
+    			p = element("p");
+    			t0 = text("Size: ");
+    			select = element("select");
+    			option0 = element("option");
+    			option0.textContent = "1";
+    			option1 = element("option");
+    			option1.textContent = "2";
+    			option2 = element("option");
+    			option2.textContent = "3";
+    			option3 = element("option");
+    			option3.textContent = "4";
+    			option4 = element("option");
+    			option4.textContent = "5";
+    			option5 = element("option");
+    			option5.textContent = "6";
+    			option6 = element("option");
+    			option6.textContent = "7";
+    			option7 = element("option");
+    			option7.textContent = "8";
+    			option8 = element("option");
+    			option8.textContent = "9";
+    			option9 = element("option");
+    			option9.textContent = "10";
+    			option10 = element("option");
+    			option10.textContent = "11";
+    			option11 = element("option");
+    			option11.textContent = "12";
+    			option12 = element("option");
+    			option12.textContent = "13";
+    			option13 = element("option");
+    			option13.textContent = "14";
+    			option14 = element("option");
+    			option14.textContent = "15";
+    			t16 = space();
     			table = element("table");
     			tbody = element("tbody");
 
@@ -845,27 +926,108 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tbody, file$5, 9, 8, 261);
+    			option0.__value = 1;
+    			option0.value = option0.__value;
+    			add_location(option0, file$5, 13, 12, 410);
+    			option1.__value = 2;
+    			option1.value = option1.__value;
+    			add_location(option1, file$5, 14, 12, 452);
+    			option2.__value = 3;
+    			option2.value = option2.__value;
+    			add_location(option2, file$5, 15, 12, 494);
+    			option3.__value = 4;
+    			option3.value = option3.__value;
+    			add_location(option3, file$5, 16, 12, 536);
+    			option4.__value = 5;
+    			option4.value = option4.__value;
+    			add_location(option4, file$5, 17, 12, 578);
+    			option5.__value = 6;
+    			option5.value = option5.__value;
+    			add_location(option5, file$5, 18, 12, 620);
+    			option6.__value = 7;
+    			option6.value = option6.__value;
+    			add_location(option6, file$5, 19, 12, 662);
+    			option7.__value = 8;
+    			option7.value = option7.__value;
+    			add_location(option7, file$5, 20, 12, 704);
+    			option8.__value = 9;
+    			option8.value = option8.__value;
+    			add_location(option8, file$5, 21, 12, 746);
+    			option9.__value = 10;
+    			option9.value = option9.__value;
+    			add_location(option9, file$5, 22, 12, 788);
+    			option10.__value = 11;
+    			option10.value = option10.__value;
+    			add_location(option10, file$5, 23, 12, 832);
+    			option11.__value = 12;
+    			option11.value = option11.__value;
+    			add_location(option11, file$5, 24, 12, 876);
+    			option12.__value = 13;
+    			option12.value = option12.__value;
+    			add_location(option12, file$5, 25, 12, 920);
+    			option13.__value = 14;
+    			option13.value = option13.__value;
+    			add_location(option13, file$5, 26, 12, 964);
+    			option14.__value = 15;
+    			option14.value = option14.__value;
+    			add_location(option14, file$5, 27, 12, 1008);
+    			if (/*gridSize*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[4].call(select));
+    			add_location(select, file$5, 12, 13, 336);
+    			add_location(p, file$5, 12, 4, 327);
+    			add_location(tbody, file$5, 31, 8, 1103);
     			attr_dev(table, "class", "grid svelte-15jmirt");
-    			add_location(table, file$5, 8, 4, 231);
+    			add_location(table, file$5, 30, 4, 1073);
     			attr_dev(div, "class", "content-block");
-    			add_location(div, file$5, 7, 0, 198);
+    			add_location(div, file$5, 11, 0, 294);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
+    			append_dev(div, p);
+    			append_dev(p, t0);
+    			append_dev(p, select);
+    			append_dev(select, option0);
+    			append_dev(select, option1);
+    			append_dev(select, option2);
+    			append_dev(select, option3);
+    			append_dev(select, option4);
+    			append_dev(select, option5);
+    			append_dev(select, option6);
+    			append_dev(select, option7);
+    			append_dev(select, option8);
+    			append_dev(select, option9);
+    			append_dev(select, option10);
+    			append_dev(select, option11);
+    			append_dev(select, option12);
+    			append_dev(select, option13);
+    			append_dev(select, option14);
+    			select_option(select, /*gridSize*/ ctx[0]);
+    			append_dev(div, t16);
     			append_dev(div, table);
     			append_dev(table, tbody);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(tbody, null);
     			}
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(select, "change", /*select_change_handler*/ ctx[4]),
+    					listen_dev(select, "change", /*sizeChangeHandler*/ ctx[3], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*grid, cellClickHandler*/ 3) {
-    				each_value = /*grid*/ ctx[0].Cells;
+    			if (dirty & /*gridSize*/ 1) {
+    				select_option(select, /*gridSize*/ ctx[0]);
+    			}
+
+    			if (dirty & /*grid, cellClickHandler*/ 6) {
+    				each_value = /*grid*/ ctx[1].Cells;
     				validate_each_argument(each_value);
     				let i;
 
@@ -893,6 +1055,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
     			destroy_each(each_blocks, detaching);
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
@@ -910,10 +1074,15 @@ var app = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Grid', slots, []);
-    	let grid = new Grid();
+    	let gridSize = 11;
+    	let grid = new Grid(gridSize);
 
     	function cellClickHandler(rowIndex, columnIndex) {
-    		$$invalidate(0, grid = grid.toggleCell(rowIndex, columnIndex));
+    		$$invalidate(1, grid = grid.toggleCell(rowIndex, columnIndex));
+    	}
+
+    	function sizeChangeHandler() {
+    		$$invalidate(1, grid = grid.sizeGrid(gridSize));
     	}
 
     	const writable_props = [];
@@ -922,18 +1091,38 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Grid> was created with unknown prop '${key}'`);
     	});
 
+    	function select_change_handler() {
+    		gridSize = select_value(this);
+    		$$invalidate(0, gridSize);
+    	}
+
     	const click_handler = (rowIndex, columnIndex) => cellClickHandler(rowIndex, columnIndex);
-    	$$self.$capture_state = () => ({ Grid, grid, cellClickHandler });
+
+    	$$self.$capture_state = () => ({
+    		Grid,
+    		gridSize,
+    		grid,
+    		cellClickHandler,
+    		sizeChangeHandler
+    	});
 
     	$$self.$inject_state = $$props => {
-    		if ('grid' in $$props) $$invalidate(0, grid = $$props.grid);
+    		if ('gridSize' in $$props) $$invalidate(0, gridSize = $$props.gridSize);
+    		if ('grid' in $$props) $$invalidate(1, grid = $$props.grid);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [grid, cellClickHandler, click_handler];
+    	return [
+    		gridSize,
+    		grid,
+    		cellClickHandler,
+    		sizeChangeHandler,
+    		select_change_handler,
+    		click_handler
+    	];
     }
 
     class Grid_1 extends SvelteComponentDev {
