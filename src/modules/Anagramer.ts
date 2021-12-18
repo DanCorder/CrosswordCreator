@@ -73,16 +73,30 @@ export function findAnagrams(
     anagramList: AnagramList,
     minimumWordLength = 3,
     excludedWords: string[] = [],
+    includedWords: string[] = [],
     maxResults = 1000,
     ignoreWeirdSingleLetters = true): AnagramResult[] {
 
-    const sortedLetters = sortString(letters);
+    let lettersToAnagram: string;
+    try {
+        lettersToAnagram = removeLettersFrom(letters, includedWords);
+    } catch (error) {
+        alert("Included words are not an anagram of input word");
+        return [];
+    }
+
+    if (lettersToAnagram === "") {
+        alert("No letters left to anagram!");
+        return [];
+    }
+
+    const sortedLetters = sortString(lettersToAnagram);
     const results: AnagramResult[] = [];
     for (const letterGroups of generateAllLetterCombinations(sortedLetters)) {
         if (!letterGroups.every(str => str.length >= minimumWordLength)) {
             continue;
         }
-        const result: AnagramResult = [];
+        let result: AnagramResult = [];
         let foundResult = true;
         for (let i = 0; i < letterGroups.length; i++) {
             const letterGroup = letterGroups[i];
@@ -109,6 +123,9 @@ export function findAnagrams(
         }
 
         if (foundResult) {
+            for (const word of includedWords) {
+                result = result.concat([ [ word ] ]);
+            }
             result.sort(sortResultByLengthThenAlphabetically);
             let foundDuplicate = false;
             for (let i = 0; i < results.length; i++) {
@@ -138,6 +155,20 @@ export function findAnagrams(
         }
     }
     return results;
+}
+
+function removeLettersFrom(letters: string, wordsToRemove: string[]) {
+    let filteredLetters = letters;
+    for (const word of wordsToRemove) {
+        for (const letter of word) {
+            const index = filteredLetters.indexOf(letter);
+            if (index === -1) {
+                throw "Error! qq";
+            }
+            filteredLetters = filteredLetters.slice(0, index) + filteredLetters.slice(index + 1);
+        }
+    }
+    return filteredLetters;
 }
 
 function sortResultByLengthThenAlphabetically(first: string[], second: string[]): number {
