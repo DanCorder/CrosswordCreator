@@ -69,6 +69,7 @@
                                     </div>
                                     <div class="cell-letter">
                                         {#if clickType === "text" && rowIndex === currentCellRow && columnIndex === currentCellColumn}
+                                            <!-- svelte-ignore a11y-autofocus -->
                                             <input id="cellInput" autofocus value="{cell.AnswerLetter}" on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)} />
                                         {:else}
                                             {cell.AnswerLetter}
@@ -119,7 +120,7 @@
         grid-column: 1 / 3;
         font-size: 30px;
         input {
-            font-family: Verdana;
+            font-family: "Verdana", "Arial", sans-serif;
             font-size: 30px;
             text-align: center;
         }
