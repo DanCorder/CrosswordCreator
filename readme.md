@@ -14,7 +14,9 @@ Planned tools:
   * [x] Clue numbering
   * [ ] Fill grid with random words
     * [ ] Use words from supplied list
-  * [ ] Random grid creation  
+  * [ ] Random grid creation
+  * [x] Write letters in cells
+  * [ ] Navigate cells with arrow keys
 * [ ] Area for notes
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation

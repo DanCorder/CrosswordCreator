@@ -3,9 +3,27 @@
 
     let gridSize = 11;
     let grid = new Grid(gridSize);
+    let clickType: "fill" | "text" = "fill";
+    let currentCellRow = 0;
+    let currentCellColumn = 0;
 
     function cellClickHandler(rowIndex: number, columnIndex: number) {
-        grid = grid.toggleCell(rowIndex, columnIndex);
+        if (clickType === "fill") {
+            grid = grid.toggleCell(rowIndex, columnIndex);
+        } else {
+            currentCellRow = rowIndex;
+            currentCellColumn = columnIndex;
+        }
+    }
+
+    function cellKeyDownHandler(rowIndex: number, columnIndex: number, event: KeyboardEvent) {
+        event.preventDefault();
+        if (event.key === "Backspace" || event.key === "Delete") {
+            grid = grid.setCellLetter(rowIndex, columnIndex, "");
+        }
+        else if (event.key.match(/[a-z]/i)) {
+            grid = grid.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
+        }
     }
 
     function sizeChangeHandler() {
@@ -32,14 +50,35 @@
             <option value={15}>15</option>
         </select>
     </p>
+    <fieldset>
+        <legend>Click behaviour</legend>
+        Fill <input type="radio" bind:group={clickType} value="fill"/>
+        Text <input type="radio" bind:group={clickType} value="text"/>
+    </fieldset>
     <table class="grid">
         <tbody>
             {#each grid.Cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
-                        <td class="cell {cell.IsWhite ? "white" : "black"}" on:click={() => cellClickHandler(rowIndex, columnIndex)}>
-                            {cell.CellNumber ?? ""}
-                        </td>
+                        {#if cell.IsWhite}
+                            <td class="cell white {clickType === "text" && rowIndex === currentCellRow && columnIndex === currentCellColumn ? "active" : ""}"
+                                on:click={() => cellClickHandler(rowIndex, columnIndex)}>
+                                <div class="cell-layout">
+                                    <div class="cell-number" >
+                                        {cell.CellNumber ?? ""}
+                                    </div>
+                                    <div class="cell-letter">
+                                        {#if clickType === "text" && rowIndex === currentCellRow && columnIndex === currentCellColumn}
+                                            <input id="cellInput" autofocus value="{cell.AnswerLetter}" on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)} />
+                                        {:else}
+                                            {cell.AnswerLetter}
+                                        {/if}
+                                    </div>
+                                </div>
+                            </td>
+                        {:else}
+                            <td class="cell black" on:click={() => cellClickHandler(rowIndex, columnIndex)} />
+                        {/if}
                     {/each}
                 </tr>
             {/each}
@@ -47,19 +86,59 @@
     </table>
 </div>
 
-<style>
+<style lang="scss">
+    fieldset {
+        display: inline-block;
+        margin-bottom: 10px;
+    }
     .grid {
         border-collapse: collapse;
     }
     .cell {
+        padding: 0;
         height: 50px;
         width: 50px;
         border: solid 2px black;
+    }
+    .cell-layout {
+        display: grid;
+        grid-template-columns: 14px 34px;
+        grid-template-rows: 14px 34px;
+        position: relative;
+    }
+    .cell-number {
         font-size: 11px;
-        vertical-align: top;
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+        z-index: 1;
+    }
+    .cell-letter {
+        text-align: center;
+        line-height: 48px;
+        grid-row: 1 / 3;
+        grid-column: 1 / 3;
+        font-size: 30px;
+        input {
+            font-family: Verdana;
+            font-size: 30px;
+            text-align: center;
+        }
     }
     .white {
         background-color: white;
+        &.active {
+            background-color: rgb(158, 217, 235);
+            input {
+                height: 100%;
+                width: 100%;
+                border: 0;
+                padding: 0;
+                margin: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
     }
     .black {
         background-color: black;

@@ -1,3 +1,9 @@
+class GridCell {
+    IsWhite = true;
+    CellNumber: number = null;
+    AnswerLetter: string = "";
+}
+
 export class Grid {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
     Cells: GridCell[][] = [];
@@ -10,6 +16,17 @@ export class Grid {
     toggleCell(rowIndex: number, columnIndex: number): Grid {
         this.Cells[rowIndex][columnIndex].IsWhite = !this.Cells[rowIndex][columnIndex].IsWhite;
         this.numberCells();
+        return this;
+    }
+
+    setCellLetter(rowIndex: number, columnIndex: number, letter: string): Grid {
+        if (letter.length > 1) {
+            throw "Can't put more than one letter in a cell";
+        }
+        if (!this.Cells[rowIndex][columnIndex].IsWhite) {
+            throw "Can't set a letter on a black square";
+        }
+        this.Cells[rowIndex][columnIndex].AnswerLetter = letter;
         return this;
     }
 
@@ -72,9 +89,4 @@ export class Grid {
             }
         }
     }
-}
-
-class GridCell {
-    IsWhite = true;
-    CellNumber: number = null;
 }
