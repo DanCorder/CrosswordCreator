@@ -44,21 +44,20 @@
         <input bind:value={letters} on:keydown={handleKeyDownAll} />
         Minimum word length
         <select bind:value={minimumWordLength}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-            <option value={6}>6</option>
-            <option value={7}>7</option>
-            <option value={8}>8</option>
-            <option value={9}>9</option>
-            <option value={10}>10</option>
-            <option value={11}>11</option>
-            <option value={12}>12</option>
-            <option value={13}>13</option>
-            <option value={14}>14</option>
-            <option value={15}>15</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
         </select>
     </p>
     <p><button on:click={findSingleWordAnagrams}>Find single words</button> Find all single word anagrams within the input, not necessarily using all letters</p>
@@ -66,13 +65,11 @@
     <p><textarea bind:value={excludedWordsString}></textarea> Excluded words (one per line)</p>
     <p><textarea bind:value={includedWordsString}></textarea> Included words (one per line)</p>
     <div>
-        {#if results.length > 0}
-            {#each results as result}
-                <Result {result} />
-            {/each}
+        {#each results as result}
+            <Result {result} />
         {:else}
             <div class="no-results">No results</div>
-        {/if}
+        {/each}
     </div>
 </div>
 

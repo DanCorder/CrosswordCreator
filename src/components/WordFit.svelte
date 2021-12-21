@@ -27,13 +27,11 @@
     <p>Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces</p>
     <input bind:value={pattern} on:keydown={handleKeyDown}/> <button on:click={handleClick}>Search</button>
     <div>
-        {#if results.length > 0}
-            {#each results as result}
-                <Result {result} />
-            {/each}
+        {#each results as result}
+            <Result {result} />
         {:else}
             <div class="no-results">No results</div>
-        {/if}
+        {/each}
     </div>
 </div>
 
