@@ -3,7 +3,6 @@
 
     let gridSize = 11;
     let grid = new Grid(gridSize);
-    let clickType: "fill" | "text" = "fill";
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
 

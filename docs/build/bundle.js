@@ -802,27 +802,27 @@ var app = (function () {
 
     function get_each_context$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
-    	child_ctx[13] = i;
+    	child_ctx[10] = list[i];
+    	child_ctx[12] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[16] = i;
+    	child_ctx[13] = list[i];
+    	child_ctx[15] = i;
     	return child_ctx;
     }
 
-    // (77:28) {#if cell.IsWhite}
+    // (76:28) {#if cell.IsWhite}
     function create_if_block$2(ctx) {
     	let div2;
     	let div0;
-    	let t0_value = (/*cell*/ ctx[14].CellNumber ?? "") + "";
+    	let t0_value = (/*cell*/ ctx[13].CellNumber ?? "") + "";
     	let t0;
     	let t1;
     	let div1;
-    	let t2_value = /*cell*/ ctx[14].AnswerLetter + "";
+    	let t2_value = /*cell*/ ctx[13].AnswerLetter + "";
     	let t2;
 
     	const block = {
@@ -834,11 +834,11 @@ var app = (function () {
     			div1 = element("div");
     			t2 = text(t2_value);
     			attr_dev(div0, "class", "cell-number svelte-11n5wcq");
-    			add_location(div0, file$5, 78, 36, 3247);
+    			add_location(div0, file$5, 77, 36, 3222);
     			attr_dev(div1, "class", "cell-letter svelte-11n5wcq");
-    			add_location(div1, file$5, 81, 36, 3420);
+    			add_location(div1, file$5, 80, 36, 3395);
     			attr_dev(div2, "class", "cell-layout svelte-11n5wcq");
-    			add_location(div2, file$5, 77, 32, 3184);
+    			add_location(div2, file$5, 76, 32, 3159);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -849,8 +849,8 @@ var app = (function () {
     			append_dev(div1, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*grid*/ 2 && t0_value !== (t0_value = (/*cell*/ ctx[14].CellNumber ?? "") + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*grid*/ 2 && t2_value !== (t2_value = /*cell*/ ctx[14].AnswerLetter + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*grid*/ 2 && t0_value !== (t0_value = (/*cell*/ ctx[13].CellNumber ?? "") + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*grid*/ 2 && t2_value !== (t2_value = /*cell*/ ctx[13].AnswerLetter + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
@@ -861,28 +861,28 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(77:28) {#if cell.IsWhite}",
+    		source: "(76:28) {#if cell.IsWhite}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (70:20) {#each row as cell, columnIndex}
+    // (69:20) {#each row as cell, columnIndex}
     function create_each_block_1$1(ctx) {
     	let td;
     	let td_class_value;
     	let td_autofocus_value;
     	let mounted;
     	let dispose;
-    	let if_block = /*cell*/ ctx[14].IsWhite && create_if_block$2(ctx);
+    	let if_block = /*cell*/ ctx[13].IsWhite && create_if_block$2(ctx);
 
     	function focus_handler() {
-    		return /*focus_handler*/ ctx[8](/*rowIndex*/ ctx[13], /*columnIndex*/ ctx[16]);
+    		return /*focus_handler*/ ctx[8](/*rowIndex*/ ctx[12], /*columnIndex*/ ctx[15]);
     	}
 
     	function keydown_handler(...args) {
-    		return /*keydown_handler*/ ctx[9](/*rowIndex*/ ctx[13], /*columnIndex*/ ctx[16], ...args);
+    		return /*keydown_handler*/ ctx[9](/*rowIndex*/ ctx[12], /*columnIndex*/ ctx[15], ...args);
     	}
 
     	const block = {
@@ -891,17 +891,17 @@ var app = (function () {
     			if (if_block) if_block.c();
     			attr_dev(td, "tabindex", "0");
 
-    			attr_dev(td, "class", td_class_value = "cell " + (/*cell*/ ctx[14].IsWhite ? "white" : "black") + " " + (/*rowIndex*/ ctx[13] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[16] === /*currentCellColumn*/ ctx[3]
+    			attr_dev(td, "class", td_class_value = "cell " + (/*cell*/ ctx[13].IsWhite ? "white" : "black") + " " + (/*rowIndex*/ ctx[12] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[15] === /*currentCellColumn*/ ctx[3]
     			? "active"
     			: "") + " svelte-11n5wcq");
 
-    			attr_dev(td, "autofocus", td_autofocus_value = /*rowIndex*/ ctx[13] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[16] === /*currentCellColumn*/ ctx[3]);
-    			add_location(td, file$5, 71, 24, 2633);
+    			attr_dev(td, "autofocus", td_autofocus_value = /*rowIndex*/ ctx[12] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[15] === /*currentCellColumn*/ ctx[3]);
+    			add_location(td, file$5, 70, 24, 2608);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
     			if (if_block) if_block.m(td, null);
-    			if (/*rowIndex*/ ctx[13] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[16] === /*currentCellColumn*/ ctx[3]) td.focus();
+    			if (/*rowIndex*/ ctx[12] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[15] === /*currentCellColumn*/ ctx[3]) td.focus();
 
     			if (!mounted) {
     				dispose = [
@@ -915,7 +915,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (/*cell*/ ctx[14].IsWhite) {
+    			if (/*cell*/ ctx[13].IsWhite) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
@@ -928,13 +928,13 @@ var app = (function () {
     				if_block = null;
     			}
 
-    			if (dirty & /*grid, currentCellRow, currentCellColumn*/ 14 && td_class_value !== (td_class_value = "cell " + (/*cell*/ ctx[14].IsWhite ? "white" : "black") + " " + (/*rowIndex*/ ctx[13] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[16] === /*currentCellColumn*/ ctx[3]
+    			if (dirty & /*grid, currentCellRow, currentCellColumn*/ 14 && td_class_value !== (td_class_value = "cell " + (/*cell*/ ctx[13].IsWhite ? "white" : "black") + " " + (/*rowIndex*/ ctx[12] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[15] === /*currentCellColumn*/ ctx[3]
     			? "active"
     			: "") + " svelte-11n5wcq")) {
     				attr_dev(td, "class", td_class_value);
     			}
 
-    			if (dirty & /*currentCellRow, currentCellColumn*/ 12 && td_autofocus_value !== (td_autofocus_value = /*rowIndex*/ ctx[13] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[16] === /*currentCellColumn*/ ctx[3])) {
+    			if (dirty & /*currentCellRow, currentCellColumn*/ 12 && td_autofocus_value !== (td_autofocus_value = /*rowIndex*/ ctx[12] === /*currentCellRow*/ ctx[2] && /*columnIndex*/ ctx[15] === /*currentCellColumn*/ ctx[3])) {
     				attr_dev(td, "autofocus", td_autofocus_value);
     			}
     		},
@@ -950,18 +950,18 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(70:20) {#each row as cell, columnIndex}",
+    		source: "(69:20) {#each row as cell, columnIndex}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (68:12) {#each grid.Cells as row, rowIndex}
+    // (67:12) {#each grid.Cells as row, rowIndex}
     function create_each_block$3(ctx) {
     	let tr;
     	let t;
-    	let each_value_1 = /*row*/ ctx[11];
+    	let each_value_1 = /*row*/ ctx[10];
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -978,7 +978,7 @@ var app = (function () {
     			}
 
     			t = space();
-    			add_location(tr, file$5, 68, 16, 2486);
+    			add_location(tr, file$5, 67, 16, 2461);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -991,7 +991,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*grid, currentCellRow, currentCellColumn, cellFocusHandler, cellKeyDownHandler*/ 62) {
-    				each_value_1 = /*row*/ ctx[11];
+    				each_value_1 = /*row*/ ctx[10];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -1024,14 +1024,14 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(68:12) {#each grid.Cells as row, rowIndex}",
+    		source: "(67:12) {#each grid.Cells as row, rowIndex}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:12) {#key `${currentCellRow},${currentCellColumn}`}
+    // (66:12) {#key `${currentCellRow},${currentCellColumn}`}
     function create_key_block(ctx) {
     	let each_1_anchor;
     	let each_value = /*grid*/ ctx[1].Cells;
@@ -1092,7 +1092,7 @@ var app = (function () {
     		block,
     		id: create_key_block.name,
     		type: "key",
-    		source: "(67:12) {#key `${currentCellRow},${currentCellColumn}`}",
+    		source: "(66:12) {#key `${currentCellRow},${currentCellColumn}`}",
     		ctx
     	});
 
@@ -1169,57 +1169,57 @@ var app = (function () {
     			key_block.c();
     			option0.__value = 1;
     			option0.value = option0.__value;
-    			add_location(option0, file$5, 47, 12, 1658);
+    			add_location(option0, file$5, 46, 12, 1633);
     			option1.__value = 2;
     			option1.value = option1.__value;
-    			add_location(option1, file$5, 48, 12, 1700);
+    			add_location(option1, file$5, 47, 12, 1675);
     			option2.__value = 3;
     			option2.value = option2.__value;
-    			add_location(option2, file$5, 49, 12, 1742);
+    			add_location(option2, file$5, 48, 12, 1717);
     			option3.__value = 4;
     			option3.value = option3.__value;
-    			add_location(option3, file$5, 50, 12, 1784);
+    			add_location(option3, file$5, 49, 12, 1759);
     			option4.__value = 5;
     			option4.value = option4.__value;
-    			add_location(option4, file$5, 51, 12, 1826);
+    			add_location(option4, file$5, 50, 12, 1801);
     			option5.__value = 6;
     			option5.value = option5.__value;
-    			add_location(option5, file$5, 52, 12, 1868);
+    			add_location(option5, file$5, 51, 12, 1843);
     			option6.__value = 7;
     			option6.value = option6.__value;
-    			add_location(option6, file$5, 53, 12, 1910);
+    			add_location(option6, file$5, 52, 12, 1885);
     			option7.__value = 8;
     			option7.value = option7.__value;
-    			add_location(option7, file$5, 54, 12, 1952);
+    			add_location(option7, file$5, 53, 12, 1927);
     			option8.__value = 9;
     			option8.value = option8.__value;
-    			add_location(option8, file$5, 55, 12, 1994);
+    			add_location(option8, file$5, 54, 12, 1969);
     			option9.__value = 10;
     			option9.value = option9.__value;
-    			add_location(option9, file$5, 56, 12, 2036);
+    			add_location(option9, file$5, 55, 12, 2011);
     			option10.__value = 11;
     			option10.value = option10.__value;
-    			add_location(option10, file$5, 57, 12, 2080);
+    			add_location(option10, file$5, 56, 12, 2055);
     			option11.__value = 12;
     			option11.value = option11.__value;
-    			add_location(option11, file$5, 58, 12, 2124);
+    			add_location(option11, file$5, 57, 12, 2099);
     			option12.__value = 13;
     			option12.value = option12.__value;
-    			add_location(option12, file$5, 59, 12, 2168);
+    			add_location(option12, file$5, 58, 12, 2143);
     			option13.__value = 14;
     			option13.value = option13.__value;
-    			add_location(option13, file$5, 60, 12, 2212);
+    			add_location(option13, file$5, 59, 12, 2187);
     			option14.__value = 15;
     			option14.value = option14.__value;
-    			add_location(option14, file$5, 61, 12, 2256);
+    			add_location(option14, file$5, 60, 12, 2231);
     			if (/*gridSize*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[7].call(select));
-    			add_location(select, file$5, 46, 13, 1584);
-    			add_location(p, file$5, 46, 4, 1575);
-    			add_location(tbody, file$5, 65, 8, 2351);
+    			add_location(select, file$5, 45, 13, 1559);
+    			add_location(p, file$5, 45, 4, 1550);
+    			add_location(tbody, file$5, 64, 8, 2326);
     			attr_dev(table, "class", "grid svelte-11n5wcq");
-    			add_location(table, file$5, 64, 4, 2321);
+    			add_location(table, file$5, 63, 4, 2296);
     			attr_dev(div, "class", "content-block");
-    			add_location(div, file$5, 45, 0, 1542);
+    			add_location(div, file$5, 44, 0, 1517);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1299,7 +1299,6 @@ var app = (function () {
     	validate_slots('Grid', slots, []);
     	let gridSize = 11;
     	let grid = new Grid(gridSize);
-    	let clickType = "fill";
     	let currentCellRow = null;
     	let currentCellColumn = null;
 
@@ -1362,7 +1361,6 @@ var app = (function () {
     		Grid,
     		gridSize,
     		grid,
-    		clickType,
     		currentCellRow,
     		currentCellColumn,
     		cellFocusHandler,
@@ -1373,7 +1371,6 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('gridSize' in $$props) $$invalidate(0, gridSize = $$props.gridSize);
     		if ('grid' in $$props) $$invalidate(1, grid = $$props.grid);
-    		if ('clickType' in $$props) clickType = $$props.clickType;
     		if ('currentCellRow' in $$props) $$invalidate(2, currentCellRow = $$props.currentCellRow);
     		if ('currentCellColumn' in $$props) $$invalidate(3, currentCellColumn = $$props.currentCellColumn);
     	};
