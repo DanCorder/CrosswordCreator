@@ -3,31 +3,58 @@
 
     let gridSize = 11;
     let grid = new Grid(gridSize);
-    let clickType: "fill" | "text" = "fill";
-    let currentCellRow = 0;
-    let currentCellColumn = 0;
-
-    function cellClickHandler(rowIndex: number, columnIndex: number) {
-        if (clickType === "fill") {
-            grid = grid.toggleCell(rowIndex, columnIndex);
-        } else {
-            currentCellRow = rowIndex;
-            currentCellColumn = columnIndex;
+    let currentCellRow: number = null;
+    let currentCellColumn: number = null;
+    let cells: HTMLTableCellElement[][] = [];
+    initialiseCells();
+    
+    function initialiseCells() {
+        for (let i = 0; i < gridSize; i++) {
+            cells.push([])
         }
+    }
+
+    function cellFocusHandler(rowIndex: number, columnIndex: number) {
+        currentCellRow = rowIndex;
+        currentCellColumn = columnIndex;
     }
 
     function cellKeyDownHandler(rowIndex: number, columnIndex: number, event: KeyboardEvent) {
         event.preventDefault();
-        if (event.key === "Backspace" || event.key === "Delete") {
-            grid = grid.setCellLetter(rowIndex, columnIndex, "");
+        switch (event.key) {
+            case " ":
+                grid = grid.toggleCell(rowIndex, columnIndex);
+                break;
+            case "Backspace":
+            case "Delete":
+                grid = grid.setCellLetter(rowIndex, columnIndex, "");
+                break;
+            case "ArrowUp":
+                currentCellRow = Math.max(0, currentCellRow - 1);
+                break;
+            case "ArrowDown":
+                currentCellRow = Math.min(gridSize - 1, currentCellRow + 1);
+                break;
+            case "ArrowLeft":
+                currentCellColumn = Math.max(0, currentCellColumn - 1);
+                break;
+            case "ArrowRight":
+                currentCellColumn = Math.min(gridSize - 1, currentCellColumn + 1);
+                break;
+            default:
+                if (event.key.match(/[a-z]/i)) {
+                    grid = grid.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
+                }
         }
-        else if (event.key.match(/[a-z]/i)) {
-            grid = grid.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
-        }
+        cells[currentCellRow][currentCellColumn].focus();
     }
 
     function sizeChangeHandler() {
         grid = grid.sizeGrid(gridSize);
+        currentCellRow = Math.min(currentCellRow, gridSize - 1);
+        currentCellColumn = Math.min(currentCellColumn, gridSize - 1);
+
+        initialiseCells();
     }
 </script>
 
@@ -50,36 +77,28 @@
             <option value={15}>15</option>
         </select>
     </p>
-    <fieldset>
-        <legend>Click behaviour</legend>
-        Fill <input type="radio" bind:group={clickType} value="fill"/>
-        Text <input type="radio" bind:group={clickType} value="text"/>
-    </fieldset>
     <table class="grid">
         <tbody>
             {#each grid.Cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
-                        {#if cell.IsWhite}
-                            <td class="cell white {clickType === "text" && rowIndex === currentCellRow && columnIndex === currentCellColumn ? "active" : ""}"
-                                on:click={() => cellClickHandler(rowIndex, columnIndex)}>
+                        <!-- svelte-ignore a11y-autofocus -->
+                        <td tabindex="0"
+                            class="cell {cell.IsWhite ? "white" : "black"}"
+                            on:focus={() => cellFocusHandler(rowIndex, columnIndex)}
+                            on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)}
+                            bind:this={cells[rowIndex][columnIndex]}>
+                            {#if cell.IsWhite}
                                 <div class="cell-layout">
                                     <div class="cell-number" >
                                         {cell.CellNumber ?? ""}
                                     </div>
                                     <div class="cell-letter">
-                                        {#if clickType === "text" && rowIndex === currentCellRow && columnIndex === currentCellColumn}
-                                            <!-- svelte-ignore a11y-autofocus -->
-                                            <input id="cellInput" autofocus value="{cell.AnswerLetter}" on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)} />
-                                        {:else}
-                                            {cell.AnswerLetter}
-                                        {/if}
+                                        {cell.AnswerLetter}
                                     </div>
                                 </div>
-                            </td>
-                        {:else}
-                            <td class="cell black" on:click={() => cellClickHandler(rowIndex, columnIndex)} />
-                        {/if}
+                            {/if}
+                        </td>
                     {/each}
                 </tr>
             {/each}
@@ -88,10 +107,6 @@
 </div>
 
 <style lang="scss">
-    fieldset {
-        display: inline-block;
-        margin-bottom: 10px;
-    }
     .grid {
         border-collapse: collapse;
     }
@@ -105,7 +120,6 @@
         display: grid;
         grid-template-columns: 14px 34px;
         grid-template-rows: 14px 34px;
-        position: relative;
     }
     .cell-number {
         font-size: 11px;
@@ -119,29 +133,17 @@
         grid-row: 1 / 3;
         grid-column: 1 / 3;
         font-size: 30px;
-        input {
-            font-family: "Verdana", "Arial", sans-serif;
-            font-size: 30px;
-            text-align: center;
-        }
     }
     .white {
         background-color: white;
-        &.active {
+        &:focus {
             background-color: rgb(158, 217, 235);
-            input {
-                height: 100%;
-                width: 100%;
-                border: 0;
-                padding: 0;
-                margin: 0;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
         }
     }
     .black {
         background-color: black;
+        &:focus {
+            background-color: rgb(80, 107, 116);
+        }
     }
 </style>
