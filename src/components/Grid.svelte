@@ -3,6 +3,7 @@
 
     let gridSize = 11;
     let grid = new Grid(gridSize);
+    let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
     let cells: HTMLTableCellElement[][] = [];
@@ -59,23 +60,29 @@
 </script>
 
 <div class="content-block">
-    <p>Size: <select bind:value={gridSize} on:change={sizeChangeHandler}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-            <option value={6}>6</option>
-            <option value={7}>7</option>
-            <option value={8}>8</option>
-            <option value={9}>9</option>
-            <option value={10}>10</option>
-            <option value={11}>11</option>
-            <option value={12}>12</option>
-            <option value={13}>13</option>
-            <option value={14}>14</option>
-            <option value={15}>15</option>
-        </select>
+    <p>
+        <span class="grid-setting">
+            Size: <select bind:value={gridSize} on:change={sizeChangeHandler}>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+                <option value={9}>9</option>
+                <option value={10}>10</option>
+                <option value={11}>11</option>
+                <option value={12}>12</option>
+                <option value={13}>13</option>
+                <option value={14}>14</option>
+                <option value={15}>15</option>
+            </select>
+        </span>
+        <span class="grid-setting">
+            Hide answers: <input type="checkbox" bind:checked={hideLetters} />
+        </span>
     </p>
     <table class="grid">
         <tbody>
@@ -93,9 +100,11 @@
                                     <div class="cell-number" >
                                         {cell.CellNumber ?? ""}
                                     </div>
-                                    <div class="cell-letter">
-                                        {cell.AnswerLetter}
-                                    </div>
+                                    {#if !hideLetters}
+                                        <div class="cell-letter">
+                                            {cell.AnswerLetter}
+                                        </div>
+                                    {/if}
                                 </div>
                             {/if}
                         </td>
@@ -107,6 +116,9 @@
 </div>
 
 <style lang="scss">
+    .grid-setting {
+        margin-right: 1.5em;
+    }
     .grid {
         border-collapse: collapse;
     }
