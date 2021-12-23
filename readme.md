@@ -16,7 +16,7 @@ Planned tools:
     * [ ] Use words from supplied list
   * [ ] Random grid creation
   * [x] Write letters in cells
-  * [ ] Navigate cells with arrow keys
+  * [x] Navigate cells with arrow keys
 * [ ] Area for notes
 * [ ] Area for clues and answers
   * [ ] Automatic matching of answers to grid answers
