@@ -5,6 +5,14 @@
     let grid = new Grid(gridSize);
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
+    let cells: HTMLTableCellElement[][] = [];
+    initialiseCells();
+    
+    function initialiseCells() {
+        for (let i = 0; i < gridSize; i++) {
+            cells.push([])
+        }
+    }
 
     function cellFocusHandler(rowIndex: number, columnIndex: number) {
         currentCellRow = rowIndex;
@@ -38,12 +46,15 @@
                     grid = grid.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
                 }
         }
+        cells[currentCellRow][currentCellColumn].focus();
     }
 
     function sizeChangeHandler() {
         grid = grid.sizeGrid(gridSize);
         currentCellRow = Math.min(currentCellRow, gridSize - 1);
         currentCellColumn = Math.min(currentCellColumn, gridSize - 1);
+
+        initialiseCells();
     }
 </script>
 
@@ -68,16 +79,15 @@
     </p>
     <table class="grid">
         <tbody>
-            {#key `${currentCellRow},${currentCellColumn}`}
             {#each grid.Cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
                         <!-- svelte-ignore a11y-autofocus -->
                         <td tabindex="0"
-                            class="cell {cell.IsWhite ? "white" : "black"} {rowIndex === currentCellRow && columnIndex === currentCellColumn ? "active" : ""}"
-                            autofocus='{(rowIndex === currentCellRow && columnIndex === currentCellColumn)}'
+                            class="cell {cell.IsWhite ? "white" : "black"}"
                             on:focus={() => cellFocusHandler(rowIndex, columnIndex)}
-                            on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)}>
+                            on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)}
+                            bind:this={cells[rowIndex][columnIndex]}>
                             {#if cell.IsWhite}
                                 <div class="cell-layout">
                                     <div class="cell-number" >
@@ -92,16 +102,11 @@
                     {/each}
                 </tr>
             {/each}
-            {/key}
         </tbody>
     </table>
 </div>
 
 <style lang="scss">
-    fieldset {
-        display: inline-block;
-        margin-bottom: 10px;
-    }
     .grid {
         border-collapse: collapse;
     }
@@ -131,13 +136,13 @@
     }
     .white {
         background-color: white;
-        &.active {
+        &:focus {
             background-color: rgb(158, 217, 235);
         }
     }
     .black {
         background-color: black;
-        &.active {
+        &:focus {
             background-color: rgb(80, 107, 116);
         }
     }
