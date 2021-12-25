@@ -16,8 +16,10 @@ Planned tools:
     * [ ] Use words from supplied list
   * [ ] Random grid creation
   * [x] Write letters in cells
-  * [ ] Navigate cells with arrow keys
+  * [x] Navigate cells with arrow keys
 * [ ] Area for notes
+* [ ] Area for clues and answers
+  * [ ] Automatic matching of answers to grid answers
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
   * [x] Same length word
@@ -36,6 +38,7 @@ Planned tools:
   * [ ] keywords
 * [ ] Print out
 * [ ] Saving/loading crosswords
+* [ ] Instructions
 
 ## Word List
 
@@ -61,6 +64,8 @@ The javascript and most of the CSS on the site is built using [Svelte](https://s
 
 ### Releases
 
-The code built by the dev server will run fine if released accidentally, it will just time out trying to find a live update script.
-To build for release run: `npm run build`
-To deploy simply push to the main branch and Github Pages will update from the docs directory (assuming you have configured Github pages :))
+To release:
+* Merge the main branch into the release branch
+* On the release branch run `npm run build`
+* Commit and push the release branch to Github
+* (If you've forked this project you'll need to configure your [Github pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) appropriately)
