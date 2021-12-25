@@ -60,6 +60,7 @@
 </script>
 
 <div class="content-block">
+    <p>Click to select a cell. Type to enter letters, use space to toggle black/white, move with arrow keys. Clue numbers will update automatically.</p>
     <p>
         <span class="grid-setting">
             Size: <select bind:value={gridSize} on:change={sizeChangeHandler}>
