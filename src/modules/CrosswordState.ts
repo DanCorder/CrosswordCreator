@@ -2,6 +2,6 @@ import { ClueState } from "./ClueState";
 import { GridState } from "./GridState";
 
 export class CrosswordState {
-    Clues = new ClueState();
-    Grid = new GridState(11);
+    clues = new ClueState();
+    grid = new GridState(11);
 }

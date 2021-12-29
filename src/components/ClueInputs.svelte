@@ -14,10 +14,10 @@
 
 <div class="content-block">
     <h2>Clues and Answers</h2>
-    {#each state.CluesAndAnswers as clueAndAnswer, index}
+    {#each state.cluesAndAnswers as clueAndAnswer, index}
         <div class="clue-input">
-            <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.Clue} />
-            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.Answer} />
+            <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} />
+            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} />
             <button on:click={() => removeClue(index)}>Delete</button>
         </div>
     {/each}

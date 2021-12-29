@@ -3,7 +3,7 @@
 
     export let state:GridState;
     
-    let gridSizeInput = state.Size;
+    let gridSizeInput = state.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
@@ -11,7 +11,7 @@
     initialiseCells();
     
     function initialiseCells() {
-        for (let i = 0; i < state.Size; i++) {
+        for (let i = 0; i < state.size; i++) {
             cells.push([])
         }
     }
@@ -35,13 +35,13 @@
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
-                currentCellRow = Math.min(state.Size - 1, currentCellRow + 1);
+                currentCellRow = Math.min(state.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
-                currentCellColumn = Math.min(state.Size - 1, currentCellColumn + 1);
+                currentCellColumn = Math.min(state.size - 1, currentCellColumn + 1);
                 break;
             default:
                 if (event.key.match(/[a-z]/i)) {
@@ -88,22 +88,22 @@
     </p>
     <table class="grid">
         <tbody>
-            {#each state.Cells as row, rowIndex}
+            {#each state.cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
                         <td tabindex="0"
-                            class="cell {cell.IsWhite ? "white" : "black"}"
+                            class="cell {cell.isWhite ? "white" : "black"}"
                             on:focus={() => cellFocusHandler(rowIndex, columnIndex)}
                             on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)}
                             bind:this={cells[rowIndex][columnIndex]}>
-                            {#if cell.IsWhite}
+                            {#if cell.isWhite}
                                 <div class="cell-layout">
                                     <div class="cell-number" >
-                                        {cell.CellNumber ?? ""}
+                                        {cell.cellNumber ?? ""}
                                     </div>
                                     {#if !hideLetters}
                                         <div class="cell-letter">
-                                            {cell.AnswerLetter}
+                                            {cell.answerLetter}
                                         </div>
                                     {/if}
                                 </div>

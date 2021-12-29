@@ -1,18 +1,18 @@
 export class ClueAndAnswer {
-    Clue:string;
-    Answer:string;
+    clue:string;
+    answer:string;
 }
 
 export class ClueState {
-    CluesAndAnswers: ClueAndAnswer[] = [];
+    cluesAndAnswers: ClueAndAnswer[] = [];
 
     AddNewClue() {
-        this.CluesAndAnswers.push(new ClueAndAnswer());
+        this.cluesAndAnswers.push(new ClueAndAnswer());
         return this;
     }
 
     RemoveClue(indexToRemove: number) {
-        this.CluesAndAnswers.splice(indexToRemove, 1);
+        this.cluesAndAnswers.splice(indexToRemove, 1);
         return this;
     }
 }

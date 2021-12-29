@@ -29,9 +29,9 @@
         </ul>
     </div>
 
-    <Grid state="{state.Grid}" />
+    <Grid state="{state.grid}" />
 
-    <ClueInputs state="{state.Clues}" />
+    <ClueInputs state="{state.clues}" />
 
     <WordFit {wordList} />
 
