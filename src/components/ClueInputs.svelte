@@ -1,27 +1,27 @@
 <script lang="ts">
-    import { ClueAndAnswer } from "../modules/ClueAndAnswer";
+    import type { ClueState } from "../modules/ClueState";
 
-    let clueAndAnswers:ClueAndAnswer[] = [new ClueAndAnswer()];
+    export let state: ClueState;
 
     function addNewClue() {
-        clueAndAnswers = clueAndAnswers.concat([new ClueAndAnswer()]);
+        state = state.AddNewClue();
     }
 
     function removeClue(indexToRemove: number) {
-        clueAndAnswers = clueAndAnswers.filter((clueAndAnswers, index) => index != indexToRemove)
+        state = state.RemoveClue(indexToRemove);
     }
 </script>
 
 <div class="content-block">
     <h2>Clues and Answers</h2>
-    {#each clueAndAnswers as clueAndAnswer, index}
+    {#each state.CluesAndAnswers as clueAndAnswer, index}
         <div class="clue-input">
             <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.Clue} />
             <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.Answer} />
             <button on:click={() => removeClue(index)}>Delete</button>
         </div>
     {/each}
-    <button on:click={addNewClue}>Add</button>
+    <button on:click={addNewClue}>Add Another Clue</button>
 </div>
 
 

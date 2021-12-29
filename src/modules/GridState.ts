@@ -4,22 +4,25 @@ class GridCell {
     AnswerLetter: string = "";
 }
 
-export class Grid {
+export class GridState {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
     Cells: GridCell[][] = [];
+    get Size() {
+        return this.Cells.length;
+    }
 
     constructor(size: number) {
         this.resizeGrid(size);
         this.numberCells();
     }
 
-    toggleCell(rowIndex: number, columnIndex: number): Grid {
+    toggleCell(rowIndex: number, columnIndex: number): GridState {
         this.Cells[rowIndex][columnIndex].IsWhite = !this.Cells[rowIndex][columnIndex].IsWhite;
         this.numberCells();
         return this;
     }
 
-    setCellLetter(rowIndex: number, columnIndex: number, letter: string): Grid {
+    setCellLetter(rowIndex: number, columnIndex: number, letter: string): GridState {
         if (letter.length > 1) {
             throw "Can't put more than one letter in a cell";
         }
@@ -30,7 +33,7 @@ export class Grid {
         return this;
     }
 
-    sizeGrid(newSize: number): Grid {
+    sizeGrid(newSize: number): GridState {
         this.resizeGrid(newSize);
         this.numberCells();
         return this;
