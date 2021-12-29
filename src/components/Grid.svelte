@@ -90,7 +90,6 @@
             {#each grid.Cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
-                        <!-- svelte-ignore a11y-autofocus -->
                         <td tabindex="0"
                             class="cell {cell.IsWhite ? "white" : "black"}"
                             on:focus={() => cellFocusHandler(rowIndex, columnIndex)}
