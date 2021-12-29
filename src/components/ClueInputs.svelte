@@ -4,11 +4,11 @@
     export let state: ClueState;
 
     function addNewClue() {
-        state = state.AddNewClue();
+        state = state.addNewClue();
     }
 
     function removeClue(indexToRemove: number) {
-        state = state.RemoveClue(indexToRemove);
+        state = state.removeClue(indexToRemove);
     }
 </script>
 

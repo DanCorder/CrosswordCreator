@@ -6,12 +6,12 @@ export class ClueAndAnswer {
 export class ClueState {
     cluesAndAnswers: ClueAndAnswer[] = [];
 
-    AddNewClue() {
+    addNewClue(): ClueState {
         this.cluesAndAnswers.push(new ClueAndAnswer());
         return this;
     }
 
-    RemoveClue(indexToRemove: number) {
+    removeClue(indexToRemove: number): ClueState {
         this.cluesAndAnswers.splice(indexToRemove, 1);
         return this;
     }
