@@ -4,6 +4,7 @@
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
+import ClueInputs from "./components/ClueInputs.svelte";
 
     let wordList: WordList = null;
 
@@ -27,6 +28,8 @@
     </div>
 
     <Grid />
+
+    <ClueInputs />
 
     <WordFit {wordList} />
 

@@ -8,7 +8,7 @@
     <a href="{dictionaryUrlPrefix}{result}" target="_blank">{result}</a>
 </div>
 
-<style>
+<style lang="scss">
     div {
         display: flex;
         flex-direction: row;
