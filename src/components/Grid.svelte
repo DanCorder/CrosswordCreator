@@ -2,14 +2,14 @@
     import type { GridState } from "../modules/GridState";
 
     export let state:GridState;
-    
-    let gridSizeInput = state.size;
+
+    $: gridSizeInput = state.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
     let cells: HTMLTableCellElement[][] = [];
     initialiseCells();
-    
+
     function initialiseCells() {
         for (let i = 0; i < state.size; i++) {
             cells.push([])
@@ -61,6 +61,7 @@
 </script>
 
 <div class="content-block">
+    <h2>Grid</h2>
     <p>Click to select a cell. Type to enter letters, use space to toggle black/white, move with arrow keys. Clue numbers will update automatically.</p>
     <p>
         <span class="grid-setting">
