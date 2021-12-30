@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<style>
+<style lang="scss">
     div.no-results {
         margin-top: 0.5em;
     }

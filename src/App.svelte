@@ -4,8 +4,11 @@
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
+    import ClueInputs from "./components/ClueInputs.svelte";
+    import { CrosswordState } from "./modules/CrosswordState";
 
     let wordList: WordList = null;
+    const state = new CrosswordState();
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
@@ -26,7 +29,9 @@
         </ul>
     </div>
 
-    <Grid />
+    <Grid state="{state.grid}" />
+
+    <ClueInputs state="{state.clues}" />
 
     <WordFit {wordList} />
 

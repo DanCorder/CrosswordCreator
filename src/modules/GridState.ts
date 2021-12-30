@@ -1,43 +1,46 @@
 class GridCell {
-    IsWhite = true;
-    CellNumber: number = null;
-    AnswerLetter: string = "";
+    isWhite = true;
+    cellNumber: number = null;
+    answerLetter: string = "";
 }
 
-export class Grid {
+export class GridState {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
-    Cells: GridCell[][] = [];
+    cells: GridCell[][] = [];
+    get size() {
+        return this.cells.length;
+    }
 
     constructor(size: number) {
         this.resizeGrid(size);
         this.numberCells();
     }
 
-    toggleCell(rowIndex: number, columnIndex: number): Grid {
-        this.Cells[rowIndex][columnIndex].IsWhite = !this.Cells[rowIndex][columnIndex].IsWhite;
+    toggleCell(rowIndex: number, columnIndex: number): GridState {
+        this.cells[rowIndex][columnIndex].isWhite = !this.cells[rowIndex][columnIndex].isWhite;
         this.numberCells();
         return this;
     }
 
-    setCellLetter(rowIndex: number, columnIndex: number, letter: string): Grid {
+    setCellLetter(rowIndex: number, columnIndex: number, letter: string): GridState {
         if (letter.length > 1) {
             throw "Can't put more than one letter in a cell";
         }
-        if (!this.Cells[rowIndex][columnIndex].IsWhite) {
+        if (!this.cells[rowIndex][columnIndex].isWhite) {
             throw "Can't set a letter on a black square";
         }
-        this.Cells[rowIndex][columnIndex].AnswerLetter = letter;
+        this.cells[rowIndex][columnIndex].answerLetter = letter;
         return this;
     }
 
-    sizeGrid(newSize: number): Grid {
+    sizeGrid(newSize: number): GridState {
         this.resizeGrid(newSize);
         this.numberCells();
         return this;
     }
 
     private resizeGrid(newSize: number) {
-        const cells = this.Cells;
+        const cells = this.cells;
         const oldSize = cells.length;
         if (oldSize === newSize) {
             return this;
@@ -50,7 +53,7 @@ export class Grid {
                     row.push(new GridCell());
                 }
                 if (createNewRow) {
-                    this.Cells.push(row);
+                    this.cells.push(row);
                 }
             }
         }
@@ -63,28 +66,28 @@ export class Grid {
     }
 
     private numberCells() {
-        const cells = this.Cells;
+        const cells = this.cells;
         const size = cells.length;
         let clueNumber = 1;
         for (let rowIndex = 0; rowIndex < size; rowIndex++) {
             for (let columnIndex = 0; columnIndex < size; columnIndex++) {
-                if (cells[rowIndex][columnIndex].IsWhite) {
-                    if ((rowIndex === 0 || !cells[rowIndex - 1][columnIndex].IsWhite)
-                        && rowIndex !== (size - 1) && cells[rowIndex + 1][columnIndex].IsWhite) {
-                        cells[rowIndex][columnIndex].CellNumber = clueNumber;
+                if (cells[rowIndex][columnIndex].isWhite) {
+                    if ((rowIndex === 0 || !cells[rowIndex - 1][columnIndex].isWhite)
+                        && rowIndex !== (size - 1) && cells[rowIndex + 1][columnIndex].isWhite) {
+                        cells[rowIndex][columnIndex].cellNumber = clueNumber;
                         clueNumber++;
                     }
-                    else if ((columnIndex === 0 || !cells[rowIndex][columnIndex - 1].IsWhite)
-                        && columnIndex !== (size - 1) && cells[rowIndex][columnIndex + 1].IsWhite) {
-                        cells[rowIndex][columnIndex].CellNumber = clueNumber;
+                    else if ((columnIndex === 0 || !cells[rowIndex][columnIndex - 1].isWhite)
+                        && columnIndex !== (size - 1) && cells[rowIndex][columnIndex + 1].isWhite) {
+                        cells[rowIndex][columnIndex].cellNumber = clueNumber;
                         clueNumber++;
                     }
                     else {
-                        cells[rowIndex][columnIndex].CellNumber = null;
+                        cells[rowIndex][columnIndex].cellNumber = null;
                     }
                 }
                 else {
-                    cells[rowIndex][columnIndex].CellNumber = null;
+                    cells[rowIndex][columnIndex].cellNumber = null;
                 }
             }
         }
