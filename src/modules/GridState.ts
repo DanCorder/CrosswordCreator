@@ -2,18 +2,48 @@ class GridCell {
     isWhite = true;
     cellNumber: number = null;
     answerLetter: string = "";
+
+    constructor(object: ReturnType<GridCell["toObject"]> = null) {
+        if (!!object) {
+            this.isWhite = object.w;
+            this.cellNumber = object.n;
+            this.answerLetter = object.l;
+        }
+    }
+
+    toObject() {
+        return {
+            w: this.isWhite,
+            n: this.cellNumber,
+            l: this.answerLetter
+        }
+    }
 }
 
 export class GridState {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
     cells: GridCell[][] = [];
+
     get size() {
         return this.cells.length;
     }
 
-    constructor(size: number) {
-        this.resizeGrid(size);
+    constructor(data: ReturnType<GridCell["toObject"]>[][] = null) {
+        if (!data) {
+            this.resizeGrid(11);
+        }
+        else {
+            data.forEach(rowData => {
+                const row = [];
+                rowData.forEach(cellData => row.push(new GridCell(cellData)));
+                this.cells.push(row);
+            })
+        }
         this.numberCells();
+    }
+
+    toObject() {
+        return this.cells.map(row => row.map(cell => cell.toObject()));
     }
 
     toggleCell(rowIndex: number, columnIndex: number): GridState {
