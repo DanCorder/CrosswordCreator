@@ -1,16 +1,17 @@
 <script lang="ts">
-    import { Grid } from "../modules/Grid";
+    import type { GridState } from "../modules/GridState";
 
-    let gridSize = 11;
-    let grid = new Grid(gridSize);
+    export let state:GridState;
+
+    $: gridSizeInput = state.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
     let cells: HTMLTableCellElement[][] = [];
     initialiseCells();
-    
+
     function initialiseCells() {
-        for (let i = 0; i < gridSize; i++) {
+        for (let i = 0; i < state.size; i++) {
             cells.push([])
         }
     }
@@ -24,45 +25,47 @@
         event.preventDefault();
         switch (event.key) {
             case " ":
-                grid = grid.toggleCell(rowIndex, columnIndex);
+                state = state.toggleCell(rowIndex, columnIndex);
                 break;
             case "Backspace":
             case "Delete":
-                grid = grid.setCellLetter(rowIndex, columnIndex, "");
+                state = state.setCellLetter(rowIndex, columnIndex, "");
                 break;
             case "ArrowUp":
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
-                currentCellRow = Math.min(gridSize - 1, currentCellRow + 1);
+                currentCellRow = Math.min(state.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
-                currentCellColumn = Math.min(gridSize - 1, currentCellColumn + 1);
+                currentCellColumn = Math.min(state.size - 1, currentCellColumn + 1);
                 break;
             default:
                 if (event.key.match(/[a-z]/i)) {
-                    grid = grid.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
+                    state = state.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
                 }
         }
         cells[currentCellRow][currentCellColumn].focus();
     }
 
     function sizeChangeHandler() {
-        grid = grid.sizeGrid(gridSize);
-        currentCellRow = Math.min(currentCellRow, gridSize - 1);
-        currentCellColumn = Math.min(currentCellColumn, gridSize - 1);
+        state = state.sizeGrid(gridSizeInput);
+        currentCellRow = Math.min(currentCellRow, gridSizeInput - 1);
+        currentCellColumn = Math.min(currentCellColumn, gridSizeInput - 1);
 
         initialiseCells();
     }
 </script>
 
 <div class="content-block">
+    <h2>Grid</h2>
+    <p>Click to select a cell. Type to enter letters, use space to toggle black/white, move with arrow keys. Clue numbers will update automatically.</p>
     <p>
         <span class="grid-setting">
-            Size: <select bind:value={gridSize} on:change={sizeChangeHandler}>
+            Size: <select bind:value={gridSizeInput} on:change={sizeChangeHandler}>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
@@ -86,23 +89,22 @@
     </p>
     <table class="grid">
         <tbody>
-            {#each grid.Cells as row, rowIndex}
+            {#each state.cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
-                        <!-- svelte-ignore a11y-autofocus -->
                         <td tabindex="0"
-                            class="cell {cell.IsWhite ? "white" : "black"}"
+                            class="cell {cell.isWhite ? "white" : "black"}"
                             on:focus={() => cellFocusHandler(rowIndex, columnIndex)}
                             on:keydown={(ev) => cellKeyDownHandler(rowIndex, columnIndex, ev)}
                             bind:this={cells[rowIndex][columnIndex]}>
-                            {#if cell.IsWhite}
+                            {#if cell.isWhite}
                                 <div class="cell-layout">
                                     <div class="cell-number" >
-                                        {cell.CellNumber ?? ""}
+                                        {cell.cellNumber ?? ""}
                                     </div>
                                     {#if !hideLetters}
                                         <div class="cell-letter">
-                                            {cell.AnswerLetter}
+                                            {cell.answerLetter}
                                         </div>
                                     {/if}
                                 </div>

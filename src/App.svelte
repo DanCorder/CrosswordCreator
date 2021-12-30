@@ -4,14 +4,46 @@
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
+    import ClueInputs from "./components/ClueInputs.svelte";
+    import { CrosswordState } from "./modules/CrosswordState";
 
     let wordList: WordList = null;
+    let state = new CrosswordState();
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
         .then(data => {
             wordList = data;
         });
+
+    function save() {
+        const filename = "crossword.json";
+        const data = state.serialize();
+        const blob = new Blob([data], {type: 'application/json;charset=utf-8;'});
+
+        if(window.navigator && window.navigator.msSaveBlob) {
+            window.navigator.msSaveBlob(blob, filename);
+        }
+        else {
+            const link = window.document.createElement('a');
+            link.style.display = "none";
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
+    }
+
+    function upload(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const file = target.files[0];
+        file.text().then(text => {
+            state = state.hydrate(text);
+        })
+        .catch(reason => alert("Upload failed: " + reason));
+    }
 </script>
 
 <div class='main'>
@@ -26,7 +58,15 @@
         </ul>
     </div>
 
-    <Grid />
+    <div class="content-block">
+        <h2>Save / Load Data</h2>
+        Download current grid and clues as file: <button on:click="{save}">Save</button><br/>
+        Load save file: <input type="file" id="file-selector" on:change="{upload}">
+    </div>
+
+    <Grid state="{state.grid}" />
+
+    <ClueInputs state="{state.clues}" />
 
     <WordFit {wordList} />
 
