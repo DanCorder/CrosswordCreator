@@ -2,6 +2,8 @@ class GridCell {
     isWhite = true;
     cellNumber: number = null;
     answerLetter: string = "";
+    acrossAnswer: string = "";
+    downAnswer: string = "";
 
     constructor(object: ReturnType<GridCell["toObject"]> = null) {
         if (!!object) {
@@ -31,6 +33,7 @@ export class GridState {
     constructor(data: ReturnType<GridCell["toObject"]>[][] = null) {
         if (!data) {
             this.resizeGrid(11);
+            this.numberCells();
         }
         else {
             data.forEach(rowData => {
@@ -38,8 +41,8 @@ export class GridState {
                 rowData.forEach(cellData => row.push(new GridCell(cellData)));
                 this.cells.push(row);
             })
+            this.findAnswers();
         }
-        this.numberCells();
     }
 
     toObject() {
@@ -49,6 +52,7 @@ export class GridState {
     toggleCell(rowIndex: number, columnIndex: number): GridState {
         this.cells[rowIndex][columnIndex].isWhite = !this.cells[rowIndex][columnIndex].isWhite;
         this.numberCells();
+        this.findAnswers();
         return this;
     }
 
@@ -60,12 +64,14 @@ export class GridState {
             throw "Can't set a letter on a black square";
         }
         this.cells[rowIndex][columnIndex].answerLetter = letter;
+        this.findAnswers();
         return this;
     }
 
     sizeGrid(newSize: number): GridState {
         this.resizeGrid(newSize);
         this.numberCells();
+        this.findAnswers();
         return this;
     }
 
@@ -91,6 +97,53 @@ export class GridState {
             cells.splice(newSize, oldSize - newSize);
             for (let rowIndex = 0; rowIndex < newSize; rowIndex++) {
                 cells[rowIndex].splice(newSize, oldSize - newSize);
+            }
+        }
+    }
+
+    // This function depends on the cells already being numbered correctly.
+    private findAnswers() {
+        const cells = this.cells;
+        const size = cells.length;
+        for (let rowIndex = 0; rowIndex < size; rowIndex++) {
+            for (let columnIndex = 0; columnIndex < size; columnIndex++) {
+                const cell = cells[rowIndex][columnIndex];
+                if (!cell.cellNumber || !cell.answerLetter) {
+                    continue;
+                }
+                
+                if ((columnIndex < size - 1 && cells[rowIndex][columnIndex + 1].isWhite)
+                    && (columnIndex === 0 || !cells[rowIndex][columnIndex - 1].isWhite)) {
+                    let acrossAnswer = cell.answerLetter;
+                    for (let columnCursor = columnIndex + 1; columnCursor < size; columnCursor++) {
+                        const cursorCell = cells[rowIndex][columnCursor];
+                        if (!cursorCell.isWhite) {
+                            break;
+                        }
+                        if (!cursorCell.answerLetter) {
+                            acrossAnswer = "";
+                            break;
+                        }
+                        acrossAnswer += cursorCell.answerLetter;
+                    }
+                    cell.acrossAnswer = acrossAnswer;
+                }
+                if ((rowIndex < size - 1 && cells[rowIndex + 1][columnIndex].isWhite)
+                    && (rowIndex === 0 || !cells[rowIndex - 1][columnIndex].isWhite)) {
+                    let downAnswer = cell.answerLetter;
+                    for (let rowCursor = rowIndex + 1; rowCursor < size; rowCursor++) {
+                        const cursorCell = cells[rowCursor][columnIndex];
+                        if (!cursorCell.isWhite) {
+                            break;
+                        }
+                        if (!cursorCell.answerLetter) {
+                            downAnswer = "";
+                            break;
+                        }
+                        downAnswer += cursorCell.answerLetter;
+                    }
+                    cell.downAnswer = downAnswer;
+                }
             }
         }
     }
