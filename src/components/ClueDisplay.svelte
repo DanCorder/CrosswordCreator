@@ -47,21 +47,32 @@
     }
 </script>
 
-<div class="content-block">
+<div class="content-block clue-container">
     <h2>Across</h2>
-    <div>
-        <ul>
-            {#each clues.across as clue }
-                <li>{clue.number}. {clue.clue} ({clue.answerLength})</li>
-            {/each}
-        </ul>
-    </div>
+    <ul>
+        {#each clues.across as clue }
+            <li>{clue.number}. {clue.clue} ({clue.answerLength})</li>
+        {/each}
+    </ul>
     <h2>Down</h2>
-    <div>
-        <ul>
-            {#each clues.down as clue }
-                <li>{clue.number}. {clue.clue} ({clue.answerLength})</li>
-            {/each}
-        </ul>
-    </div>
+    <ul>
+        {#each clues.down as clue }
+            <li>{clue.number}. {clue.clue} ({clue.answerLength})</li>
+        {/each}
+    </ul>
 </div>
+
+<style lang="scss">
+    .clue-container {
+        column-count: 2;
+    }
+    h2 {
+        font-size: 15px;
+        margin-bottom: 3px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        font-size: 12px;
+    }
+</style>
