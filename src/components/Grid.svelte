@@ -22,29 +22,38 @@
     }
 
     function cellKeyDownHandler(rowIndex: number, columnIndex: number, event: KeyboardEvent) {
-        event.preventDefault();
+        // Don't handle Ctrl or Option key combinations
+        if (!!event.metaKey || !!event.ctrlKey) {
+            return;
+        }
         switch (event.key) {
             case " ":
+                event.preventDefault();
                 state = state.toggleCell(rowIndex, columnIndex);
                 break;
             case "Backspace":
             case "Delete":
+                event.preventDefault();
                 state = state.setCellLetter(rowIndex, columnIndex, "");
                 break;
             case "ArrowUp":
+                event.preventDefault();
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
+                event.preventDefault();
                 currentCellRow = Math.min(state.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
+                event.preventDefault();
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
+                event.preventDefault();
                 currentCellColumn = Math.min(state.size - 1, currentCellColumn + 1);
                 break;
             default:
-                if (event.key.match(/[a-z]/i)) {
+                if (event.key.match(/^[a-z]$/i)) {
                     state = state.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
                 }
         }
