@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
+    import { CrosswordState } from "./modules/CrosswordState";
 	import Credits from './components/Credits.svelte';
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
     import ClueInputs from "./components/ClueInputs.svelte";
-    import { CrosswordState } from "./modules/CrosswordState";
+    import ClueDisplay from "./components/ClueDisplay.svelte";
 
     let wordList: WordList = null;
     let state = new CrosswordState();
@@ -64,9 +65,11 @@
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid state="{state.grid}" />
+    <Grid bind:state="{state.grid}" />
 
-    <ClueInputs state="{state.clues}" />
+    <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
+
+    <ClueInputs bind:state="{state.clues}" />
 
     <WordFit {wordList} />
 
