@@ -18,7 +18,7 @@ Planned tools:
   * [x] Write letters in cells
   * [x] Navigate cells with arrow keys
 * [ ] Area for notes
-* [ ] Area for clues and answers
+* [x] Area for clues and answers
   * [ ] Automatic matching of answers to grid answers
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
@@ -37,7 +37,7 @@ Planned tools:
   * [ ] letter clues
   * [ ] keywords
 * [ ] Print out
-* [ ] Saving/loading crosswords
+* [x] Saving/loading crosswords
 * [ ] Instructions
 
 ## Word List
