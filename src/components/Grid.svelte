@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { GridState } from "../modules/GridState";
+    import { beforeUpdate } from 'svelte';
 
     export let state:GridState;
 
@@ -8,7 +9,13 @@
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
     let cells: HTMLTableCellElement[][] = [];
-    initialiseCells();
+
+    // Ensure that however the state gets updated we keep cells the correct size
+	beforeUpdate(() => {
+		if (gridSizeInput !== cells.length) {
+            initialiseCells();
+        }
+	});
 
     function initialiseCells() {
         for (let i = 0; i < state.size; i++) {
@@ -64,8 +71,6 @@
         state = state.sizeGrid(gridSizeInput);
         currentCellRow = Math.min(currentCellRow, gridSizeInput - 1);
         currentCellColumn = Math.min(currentCellColumn, gridSizeInput - 1);
-
-        initialiseCells();
     }
 </script>
 
