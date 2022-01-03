@@ -2,7 +2,7 @@ export class ClueAndAnswer {
     clue:string = "";
     answer:string = "";
 
-    get answerLength() {
+    get answerLength(): string {
         const parts: (number|string)[] = [];
         const chars = [...this.answer];
         chars.forEach(char => {
