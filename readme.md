@@ -19,7 +19,7 @@ Planned tools:
   * [x] Navigate cells with arrow keys
 * [ ] Area for notes
 * [x] Area for clues and answers
-  * [ ] Automatic matching of answers to grid answers
+  * [x] Automatic matching of answers to grid answers
 * [x] Find words to fit with existing clues
 * [ ] Anagram generation
   * [x] Same length word
