@@ -17,32 +17,33 @@
         const across: diplayClue[] = [];
         const down: diplayClue[] = [];
 
-        const cells = gridState.cells;
-        const size = gridState.cells.length;
+        //qq:DCC
+        // const cells = gridState.cells;
+        // const size = gridState.cells.length;
 
-        for (let rowIndex = 0; rowIndex < size; rowIndex++) {
-            for (let columnIndex = 0; columnIndex < size; columnIndex++) {
-                const cell = cells[rowIndex][columnIndex];
-                if (!!cell.acrossAnswer) {
-                    const clue = clueState.cluesAndAnswers.find(caa =>
-                        caa.strippedAnswer.toLowerCase() === cell.acrossAnswer.toLowerCase());
-                    across.push({
-                        number: cell.cellNumber,
-                        clue: clue?.clue || "???",
-                        answerLength: clue?.answerLength || cell.acrossAnswer.length.toString()
-                    });
-                }
-                if (!!cell.downAnswer) {
-                    const clue = clueState.cluesAndAnswers.find(caa =>
-                        caa.strippedAnswer.toLowerCase() === cell.downAnswer.toLowerCase());
-                    down.push({
-                        number: cell.cellNumber,
-                        clue: clue?.clue || "???",
-                        answerLength: clue?.answerLength || cell.downAnswer.length.toString()
-                    });
-                }
-            }
-        }
+        // for (let rowIndex = 0; rowIndex < size; rowIndex++) {
+        //     for (let columnIndex = 0; columnIndex < size; columnIndex++) {
+        //         const cell = cells[rowIndex][columnIndex];
+        //         if (!!cell.acrossAnswer) {
+        //             const clue = clueState.cluesAndAnswers.find(caa =>
+        //                 caa.strippedAnswer.toLowerCase() === cell.acrossAnswer.toLowerCase());
+        //             across.push({
+        //                 number: cell.cellNumber,
+        //                 clue: clue?.clue || "???",
+        //                 answerLength: clue?.answerLength || cell.acrossAnswer.length.toString()
+        //             });
+        //         }
+        //         if (!!cell.downAnswer) {
+        //             const clue = clueState.cluesAndAnswers.find(caa =>
+        //                 caa.strippedAnswer.toLowerCase() === cell.downAnswer.toLowerCase());
+        //             down.push({
+        //                 number: cell.cellNumber,
+        //                 clue: clue?.clue || "???",
+        //                 answerLength: clue?.answerLength || cell.downAnswer.length.toString()
+        //             });
+        //         }
+        //     }
+        // }
 
         return {
             across: across,

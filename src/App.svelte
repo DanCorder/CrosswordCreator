@@ -41,7 +41,7 @@
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
         file.text().then(text => {
-            state = state.hydrate(text);
+            state = new CrosswordState(text);
         })
         .catch(reason => alert("Upload failed: " + reason));
     }
@@ -65,7 +65,7 @@
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid bind:state="{state.grid}" />
+    <Grid bind:state="{state}" />
 
     <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
 

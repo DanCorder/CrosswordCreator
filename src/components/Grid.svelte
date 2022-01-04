@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { GridState } from "../modules/GridState";
     import { beforeUpdate } from 'svelte';
+    import type { CrosswordState } from "../modules/CrosswordState";
 
-    export let state:GridState;
+    export let state:CrosswordState;
 
-    $: gridSizeInput = state.size;
+    $: gridSizeInput = state.grid.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
@@ -18,7 +18,7 @@
 	});
 
     function initialiseCells() {
-        for (let i = 0; i < state.size; i++) {
+        for (let i = 0; i < state.grid.size; i++) {
             cells.push([])
         }
     }
@@ -49,7 +49,7 @@
                 break;
             case "ArrowDown":
                 event.preventDefault();
-                currentCellRow = Math.min(state.size - 1, currentCellRow + 1);
+                currentCellRow = Math.min(state.grid.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
                 event.preventDefault();
@@ -57,7 +57,7 @@
                 break;
             case "ArrowRight":
                 event.preventDefault();
-                currentCellColumn = Math.min(state.size - 1, currentCellColumn + 1);
+                currentCellColumn = Math.min(state.grid.size - 1, currentCellColumn + 1);
                 break;
             default:
                 if (event.key.match(/^[a-z]$/i)) {
@@ -103,7 +103,7 @@
     </p>
     <table class="grid">
         <tbody>
-            {#each state.cells as row, rowIndex}
+            {#each state.grid.cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
                         <td tabindex="0"
