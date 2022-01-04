@@ -33,30 +33,25 @@
         if (!!event.metaKey || !!event.ctrlKey) {
             return;
         }
+        event.preventDefault();
         switch (event.key) {
             case " ":
-                event.preventDefault();
                 state = state.toggleCell(rowIndex, columnIndex);
                 break;
             case "Backspace":
             case "Delete":
-                event.preventDefault();
                 state = state.setCellLetter(rowIndex, columnIndex, "");
                 break;
             case "ArrowUp":
-                event.preventDefault();
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
-                event.preventDefault();
                 currentCellRow = Math.min(state.grid.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
-                event.preventDefault();
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
-                event.preventDefault();
                 currentCellColumn = Math.min(state.grid.size - 1, currentCellColumn + 1);
                 break;
             default:
