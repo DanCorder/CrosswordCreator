@@ -37,6 +37,12 @@ export class CrosswordState {
         return this;
     }
 
+    addAnswerToGrid(row: number, column: number, direction: "a"|"d", answer: string ) {
+        this.grid.setAnswer(row, column, direction, answer);
+        this.syncCluesAndGrid();
+        return this;
+    }
+
     serialize(): string {
         return JSON.stringify(this.toObject());
     }

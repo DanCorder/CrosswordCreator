@@ -1,53 +1,5 @@
-// qq:DCC sort out class structure
-import { GridAnswer } from "./GridState";
-
-export class ClueAndAnswer {
-    clue:string = "";
-    answer:string = "";
-    answerPosition: GridAnswer = null;
-
-    get answerLength(): string {
-        const parts: (number|string)[] = [];
-        const chars = [...this.answer];
-        chars.forEach(char => {
-            if (char === " ") {
-                parts.push(",");
-            }
-            else if (char === "-") {
-                parts.push("-");
-            }
-            else {
-                if (parts.length === 0 || parts[parts.length - 1] === "," || parts[parts.length - 1] === "-") {
-                    parts.push(1);
-                }
-                else {
-                    parts[parts.length - 1] = (parts[parts.length - 1] as number) + 1;
-                }
-            }
-        });
-        return parts.join("");
-    }
-
-    get strippedAnswer() {
-        return this.answer.replaceAll(/[- ]/g, "");
-    }
-
-    constructor(object: ReturnType<ClueAndAnswer["toObject"]> = null) {
-        if (!!object) {
-            this.clue = object.c;
-            this.answer = object.a;
-            this.answerPosition = new GridAnswer(object.p);
-        }
-    }
-
-    toObject() {
-        return {
-            c: this.clue,
-            a: this.answer,
-            p: this.answerPosition.toObject()
-        }
-    }
-}
+import type { GridAnswer } from "./GridAnswer";
+import { ClueAndAnswer } from "./ClueAndAnswer";
 
 export class ClueState {
     acrossClues: ClueAndAnswer[] = [];
@@ -110,18 +62,10 @@ export class ClueState {
 
     private isMatch(gridAnswer: GridAnswer, clueAndAnswer: ClueAndAnswer): boolean {
         if (gridAnswer.column !== clueAndAnswer.answerPosition.column
-            || gridAnswer.row !== clueAndAnswer.answerPosition.row
-            || gridAnswer.answer.length !== clueAndAnswer.answer.length) {
+            || gridAnswer.row !== clueAndAnswer.answerPosition.row) {
                 return false;
             }
 
-        let lettersMatch = true;
-        [...gridAnswer.answer].forEach((char, index) => {
-            if (char !== "_" && char.toLowerCase() !== clueAndAnswer.answer[index].toLowerCase()) {
-                lettersMatch = false;
-            }
-        });
-
-        return lettersMatch;
+        return gridAnswer.matchesAnswer(clueAndAnswer.answer);
     }
 }

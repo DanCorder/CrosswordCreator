@@ -1,52 +1,5 @@
-class GridCell {
-    isWhite = true;
-    cellNumber: number = null;
-    answerLetter: string = "";
-
-    constructor(object: ReturnType<GridCell["toObject"]> = null) {
-        if (!!object) {
-            this.isWhite = object.w;
-            this.cellNumber = object.n;
-            this.answerLetter = object.l;
-        }
-    }
-
-    toObject() {
-        return {
-            w: this.isWhite,
-            n: this.cellNumber,
-            l: this.answerLetter
-        }
-    }
-}
-
-export class GridAnswer {
-    public row: number;
-    public column: number;
-    public number: number;
-    public direction: "a"|"d";
-    public answer: string;
-
-    toObject() {
-        return {
-            r: this.row,
-            c: this.column,
-            n: this.number,
-            d: this.direction,
-            a: this.answer
-        }
-    }
-
-    constructor(data: ReturnType<GridAnswer["toObject"]> = null) {
-        if (!!data) {
-            this.row = data.r;
-            this.column = data.c;
-            this.number = data.n;
-            this.direction = data.d;
-            this.answer = data.a;
-        }
-    }
-}
+import { GridAnswer } from "./GridAnswer";
+import { GridCell } from "./GridCell";
 
 export class GridState {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
@@ -95,6 +48,21 @@ export class GridState {
     sizeGrid(newSize: number): GridState {
         this.resizeGrid(newSize);
         this.numberCells();
+        return this;
+    }
+
+    setAnswer(row: number, column: number, direction: "a"|"d", answer: string ) {
+        const getNextCell = direction === "a"
+            ? (row: number, column: number) => { return { row, column: (column + 1) } }
+            : (row: number, column: number) => { return { row: (row + 1), column } };
+
+        let currentCell = { row, column };
+
+        [...answer.toUpperCase()].forEach(letter => {
+            this.cells[currentCell.row][currentCell.column].answerLetter = letter;
+            currentCell = getNextCell(currentCell.row, currentCell.column);
+        })
+
         return this;
     }
 
