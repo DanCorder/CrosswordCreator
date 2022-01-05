@@ -10,25 +10,29 @@ export class CrosswordState {
             this.hydrate(jsonData);
         }
         else {
-            const gridAnswers = this.grid.findAnswers();
-            this.clues.syncToGrid(gridAnswers);
+            this.syncCluesAndGrid();
         }
     }
 
     toggleCell(rowIndex: number, columnIndex: number): CrosswordState {
         this.grid.toggleCell(rowIndex, columnIndex);
-        this.clues.syncToGrid(this.grid.findAnswers());
+        this.syncCluesAndGrid();
         return this;
     }
 
     setCellLetter(rowIndex: number, columnIndex: number, letter: string): CrosswordState {
         this.grid.setCellLetter(rowIndex, columnIndex, letter);
-        this.clues.syncToGrid(this.grid.findAnswers());
+        this.syncCluesAndGrid();
         return this;
     }
 
     sizeGrid(newSize: number): CrosswordState {
         this.grid.sizeGrid(newSize);
+        this.syncCluesAndGrid();
+        return this;
+    }
+
+    syncCluesAndGrid(): CrosswordState {
         this.clues.syncToGrid(this.grid.findAnswers());
         return this;
     }

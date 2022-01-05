@@ -1,33 +1,37 @@
 <script lang="ts">
-    import type { ClueState } from "../modules/ClueState";
+    import type { CrosswordState } from "../modules/CrosswordState";
 
-    export let state: ClueState;
+    export let state: CrosswordState;
+
+    function syncWithGrid() {
+        state = state.syncCluesAndGrid();
+    }
 </script>
 
 <div class="content-block">
     <h2>Clues and Answers</h2>
     <h3>Across</h3>
-    {#each state.acrossClues as clueAndAnswer, index}
+    {#each state.clues.acrossClues as clueAndAnswer, index}
         <div class="clue-input">
             <span>{clueAndAnswer.answerPosition.number}</span><span>{clueAndAnswer.answerPosition.answer}</span><span></span>
             <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} />
-            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} />
+            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} on:blur={syncWithGrid} />
         </div>
     {/each}
     <h3>Down</h3>
-    {#each state.downClues as clueAndAnswer, index}
+    {#each state.clues.downClues as clueAndAnswer, index}
         <div class="clue-input">
             <span>{clueAndAnswer.answerPosition.number}</span><span>{clueAndAnswer.answerPosition.answer}</span><span></span>
             <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} />
-            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} />
+            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} on:blur={syncWithGrid} />
         </div>
     {/each}
     <h3>Unknown</h3>
-    {#each state.unknownClues as clueAndAnswer, index}
+    {#each state.clues.unknownClues as clueAndAnswer, index}
         <div class="clue-input">
             <span>???</span><span>???</span><span></span>
             <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} />
-            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} />
+            <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} on:blur={syncWithGrid} />
         </div>
     {/each}
 </div>
