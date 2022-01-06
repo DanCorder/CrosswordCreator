@@ -106,7 +106,7 @@ export class GridState {
 
                 if ((columnIndex < size - 1 && cells[rowIndex][columnIndex + 1].isWhite)
                     && (columnIndex === 0 || !cells[rowIndex][columnIndex - 1].isWhite)) {
-                    let acrossAnswer = cell.answerLetter;
+                    let acrossAnswer = !cell.answerLetter ? "_" : cell.answerLetter;
                     for (let columnCursor = columnIndex + 1; columnCursor < size; columnCursor++) {
                         const cursorCell = cells[rowIndex][columnCursor];
                         if (!cursorCell.isWhite) {
@@ -129,7 +129,7 @@ export class GridState {
                 }
                 if ((rowIndex < size - 1 && cells[rowIndex + 1][columnIndex].isWhite)
                     && (rowIndex === 0 || !cells[rowIndex - 1][columnIndex].isWhite)) {
-                    let downAnswer = cell.answerLetter;
+                    let downAnswer = !cell.answerLetter ? "_" : cell.answerLetter;;
                     for (let rowCursor = rowIndex + 1; rowCursor < size; rowCursor++) {
                         const cursorCell = cells[rowCursor][columnIndex];
                         if (!cursorCell.isWhite) {
