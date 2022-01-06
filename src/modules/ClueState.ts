@@ -4,24 +4,24 @@ import { ClueAndAnswer } from "./ClueAndAnswer";
 export class ClueState {
     acrossClues: ClueAndAnswer[] = [];
     downClues: ClueAndAnswer[] = [];
-    unknownClues: ClueAndAnswer[] = [];
+    unassignedClues: ClueAndAnswer[] = [];
 
     constructor(data: ReturnType<ClueState["toObject"]> = null) {
         if (!!data) {
-            data.across.forEach(clueAndAnswerObject =>
+            data.a.forEach(clueAndAnswerObject =>
                 this.acrossClues.push(new ClueAndAnswer(clueAndAnswerObject)));
-            data.down.forEach(clueAndAnswerObject =>
+            data.d.forEach(clueAndAnswerObject =>
                 this.downClues.push(new ClueAndAnswer(clueAndAnswerObject)));
-            data.unknown.forEach(clueAndAnswerObject =>
-                this.unknownClues.push(new ClueAndAnswer(clueAndAnswerObject)));
+            data.u.forEach(clueAndAnswerObject =>
+                this.unassignedClues.push(new ClueAndAnswer(clueAndAnswerObject)));
         }
     }
 
     toObject() {
         return {
-            across: this.acrossClues.map(ca => ca.toObject()),
-            down: this.downClues.map(ca => ca.toObject()),
-            unknown: this.unknownClues.map(ca => ca.toObject())
+            a: this.acrossClues.map(ca => ca.toObject()),
+            d: this.downClues.map(ca => ca.toObject()),
+            u: this.unassignedClues.map(ca => ca.toObject())
         };
     }
 
@@ -31,20 +31,20 @@ export class ClueState {
 
         const newAcross: ClueAndAnswer[] = [];
         const newDown: ClueAndAnswer[] = [];
-        const newUnkown: ClueAndAnswer[] = [...this.unknownClues];
+        const newUnassigned: ClueAndAnswer[] = [...this.unassignedClues];
 
         gridAcross.forEach(ga => this.updateClues(ga, this.acrossClues, newAcross));
-        newUnkown.push(...this.acrossClues);
+        newUnassigned.push(...this.acrossClues);
 
         gridDown.forEach(ga => this.updateClues(ga, this.downClues, newDown));
-        newUnkown.push(...this.downClues);
+        newUnassigned.push(...this.downClues);
 
-        newUnkown.forEach(ca => { ca.answerPosition = null });
+        newUnassigned.forEach(ca => { ca.answerPosition = null });
 
         this.acrossClues = newAcross;
         this.downClues = newDown;
         // Remove empty clues
-        this.unknownClues = newUnkown.filter(ca => ca.clue.trim() !== "");;
+        this.unassignedClues = newUnassigned.filter(ca => ca.clue.trim() !== "");;
     }
 
     private updateClues(gridAnswer: GridAnswer, existingClues: ClueAndAnswer[], newClues: ClueAndAnswer[]) {
