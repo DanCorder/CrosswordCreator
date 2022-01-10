@@ -7,9 +7,12 @@
     import Anagrams from './components/Anagrams.svelte';
     import ClueInputs from "./components/ClueInputs.svelte";
     import ClueDisplay from "./components/ClueDisplay.svelte";
+    import { GridStateStore } from "./modules/GridStateStore";
 
     let wordList: WordList = null;
     let state = new CrosswordState();
+    const gridStore = GridStateStore;
+    gridStore.set(state.grid);
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
@@ -41,7 +44,8 @@
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
         file.text().then(text => {
-            state = new CrosswordState(text);
+            state = new CrosswordState(text); // qq:DCC do we still need CrosswordState?
+            gridStore.set(state.grid);
         })
         .catch(reason => alert("Upload failed: " + reason));
     }
@@ -65,7 +69,7 @@
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid bind:state="{state}" />
+    <Grid />
 
     <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
 

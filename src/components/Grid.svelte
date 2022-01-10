@@ -1,10 +1,8 @@
 <script lang="ts">
     import { beforeUpdate } from 'svelte';
-    import type { CrosswordState } from "../modules/CrosswordState";
+    import { GridStateStore } from "../modules/GridStateStore";
 
-    export let state:CrosswordState;
-
-    $: gridSizeInput = state.grid.size;
+    $: gridSizeInput = $GridStateStore.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
@@ -18,7 +16,7 @@
 	});
 
     function initialiseCells() {
-        for (let i = 0; i < state.grid.size; i++) {
+        for (let i = 0; i < $GridStateStore.size; i++) {
             cells.push([])
         }
     }
@@ -36,34 +34,34 @@
         event.preventDefault();
         switch (event.key) {
             case " ":
-                state = state.toggleCell(rowIndex, columnIndex);
+                GridStateStore.toggleCellX(rowIndex, columnIndex);
                 break;
             case "Backspace":
             case "Delete":
-                state = state.setCellLetter(rowIndex, columnIndex, "");
+                GridStateStore.setCellLetter(rowIndex, columnIndex, "");
                 break;
             case "ArrowUp":
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
-                currentCellRow = Math.min(state.grid.size - 1, currentCellRow + 1);
+                currentCellRow = Math.min($GridStateStore.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
-                currentCellColumn = Math.min(state.grid.size - 1, currentCellColumn + 1);
+                currentCellColumn = Math.min($GridStateStore.size - 1, currentCellColumn + 1);
                 break;
             default:
                 if (event.key.match(/^[a-z]$/i)) {
-                    state = state.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
+                    GridStateStore.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
                 }
         }
         cells[currentCellRow][currentCellColumn].focus();
     }
 
     function sizeChangeHandler() {
-        state = state.sizeGrid(gridSizeInput);
+        GridStateStore.sizeGrid(gridSizeInput);
         currentCellRow = Math.min(currentCellRow, gridSizeInput - 1);
         currentCellColumn = Math.min(currentCellColumn, gridSizeInput - 1);
     }
@@ -98,7 +96,7 @@
     </p>
     <table class="grid">
         <tbody>
-            {#each state.grid.cells as row, rowIndex}
+            {#each $GridStateStore.cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
                         <td tabindex="0"

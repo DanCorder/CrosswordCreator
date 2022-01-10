@@ -14,24 +14,6 @@ export class CrosswordState {
         }
     }
 
-    toggleCell(rowIndex: number, columnIndex: number): CrosswordState {
-        this.grid.toggleCell(rowIndex, columnIndex);
-        this.syncCluesAndGrid();
-        return this;
-    }
-
-    setCellLetter(rowIndex: number, columnIndex: number, letter: string): CrosswordState {
-        this.grid.setCellLetter(rowIndex, columnIndex, letter);
-        this.syncCluesAndGrid();
-        return this;
-    }
-
-    sizeGrid(newSize: number): CrosswordState {
-        this.grid.sizeGrid(newSize);
-        this.syncCluesAndGrid();
-        return this;
-    }
-
     syncCluesAndGrid(): CrosswordState {
         this.clues.syncToGrid(this.grid.findAnswers());
         return this;
