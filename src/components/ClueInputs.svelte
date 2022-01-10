@@ -54,8 +54,7 @@ import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     <h3>Unassigned</h3>
     {#each state.clues.unassignedClues as clueAndAnswer, index}
         <div class="clue-input">
-            <span>???</span><span>???</span><span></span>
-            <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} />
+            <label for="clueText_{index}">Clue:</label><textarea id="clueText_{index}" bind:value={clueAndAnswer.clue} /><br/>
             <label for="answer_{index}">Answer:</label><input id="answer_{index}" bind:value={clueAndAnswer.answer} on:blur={syncWithGrid} />
         </div>
     {/each}
