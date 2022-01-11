@@ -51,7 +51,7 @@ export class GridState {
         return this;
     }
 
-    setAnswer(row: number, column: number, direction: "a"|"d", answer: string ) {
+    setLetters(row: number, column: number, direction: "a"|"d", answer: string ) {
         const getNextCell = direction === "a"
             ? (row: number, column: number) => { return { row, column: (column + 1) } }
             : (row: number, column: number) => { return { row: (row + 1), column } };

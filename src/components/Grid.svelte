@@ -1,10 +1,11 @@
 <script lang="ts">
     import { beforeUpdate } from 'svelte';
-    import type { CrosswordState } from "../modules/CrosswordState";
+    import type { GridState } from "../modules/GridState";
+    import { CrosswordStateStore } from "../modules/CrosswordStateStore";
 
-    export let state:CrosswordState;
+    export let state:GridState;
 
-    $: gridSizeInput = state.grid.size;
+    $: gridSizeInput = state.size;
     let hideLetters = false;
     let currentCellRow: number = null;
     let currentCellColumn: number = null;
@@ -18,7 +19,7 @@
 	});
 
     function initialiseCells() {
-        for (let i = 0; i < state.grid.size; i++) {
+        for (let i = 0; i < state.size; i++) {
             cells.push([])
         }
     }
@@ -36,34 +37,34 @@
         event.preventDefault();
         switch (event.key) {
             case " ":
-                state = state.toggleCell(rowIndex, columnIndex);
+                CrosswordStateStore.toggleCell(rowIndex, columnIndex);
                 break;
             case "Backspace":
             case "Delete":
-                state = state.setCellLetter(rowIndex, columnIndex, "");
+                CrosswordStateStore.setCellLetter(rowIndex, columnIndex, "");
                 break;
             case "ArrowUp":
                 currentCellRow = Math.max(0, currentCellRow - 1);
                 break;
             case "ArrowDown":
-                currentCellRow = Math.min(state.grid.size - 1, currentCellRow + 1);
+                currentCellRow = Math.min(state.size - 1, currentCellRow + 1);
                 break;
             case "ArrowLeft":
                 currentCellColumn = Math.max(0, currentCellColumn - 1);
                 break;
             case "ArrowRight":
-                currentCellColumn = Math.min(state.grid.size - 1, currentCellColumn + 1);
+                currentCellColumn = Math.min(state.size - 1, currentCellColumn + 1);
                 break;
             default:
                 if (event.key.match(/^[a-z]$/i)) {
-                    state = state.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
+                    CrosswordStateStore.setCellLetter(rowIndex, columnIndex, event.key.toUpperCase());
                 }
         }
         cells[currentCellRow][currentCellColumn].focus();
     }
 
     function sizeChangeHandler() {
-        state = state.sizeGrid(gridSizeInput);
+        CrosswordStateStore.sizeGrid(gridSizeInput);
         currentCellRow = Math.min(currentCellRow, gridSizeInput - 1);
         currentCellColumn = Math.min(currentCellColumn, gridSizeInput - 1);
     }
@@ -98,7 +99,7 @@
     </p>
     <table class="grid">
         <tbody>
-            {#each state.grid.cells as row, rowIndex}
+            {#each state.cells as row, rowIndex}
                 <tr>
                     {#each row as cell, columnIndex}
                         <td tabindex="0"

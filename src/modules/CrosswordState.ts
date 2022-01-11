@@ -36,8 +36,8 @@ export class CrosswordState {
         return this;
     }
 
-    addAnswerToGrid(row: number, column: number, direction: "a"|"d", answer: string ): CrosswordState {
-        this.grid.setAnswer(row, column, direction, answer);
+    setGridLetters(row: number, column: number, direction: "a"|"d", answer: string ): CrosswordState {
+        this.grid.setLetters(row, column, direction, answer);
         this.syncCluesAndGrid();
         return this;
     }

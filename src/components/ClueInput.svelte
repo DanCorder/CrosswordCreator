@@ -1,9 +1,8 @@
 <script lang="ts">
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
-    import type { CrosswordState } from "../modules/CrosswordState";
+    import { CrosswordStateStore } from "../modules/CrosswordStateStore";
 
     export let state: ClueAndAnswer;
-    export let crosswordState: CrosswordState;
 
     function showAddToGridButton(state: ClueAndAnswer): boolean {
         return state.answerPosition.answer.toLowerCase() !== state.answer.toLowerCase() &&
@@ -15,10 +14,10 @@
     {state.answerPosition.number}<br/>
     Grid answer: {state.answerPosition.answer}<br/>
     <label>Clue:<textarea bind:value={state.clue} /></label><br/>
-    <label>Answer:<input bind:value={state.answer} on:blur="{() => crosswordState = crosswordState.syncCluesAndGrid()}" /></label><br/>
+    <label>Answer:<input bind:value={state.answer} on:blur="{() => CrosswordStateStore.syncCluesAndGrid()}" /></label><br/>
     {#if showAddToGridButton(state)}
         <button on:click="{() =>
-            crosswordState = crosswordState.addAnswerToGrid(
+            CrosswordStateStore.setGridLetters(
                 state.answerPosition.row,
                 state.answerPosition.column,
                 state.answerPosition.direction,
