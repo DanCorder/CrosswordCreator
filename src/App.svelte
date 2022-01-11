@@ -69,7 +69,7 @@
 
     <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
 
-    <ClueInputs bind:state="{state}" />
+    <ClueInputs state="{state.clues}" bind:crosswordState="{state}" />
 
     <WordFit {wordList} />
 

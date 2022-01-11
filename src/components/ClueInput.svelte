@@ -1,26 +1,28 @@
 <script lang="ts">
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
+    import type { CrosswordState } from "../modules/CrosswordState";
 
-    export let clueAndAnswer: ClueAndAnswer;
+    export let state: ClueAndAnswer;
+    export let crosswordState: CrosswordState;
 
-    function showAddToGridButton(clueAndAnswer: ClueAndAnswer): boolean {
-        return clueAndAnswer.answerPosition.answer.toLowerCase() !== clueAndAnswer.answer.toLowerCase() &&
-            clueAndAnswer.answerPosition.matchesAnswer(clueAndAnswer.answer);
+    function showAddToGridButton(state: ClueAndAnswer): boolean {
+        return state.answerPosition.answer.toLowerCase() !== state.answer.toLowerCase() &&
+            state.answerPosition.matchesAnswer(state.answer);
     }
 </script>
 
 <div class="clue-input">
-    {clueAndAnswer.answerPosition.number}<br/>
-    Grid answer: {clueAndAnswer.answerPosition.answer}<br/>
-    <label>Clue:<textarea bind:value={clueAndAnswer.clue} /></label><br/>
-    <label>Answer:<input bind:value={clueAndAnswer.answer} on:blur="{syncWithGrid}" /></label><br/>
-    {#if showAddToGridButton(clueAndAnswer)}
+    {state.answerPosition.number}<br/>
+    Grid answer: {state.answerPosition.answer}<br/>
+    <label>Clue:<textarea bind:value={state.clue} /></label><br/>
+    <label>Answer:<input bind:value={state.answer} on:blur="{() => crosswordState = crosswordState.syncCluesAndGrid()}" /></label><br/>
+    {#if showAddToGridButton(state)}
         <button on:click="{() =>
-            state = state.addAnswerToGrid(
-                clueAndAnswer.answerPosition.row,
-                clueAndAnswer.answerPosition.column,
-                clueAndAnswer.answerPosition.direction,
-                clueAndAnswer.answer)}">Add to grid</button>
+            crosswordState = crosswordState.addAnswerToGrid(
+                state.answerPosition.row,
+                state.answerPosition.column,
+                state.answerPosition.direction,
+                state.answer)}">Add to grid</button>
     {/if}
 </div>
 
