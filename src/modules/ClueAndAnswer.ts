@@ -9,7 +9,7 @@ export class ClueAndAnswer {
         if (!!object) {
             this.clue = object.c;
             this.answer = object.a;
-            this.answerPosition = new GridAnswer(object.p);
+            this.answerPosition = object.p == null ? null : new GridAnswer(object.p);
         }
     }
 
@@ -17,7 +17,7 @@ export class ClueAndAnswer {
         return {
             c: this.clue,
             a: this.answer,
-            p: this.answerPosition.toObject()
+            p: this.answerPosition === null ? null : this.answerPosition.toObject()
         }
     }
 
