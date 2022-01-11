@@ -14,6 +14,10 @@ export class CrosswordState {
         }
     }
 
+    serialize(): string {
+        return JSON.stringify(this.toObject());
+    }
+
     toggleCell(rowIndex: number, columnIndex: number): CrosswordState {
         this.grid.toggleCell(rowIndex, columnIndex);
         this.syncCluesAndGrid();
@@ -32,19 +36,22 @@ export class CrosswordState {
         return this;
     }
 
-    syncCluesAndGrid(): CrosswordState {
-        this.clues.syncToGrid(this.grid.findAnswers());
-        return this;
-    }
-
-    addAnswerToGrid(row: number, column: number, direction: "a"|"d", answer: string ) {
+    addAnswerToGrid(row: number, column: number, direction: "a"|"d", answer: string ): CrosswordState {
         this.grid.setAnswer(row, column, direction, answer);
         this.syncCluesAndGrid();
         return this;
     }
 
-    serialize(): string {
-        return JSON.stringify(this.toObject());
+    syncCluesAndGrid(): CrosswordState {
+        this.clues.syncToGrid(this.grid.findAnswers());
+        return this;
+    }
+
+    private toObject() {
+        return {
+            clues: this.clues.toObject(),
+            grid: this.grid.toObject()
+        };
     }
 
     private hydrate(jsonData: string): CrosswordState {
@@ -54,12 +61,5 @@ export class CrosswordState {
         this.grid = new GridState(data.grid);
 
         return this;
-    }
-
-    private toObject() {
-        return {
-            clues: this.clues.toObject(),
-            grid: this.grid.toObject()
-        };
     }
 }

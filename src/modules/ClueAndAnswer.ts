@@ -1,9 +1,25 @@
 import { GridAnswer } from "./GridAnswer";
 
 export class ClueAndAnswer {
-    clue:string = "";
-    answer:string = "";
+    clue: string = "";
+    answer: string = "";
     answerPosition: GridAnswer = null;
+
+    constructor(object: ReturnType<ClueAndAnswer["toObject"]> = null) {
+        if (!!object) {
+            this.clue = object.c;
+            this.answer = object.a;
+            this.answerPosition = new GridAnswer(object.p);
+        }
+    }
+
+    toObject() {
+        return {
+            c: this.clue,
+            a: this.answer,
+            p: this.answerPosition.toObject()
+        }
+    }
 
     get answerLength(): string {
         const parts: (number|string)[] = [];
@@ -29,21 +45,5 @@ export class ClueAndAnswer {
 
     get strippedAnswer() {
         return this.answer.replaceAll(/[- ]/g, "");
-    }
-
-    constructor(object: ReturnType<ClueAndAnswer["toObject"]> = null) {
-        if (!!object) {
-            this.clue = object.c;
-            this.answer = object.a;
-            this.answerPosition = new GridAnswer(object.p);
-        }
-    }
-
-    toObject() {
-        return {
-            c: this.clue,
-            a: this.answer,
-            p: this.answerPosition.toObject()
-        }
     }
 }

@@ -44,7 +44,7 @@ export class ClueState {
         this.acrossClues = newAcross;
         this.downClues = newDown;
         // Remove empty clues
-        this.unassignedClues = newUnassigned.filter(ca => ca.clue.trim() !== "");;
+        this.unassignedClues = newUnassigned.filter(ca => ca.clue.trim() !== "");
     }
 
     private updateClues(gridAnswer: GridAnswer, existingClues: ClueAndAnswer[], newClues: ClueAndAnswer[]) {

@@ -5,16 +5,6 @@ export class GridAnswer {
     public direction: "a"|"d";
     public answer: string;
 
-    toObject() {
-        return {
-            r: this.row,
-            c: this.column,
-            n: this.number,
-            d: this.direction,
-            a: this.answer
-        }
-    }
-
     constructor(data: ReturnType<GridAnswer["toObject"]> = null) {
         if (!!data) {
             this.row = data.r;
@@ -22,6 +12,16 @@ export class GridAnswer {
             this.number = data.n;
             this.direction = data.d;
             this.answer = data.a;
+        }
+    }
+
+    toObject() {
+        return {
+            r: this.row,
+            c: this.column,
+            n: this.number,
+            d: this.direction,
+            a: this.answer
         }
     }
 
