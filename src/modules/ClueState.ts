@@ -66,6 +66,6 @@ export class ClueState {
                 return false;
             }
 
-        return gridAnswer.matchesAnswer(clueAndAnswer.answer);
+        return clueAndAnswer.answer.trim() === "" || gridAnswer.matchesAnswer(clueAndAnswer.answer);
     }
 }
