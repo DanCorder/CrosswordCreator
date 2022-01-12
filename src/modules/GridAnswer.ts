@@ -1,9 +1,11 @@
+export const wildcardChar = "_";
+
 export class GridAnswer {
     public row: number;
     public column: number;
     public number: number;
     public direction: "a"|"d";
-    public answer: string;
+    public letters: string;
 
     constructor(data: ReturnType<GridAnswer["toObject"]> = null) {
         if (!!data) {
@@ -11,7 +13,7 @@ export class GridAnswer {
             this.column = data.c;
             this.number = data.n;
             this.direction = data.d;
-            this.answer = data.a;
+            this.letters = data.a;
         }
     }
 
@@ -21,19 +23,19 @@ export class GridAnswer {
             c: this.column,
             n: this.number,
             d: this.direction,
-            a: this.answer
+            a: this.letters
         }
     }
 
     matchesAnswer(answer: string): boolean {
-        if (this.answer.length !== answer.length) {
+        if (this.letters.length !== answer.length) {
             return false;
         }
 
         let lettersMatch = true;
 
-        [...this.answer].forEach((char, index) => {
-            if (char !== "_" && char.toLowerCase() !== answer[index].toLowerCase()) {
+        [...this.letters].forEach((letter, index) => {
+            if (letter !== wildcardChar && letter.toLowerCase() !== answer[index].toLowerCase()) {
                 lettersMatch = false;
             }
         });

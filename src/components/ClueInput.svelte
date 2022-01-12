@@ -5,14 +5,14 @@
     export let state: ClueAndAnswer;
 
     function showAddToGridButton(state: ClueAndAnswer): boolean {
-        return state.answerPosition.answer.toLowerCase() !== state.answer.toLowerCase() &&
+        return state.answerPosition.letters.toLowerCase() !== state.answer.toLowerCase() &&
             state.answerPosition.matchesAnswer(state.answer);
     }
 </script>
 
 <div class="clue-input">
     {state.answerPosition.number}<br/>
-    Grid answer: {state.answerPosition.answer}<br/>
+    Grid answer: {state.answerPosition.letters}<br/>
     <label>Clue:<textarea bind:value={state.clue} /></label><br/>
     <label>Answer:<input bind:value={state.answer} on:blur="{() => CrosswordStateStore.syncCluesAndGrid()}" /></label><br/>
     {#if showAddToGridButton(state)}

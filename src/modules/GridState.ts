@@ -1,4 +1,4 @@
-import { GridAnswer } from "./GridAnswer";
+import { GridAnswer, wildcardChar } from "./GridAnswer";
 import { GridCell } from "./GridCell";
 
 export class GridState {
@@ -106,14 +106,14 @@ export class GridState {
 
                 if ((columnIndex < size - 1 && cells[rowIndex][columnIndex + 1].isWhite)
                     && (columnIndex === 0 || !cells[rowIndex][columnIndex - 1].isWhite)) {
-                    let acrossAnswer = !cell.answerLetter ? "_" : cell.answerLetter;
+                    let acrossAnswer = !cell.answerLetter ? wildcardChar : cell.answerLetter;
                     for (let columnCursor = columnIndex + 1; columnCursor < size; columnCursor++) {
                         const cursorCell = cells[rowIndex][columnCursor];
                         if (!cursorCell.isWhite) {
                             break;
                         }
                         if (!cursorCell.answerLetter) {
-                            acrossAnswer += "_";
+                            acrossAnswer += wildcardChar;
                         }
                         else {
                             acrossAnswer += cursorCell.answerLetter;
@@ -124,19 +124,19 @@ export class GridState {
                     newAnswer.column = columnIndex;
                     newAnswer.number = cell.cellNumber;
                     newAnswer.direction = "a";
-                    newAnswer.answer = acrossAnswer;
+                    newAnswer.letters = acrossAnswer;
                     answers.push(newAnswer);
                 }
                 if ((rowIndex < size - 1 && cells[rowIndex + 1][columnIndex].isWhite)
                     && (rowIndex === 0 || !cells[rowIndex - 1][columnIndex].isWhite)) {
-                    let downAnswer = !cell.answerLetter ? "_" : cell.answerLetter;;
+                    let downAnswer = !cell.answerLetter ? wildcardChar : cell.answerLetter;;
                     for (let rowCursor = rowIndex + 1; rowCursor < size; rowCursor++) {
                         const cursorCell = cells[rowCursor][columnIndex];
                         if (!cursorCell.isWhite) {
                             break;
                         }
                         if (!cursorCell.answerLetter) {
-                            downAnswer += "_";
+                            downAnswer += wildcardChar;
                         }
                         else {
                             downAnswer += cursorCell.answerLetter;
@@ -147,7 +147,7 @@ export class GridState {
                     newAnswer.column = columnIndex;
                     newAnswer.number = cell.cellNumber;
                     newAnswer.direction = "d";
-                    newAnswer.answer = downAnswer;
+                    newAnswer.letters = downAnswer;
                     answers.push(newAnswer);
                 }
             }
