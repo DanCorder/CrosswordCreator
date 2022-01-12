@@ -17,7 +17,8 @@ function createCrosswordStateStore() {
         sizeGrid: (newSize: number) =>
             update(g => g.sizeGrid(newSize)),
         syncCluesAndGrid: () =>
-            update(g => g.syncCluesAndGrid())
+            update(g => g.syncCluesAndGrid()),
+        touch: () => update(g => g)
 	};
 }
 

@@ -13,7 +13,7 @@
 <div class="clue-input">
     {state.answerPosition.number}<br/>
     Grid answer: {state.answerPosition.letters}<br/>
-    <label>Clue:<textarea bind:value={state.clue} /></label><br/>
+    <label>Clue:<textarea bind:value={state.clue} on:blur="{() => CrosswordStateStore.touch()}" /></label><br/>
     <label>Answer:<input bind:value={state.answer} on:blur="{() => CrosswordStateStore.syncCluesAndGrid()}" /></label><br/>
     {#if showAddToGridButton(state)}
         <button on:click="{() =>
