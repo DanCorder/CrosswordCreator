@@ -42,7 +42,22 @@ export class CrosswordState {
         return this;
     }
 
-    syncCluesAndGrid(): CrosswordState {
+    setClueText(clueNumber: number, direction: "a"|"d", clueText: string): CrosswordState {
+        const clues = direction === "a" ? this.clues.acrossClues : this.clues.downClues;
+        const clue = clues.find(c => c.answerPosition.number === clueNumber);
+        clue.clue = clueText;
+        return this;
+    }
+
+    setAnswerText(clueNumber: number, direction: "a"|"d", answerText: string): CrosswordState {
+        const clues = direction === "a" ? this.clues.acrossClues : this.clues.downClues;
+        const clue = clues.find(c => c.answerPosition.number === clueNumber);
+        clue.answer = answerText
+        this.syncCluesAndGrid();
+        return this;
+    }
+
+    private syncCluesAndGrid(): CrosswordState {
         this.clues.syncToGrid(this.grid.findAnswers());
         return this;
     }
