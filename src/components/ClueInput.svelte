@@ -8,15 +8,29 @@
         return state.answerPosition.letters.toLowerCase() !== state.answer.toLowerCase() &&
             state.answerPosition.matchesAnswer(state.answer);
     }
+
+    function setClueText() {
+        CrosswordStateStore.setClueText(
+            state.answerPosition.number,
+            state.answerPosition.direction,
+            state.clue);
+    }
+
+    function setAnswerText() {
+        CrosswordStateStore.setAnswerText(
+            state.answerPosition.number,
+            state.answerPosition.direction,
+            state.answer);
+    }
 </script>
 
 <div class="clue-container">
     <div class="clue-row">
         {state.answerPosition.number}
-        <textarea bind:value={state.clue} on:blur="{() => CrosswordStateStore.setClueText(state.answerPosition.number, state.answerPosition.direction, state.clue)}" />
+        <textarea bind:value={state.clue} on:blur={setClueText} />
     </div>
     <div class="clue-row">
-        <label>Answer: <input bind:value={state.answer} on:blur="{() => CrosswordStateStore.setAnswerText(state.answerPosition.number, state.answerPosition.direction, state.answer)}" /></label>
+        <label>Answer: <input bind:value={state.answer} on:blur={setAnswerText} /></label>
         {#if showAddToGridButton(state)}
             <button on:click="{() =>
                 CrosswordStateStore.setGridLetters(
