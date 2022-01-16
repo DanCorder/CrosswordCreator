@@ -67,7 +67,7 @@
 
     <Grid state="{$CrosswordStateStore.grid}" />
 
-    <ClueDisplay bind:gridState="{$CrosswordStateStore.grid}" bind:clueState="{$CrosswordStateStore.clues}" />
+    <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
 
     <ClueInputs state="{$CrosswordStateStore.clues}" />
 
