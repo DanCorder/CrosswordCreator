@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
     import { CrosswordState } from "./modules/CrosswordState";
-	import Credits from './components/Credits.svelte';
+    import { CrosswordStateStore } from "./modules/CrosswordStateStore";
+    import Credits from './components/Credits.svelte';
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
@@ -9,7 +10,6 @@
     import ClueDisplay from "./components/ClueDisplay.svelte";
 
     let wordList: WordList = null;
-    let state = new CrosswordState();
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
@@ -19,7 +19,7 @@
 
     function save() {
         const filename = "crossword.json";
-        const data = state.serialize();
+        const data = $CrosswordStateStore.serialize();
         const blob = new Blob([data], {type: 'application/json;charset=utf-8;'});
 
         if(window.navigator && window.navigator.msSaveBlob) {
@@ -41,7 +41,7 @@
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
         file.text().then(text => {
-            state = state.hydrate(text);
+            CrosswordStateStore.set(new CrosswordState(text));
         })
         .catch(reason => alert("Upload failed: " + reason));
     }
@@ -65,11 +65,11 @@
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid bind:state="{state.grid}" />
+    <Grid state="{$CrosswordStateStore.grid}" />
 
-    <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
+    <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
 
-    <ClueInputs bind:state="{state.clues}" />
+    <ClueInputs state="{$CrosswordStateStore.clues}" />
 
     <WordFit {wordList} />
 
