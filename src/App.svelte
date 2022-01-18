@@ -61,19 +61,28 @@
 
     <div class="content-block">
         <h2>Save / Load Data</h2>
+        This site is still under active development so saved files may become incompatible without warning. Use this at your own risk.<br/>
         Download current grid and clues as file: <button on:click="{save}">Save</button><br/>
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid state="{$CrosswordStateStore.grid}" />
+    <div class="tools">
+        <div class="left-column">
+            <div class="content-block grid-and-clues">
+                <Grid state="{$CrosswordStateStore.grid}" />
+                <br/>
+                <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
+            </div>
 
-    <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
+            <WordFit {wordList} />
+        </div>
 
-    <ClueInputs state="{$CrosswordStateStore.clues}" />
+        <div class="right-column">
+            <ClueInputs state="{$CrosswordStateStore.clues}" />
 
-    <WordFit {wordList} />
-
-    <Anagrams {wordList} />
+            <Anagrams {wordList} />
+        </div>
+    </div>
 
     <Credits />
 </div>
@@ -81,7 +90,7 @@
 <style lang="scss">
     :global(.content-block) {
         background-color: $text-background-colour;
-        margin: $content-margin calc($content-margin / 2);
+        margin: $content-margin;
         padding: 20px;
         border-radius: 4px;
         box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
@@ -92,5 +101,21 @@
         &:visited {
             color: $medium-colour;
         }
+    }
+
+    .tools {
+        display: flex;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        width: 810px;
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        min-width: 380px;
     }
 </style>

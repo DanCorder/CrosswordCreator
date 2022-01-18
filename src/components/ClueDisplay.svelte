@@ -4,7 +4,7 @@
     export let clueState: ClueState;
 </script>
 
-<div class="content-block clue-container">
+<div class="clue-container">
     <h2>Across</h2>
     <ul>
         {#each clueState.acrossClues as clue }

@@ -70,7 +70,7 @@
     }
 </script>
 
-<div class="content-block">
+<div>
     <h2>Grid</h2>
     <p>Click to select a cell. Type to enter letters, use space to toggle black/white, move with arrow keys. Clue numbers will update automatically.</p>
     <p>
