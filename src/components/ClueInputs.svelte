@@ -22,3 +22,10 @@
         <UnassignedClueInput state={clueAndAnswer} />
     {/each}
 </div>
+
+<style lang="scss">
+    h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+</style>

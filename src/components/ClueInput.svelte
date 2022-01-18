@@ -10,34 +10,48 @@
     }
 </script>
 
-<div class="clue-input">
-    {state.answerPosition.number}<br/>
-    Grid answer: {state.answerPosition.letters}<br/>
-    <label>Clue:<textarea bind:value={state.clue} on:blur="{() => CrosswordStateStore.setClueText(state.answerPosition.number, state.answerPosition.direction, state.clue)}" /></label><br/>
-    <label>Answer:<input bind:value={state.answer} on:blur="{() => CrosswordStateStore.setAnswerText(state.answerPosition.number, state.answerPosition.direction, state.answer)}" /></label><br/>
-    {#if showAddToGridButton(state)}
-        <button on:click="{() =>
-            CrosswordStateStore.setGridLetters(
-                state.answerPosition.row,
-                state.answerPosition.column,
-                state.answerPosition.direction,
-                state.answer)}">Add to grid</button>
-    {/if}
+<div class="clue-container">
+    <div class="clue-row">
+        {state.answerPosition.number}
+        <textarea bind:value={state.clue} on:blur="{() => CrosswordStateStore.setClueText(state.answerPosition.number, state.answerPosition.direction, state.clue)}" />
+    </div>
+    <div class="clue-row">
+        <label>Answer: <input bind:value={state.answer} on:blur="{() => CrosswordStateStore.setAnswerText(state.answerPosition.number, state.answerPosition.direction, state.answer)}" /></label>
+        {#if showAddToGridButton(state)}
+            <button on:click="{() =>
+                CrosswordStateStore.setGridLetters(
+                    state.answerPosition.row,
+                    state.answerPosition.column,
+                    state.answerPosition.direction,
+                    state.answer)}">Add to grid</button>
+        {/if}
+    </div>
+    <div class="clue-row">
+        Grid letters: {state.answerPosition.letters}<br/>
+    </div>
 </div>
 
 <style lang="scss">
-    // qq:DCC sort out styling
-    $clue-width: 400px;
-    $answer-width: 15em;
-
-    .clue-input {
+    .clue-container {
+        font-size: 12px;
         margin-bottom: 1em;
+        width: 320px;
     }
-    textarea {
-        height: 55px;
-        width: $clue-width;
+
+    .clue-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        textarea {
+            height: 55px;
+            width: 300px;
+        }
+            
+        input {
+            width: 170px;
+        }
     }
-    input {
-        width: $answer-width;
-    }
+
+
 </style>
