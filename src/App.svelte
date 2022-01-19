@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { WordList } from "./modules/WordList";
     import { CrosswordState } from "./modules/CrosswordState";
-	import Credits from './components/Credits.svelte';
+    import { CrosswordStateStore } from "./modules/CrosswordStateStore";
+    import Credits from './components/Credits.svelte';
     import Grid from './components/Grid.svelte';
     import WordFit from './components/WordFit.svelte';
     import Anagrams from './components/Anagrams.svelte';
@@ -9,7 +10,6 @@
     import ClueDisplay from "./components/ClueDisplay.svelte";
 
     let wordList: WordList = null;
-    let state = new CrosswordState();
 
     fetch('assets/js/processedWordList.json')
         .then(response => response.json())
@@ -19,7 +19,7 @@
 
     function save() {
         const filename = "crossword.json";
-        const data = state.serialize();
+        const data = $CrosswordStateStore.serialize();
         const blob = new Blob([data], {type: 'application/json;charset=utf-8;'});
 
         if(window.navigator && window.navigator.msSaveBlob) {
@@ -41,7 +41,7 @@
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
         file.text().then(text => {
-            state = state.hydrate(text);
+            CrosswordStateStore.set(new CrosswordState(text));
         })
         .catch(reason => alert("Upload failed: " + reason));
     }
@@ -61,19 +61,28 @@
 
     <div class="content-block">
         <h2>Save / Load Data</h2>
+        This site is still under active development so saved files may become incompatible without warning. Use this at your own risk.<br/>
         Download current grid and clues as file: <button on:click="{save}">Save</button><br/>
         Load save file: <input type="file" id="file-selector" on:change="{upload}">
     </div>
 
-    <Grid bind:state="{state.grid}" />
+    <div class="tools">
+        <div class="left-column">
+            <div class="content-block grid-and-clues">
+                <Grid state="{$CrosswordStateStore.grid}" />
+                <br/>
+                <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
+            </div>
 
-    <ClueDisplay bind:gridState="{state.grid}" bind:clueState="{state.clues}" />
+            <WordFit {wordList} />
+        </div>
 
-    <ClueInputs bind:state="{state.clues}" />
+        <div class="right-column">
+            <ClueInputs state="{$CrosswordStateStore.clues}" />
 
-    <WordFit {wordList} />
-
-    <Anagrams {wordList} />
+            <Anagrams {wordList} />
+        </div>
+    </div>
 
     <Credits />
 </div>
@@ -81,7 +90,7 @@
 <style lang="scss">
     :global(.content-block) {
         background-color: $text-background-colour;
-        margin: $content-margin calc($content-margin / 2);
+        margin: $content-margin;
         padding: 20px;
         border-radius: 4px;
         box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
@@ -92,5 +101,21 @@
         &:visited {
             color: $medium-colour;
         }
+    }
+
+    .tools {
+        display: flex;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        width: 810px;
+    }
+
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        min-width: 380px;
     }
 </style>

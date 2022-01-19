@@ -1,26 +1,5 @@
-class GridCell {
-    isWhite = true;
-    cellNumber: number = null;
-    answerLetter: string = "";
-    acrossAnswer: string = "";
-    downAnswer: string = "";
-
-    constructor(object: ReturnType<GridCell["toObject"]> = null) {
-        if (!!object) {
-            this.isWhite = object.w;
-            this.cellNumber = object.n;
-            this.answerLetter = object.l;
-        }
-    }
-
-    toObject() {
-        return {
-            w: this.isWhite,
-            n: this.cellNumber,
-            l: this.answerLetter
-        }
-    }
-}
+import { GridAnswer, wildcardChar } from "./GridAnswer";
+import { GridCell } from "./GridCell";
 
 export class GridState {
     // Due to the way Svelte binds values we need to index cells by row then column (y then x).
@@ -52,7 +31,6 @@ export class GridState {
     toggleCell(rowIndex: number, columnIndex: number): GridState {
         this.cells[rowIndex][columnIndex].isWhite = !this.cells[rowIndex][columnIndex].isWhite;
         this.numberCells();
-        this.findAnswers();
         return this;
     }
 
@@ -64,14 +42,27 @@ export class GridState {
             throw "Can't set a letter on a black square";
         }
         this.cells[rowIndex][columnIndex].answerLetter = letter;
-        this.findAnswers();
         return this;
     }
 
     sizeGrid(newSize: number): GridState {
         this.resizeGrid(newSize);
         this.numberCells();
-        this.findAnswers();
+        return this;
+    }
+
+    setLetters(row: number, column: number, direction: "a"|"d", answer: string ) {
+        const getNextCell = direction === "a"
+            ? (row: number, column: number) => { return { row, column: (column + 1) } }
+            : (row: number, column: number) => { return { row: (row + 1), column } };
+
+        let currentCell = { row, column };
+
+        [...answer.toUpperCase()].forEach(letter => {
+            this.cells[currentCell.row][currentCell.column].answerLetter = letter;
+            currentCell = getNextCell(currentCell.row, currentCell.column);
+        })
+
         return this;
     }
 
@@ -102,50 +93,66 @@ export class GridState {
     }
 
     // This function depends on the cells already being numbered correctly.
-    private findAnswers() {
+    public findAnswers(): GridAnswer[] {
         const cells = this.cells;
         const size = cells.length;
+        const answers: GridAnswer[] = [];
         for (let rowIndex = 0; rowIndex < size; rowIndex++) {
             for (let columnIndex = 0; columnIndex < size; columnIndex++) {
                 const cell = cells[rowIndex][columnIndex];
-                if (!cell.cellNumber || !cell.answerLetter) {
+                if (!cell.cellNumber) {
                     continue;
                 }
-                
+
                 if ((columnIndex < size - 1 && cells[rowIndex][columnIndex + 1].isWhite)
                     && (columnIndex === 0 || !cells[rowIndex][columnIndex - 1].isWhite)) {
-                    let acrossAnswer = cell.answerLetter;
+                    let acrossAnswer = !cell.answerLetter ? wildcardChar : cell.answerLetter;
                     for (let columnCursor = columnIndex + 1; columnCursor < size; columnCursor++) {
                         const cursorCell = cells[rowIndex][columnCursor];
                         if (!cursorCell.isWhite) {
                             break;
                         }
                         if (!cursorCell.answerLetter) {
-                            acrossAnswer = "";
-                            break;
+                            acrossAnswer += wildcardChar;
                         }
-                        acrossAnswer += cursorCell.answerLetter;
+                        else {
+                            acrossAnswer += cursorCell.answerLetter;
+                        }
                     }
-                    cell.acrossAnswer = acrossAnswer;
+                    const newAnswer = new GridAnswer();
+                    newAnswer.row = rowIndex;
+                    newAnswer.column = columnIndex;
+                    newAnswer.number = cell.cellNumber;
+                    newAnswer.direction = "a";
+                    newAnswer.letters = acrossAnswer;
+                    answers.push(newAnswer);
                 }
                 if ((rowIndex < size - 1 && cells[rowIndex + 1][columnIndex].isWhite)
                     && (rowIndex === 0 || !cells[rowIndex - 1][columnIndex].isWhite)) {
-                    let downAnswer = cell.answerLetter;
+                    let downAnswer = !cell.answerLetter ? wildcardChar : cell.answerLetter;;
                     for (let rowCursor = rowIndex + 1; rowCursor < size; rowCursor++) {
                         const cursorCell = cells[rowCursor][columnIndex];
                         if (!cursorCell.isWhite) {
                             break;
                         }
                         if (!cursorCell.answerLetter) {
-                            downAnswer = "";
-                            break;
+                            downAnswer += wildcardChar;
                         }
-                        downAnswer += cursorCell.answerLetter;
+                        else {
+                            downAnswer += cursorCell.answerLetter;
+                        }
                     }
-                    cell.downAnswer = downAnswer;
+                    const newAnswer = new GridAnswer();
+                    newAnswer.row = rowIndex;
+                    newAnswer.column = columnIndex;
+                    newAnswer.number = cell.cellNumber;
+                    newAnswer.direction = "d";
+                    newAnswer.letters = downAnswer;
+                    answers.push(newAnswer);
                 }
             }
         }
+        return answers;
     }
 
     private numberCells() {
