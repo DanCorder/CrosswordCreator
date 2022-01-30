@@ -1,6 +1,6 @@
 // Make the crossword state available globally so we don't have to pass it down everywhere
 import { writable } from 'svelte/store';
-import type { AnswerPosition } from './AnswerPosition';
+import type { AnswerPosition } from './SharedTypes';
 import type { ClueAndAnswer } from './ClueAndAnswer';
 import { CrosswordState } from './CrosswordState';
 

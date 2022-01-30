@@ -1,6 +1,6 @@
 import type { GridAnswer } from "./GridAnswer";
 import { ClueAndAnswer } from "./ClueAndAnswer";
-import type { AnswerPosition } from "./AnswerPosition";
+import type { AnswerPosition } from "./SharedTypes";
 
 export class ClueState {
     acrossClues: ClueAndAnswer[] = [];

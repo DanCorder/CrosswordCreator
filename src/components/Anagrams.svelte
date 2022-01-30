@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { WordList } from "../modules/WordList";
+    import type { WordList } from "../modules/SharedTypes";
     import { AnagramList, AnagramResult, createAnagramList, findAllSingleWordAnagrams, findAnagrams } from "../modules/Anagramer";
     import Result from './AnagramResult.svelte';
 

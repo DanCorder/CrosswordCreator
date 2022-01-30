@@ -1,4 +1,4 @@
-import type { AnswerPosition } from "./AnswerPosition";
+import type { AnswerPosition } from "./SharedTypes";
 import type { ClueAndAnswer } from "./ClueAndAnswer";
 import { ClueState } from "./ClueState";
 import { GridState } from "./GridState";

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { WordList } from "../modules/WordList";
-    import { findMatchingWords } from "../modules/WordList";
+    import type { WordList } from "../modules/SharedTypes";
+    import { findMatchingWords } from "../modules/WordFit";
     import Result from "./WordResult.svelte";
 
     export let wordList: WordList;

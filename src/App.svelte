@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { WordList } from "./modules/WordList";
+    import type { WordList } from "./modules/SharedTypes";
     import { CrosswordState } from "./modules/CrosswordState";
     import { CrosswordStateStore } from "./modules/CrosswordStateStore";
     import Credits from './components/Credits.svelte';

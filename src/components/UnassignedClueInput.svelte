@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { AnswerPosition } from "../modules/AnswerPosition";
+    import type { AnswerPosition } from "../modules/SharedTypes";
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     import { CrosswordStateStore } from "../modules/CrosswordStateStore";
 

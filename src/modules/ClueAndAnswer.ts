@@ -1,4 +1,4 @@
-import type { AnswerPosition } from "./AnswerPosition";
+import type { AnswerPosition } from "./SharedTypes";
 import { GridAnswer } from "./GridAnswer";
 
 export class ClueAndAnswer {

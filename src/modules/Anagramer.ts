@@ -1,4 +1,4 @@
-import type { WordList } from "./WordList";
+import type { WordList } from "./SharedTypes"
 
 export class AnagramList {
     wordsByLength: AnagramListEntry[][];

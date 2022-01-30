@@ -1,4 +1,4 @@
-export type WordList = { [index: number]: { [word: string]: string[] } };
+import type { WordList } from "./SharedTypes";
 
 export function findMatchingWords(pattern: string, wordList: WordList) {
     let matches = [];

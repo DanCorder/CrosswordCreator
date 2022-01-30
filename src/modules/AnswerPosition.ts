@@ -1,1 +1,0 @@
-export type AnswerPosition = { number: number, direction: "a"|"d" };
