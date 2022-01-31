@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { WordList } from "../modules/SharedTypes";
     import { AnagramList, AnagramResult, createAnagramList, findAllSingleWordAnagrams, findAnagrams } from "../modules/Anagramer";
     import Result from './AnagramResult.svelte';
+    import { WordListStore } from "../modules/WordListStore";
 
-    export let wordList: WordList;
+    let wordList = $WordListStore;
     let anagramList: AnagramList;
     $: anagramList = !wordList ? null : createAnagramList(wordList);
 

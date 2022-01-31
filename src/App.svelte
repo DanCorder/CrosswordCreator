@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { WordList } from "./modules/SharedTypes";
     import { CrosswordState } from "./modules/CrosswordState";
     import { CrosswordStateStore } from "./modules/CrosswordStateStore";
     import Credits from './components/Credits.svelte';
@@ -8,14 +7,6 @@
     import Anagrams from './components/Anagrams.svelte';
     import ClueInputs from "./components/ClueInputs.svelte";
     import ClueDisplay from "./components/ClueDisplay.svelte";
-
-    let wordList: WordList = null;
-
-    fetch('assets/js/processedWordList.json')
-        .then(response => response.json())
-        .then(data => {
-            wordList = data;
-        });
 
     function save() {
         const filename = "crossword.json";
@@ -74,13 +65,13 @@
                 <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
             </div>
 
-            <WordFit {wordList} />
+            <WordFit />
         </div>
 
         <div class="right-column">
             <ClueInputs state="{$CrosswordStateStore.clues}" />
 
-            <Anagrams {wordList} />
+            <Anagrams />
         </div>
     </div>
 

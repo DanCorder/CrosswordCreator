@@ -1,19 +1,24 @@
 import type { WordList } from "./SharedTypes";
 
-export function findMatchingWords(pattern: string, wordList: WordList) {
-    let matches = [];
-    if (pattern === '') {
-        return matches;
-    }
+export class WordFit {
+    pattern: string;
+    matches: string[] = [];
 
-    const wordsOfSameLength = wordList[pattern.length];
-    const regex = new RegExp(pattern.replaceAll('.', '\\w').replaceAll(' ', '\\w'));
-
-    Object.keys(wordsOfSameLength).forEach(candidate => {
-        if (regex.test(candidate)) {
-            matches = matches.concat(wordsOfSameLength[candidate]);
+    findMatchingWords(wordList: WordList) {
+        this.matches = [];
+        if (this.pattern === '') {
+            return this;
         }
-    });
+    
+        const wordsOfSameLength = wordList[this.pattern.length];
+        const regex = new RegExp(this.pattern.toLowerCase().replaceAll('.', '\\w').replaceAll(' ', '\\w'));
+    
+        Object.keys(wordsOfSameLength).forEach(candidate => {
+            if (regex.test(candidate)) {
+                this.matches = this.matches.concat(wordsOfSameLength[candidate]);
+            }
+        });
 
-    return matches;
+        return this;
+    }
 }

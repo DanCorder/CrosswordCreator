@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     import { CrosswordStateStore } from "../modules/CrosswordStateStore";
+    import { wildcardChar } from "../modules/GridAnswer";
+    import { WordFitStore } from "../modules/WordFitStore";
 
     export let state: ClueAndAnswer;
 
@@ -27,7 +29,14 @@
         {/if}
     </div>
     <div class="clue-row">
-        Grid letters: {state.answerPosition.letters}<br/>
+        <span>Grid letters: {state.answerPosition.letters}</span>
+        {#if state.answerPosition.letters.split("").some(c => c === "_") 
+            && state.answerPosition.letters.split("").some(c => c !== "_") }
+            <button on:click="{() => {
+                $WordFitStore.pattern = state.answerPosition.letters.replaceAll(wildcardChar, ".");
+                WordFitStore.findWords();
+            }}">Find possibilities</button>
+        {/if}
     </div>
 </div>
 
@@ -47,7 +56,7 @@
             height: 55px;
             width: 300px;
         }
-            
+
         input {
             width: 170px;
         }
