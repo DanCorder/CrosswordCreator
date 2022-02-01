@@ -46,6 +46,11 @@ export class ClueState {
         this.sortClues();
     }
 
+    deleteClue(clue: ClueAndAnswer) {
+        const clueIndex = this.unassignedClues.indexOf(clue);
+        this.unassignedClues.splice(clueIndex, 1);
+    }
+
     syncToGrid(gridAnswers: GridAnswer[]) {
         const gridAcross = gridAnswers.filter(ga => ga.direction === "a");
         const gridDown = gridAnswers.filter(ga => ga.direction === "d");

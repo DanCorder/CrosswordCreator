@@ -27,6 +27,11 @@ export class CrosswordState {
         return this;
     }
 
+    deleteClue(clue: ClueAndAnswer): CrosswordState {
+        this.clues.deleteClue(clue);
+        return this;
+    }
+
     refresh() {
         this.syncCluesAndGrid();
         return this;

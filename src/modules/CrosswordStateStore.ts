@@ -12,6 +12,8 @@ function createCrosswordStateStore() {
         set,
         assignClue: (position: AnswerPosition, clue: ClueAndAnswer) =>
             update(s => s.assignClue(position, clue)),
+        deleteClue: (clue: ClueAndAnswer) =>
+            update(s => s.deleteClue(clue)),
         refresh: () => update(s => s.refresh()),
         setGridLetters: (row: number, column: number, direction: "a"|"d", answer: string ) =>
             update(s => s.setGridLetters(row, column, direction, answer)),
