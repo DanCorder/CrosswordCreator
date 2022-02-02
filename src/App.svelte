@@ -40,21 +40,18 @@
 
 <div class='main'>
     <div class="content-block">
-        <h1>Tools for cryptic crossword creation - under construction</h1>
-        <ul>
-            <li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li>
-            <li><a href="https://www.dictionary.com/" target="_blank">Free dictionary</a></li>
-            <li><a href="https://www.thesaurus.com/" target="_blank">Free thesaurus</a></li>
-            <li><a href="https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|" target="_blank">Different clue types</a></li>
-            <li><a href="https://en.wikipedia.org/wiki/Crossword_abbreviations" target="_blank">Clues for letters</a></li>
-        </ul>
-    </div>
-
-    <div class="content-block">
-        <h2>Save / Load Data</h2>
+        <h1>Under Construction</h1>
         This site is still under active development so saved files may become incompatible without warning. Use this at your own risk.<br/>
-        Download current grid and clues as file: <button on:click="{save}">Save</button><br/>
-        Load save file: <input type="file" id="file-selector" on:change="{upload}">
+    </div>
+    <div class="content-block header">
+        <h1>Cryptic Crossword Creator</h1>
+        <div class="header-links">
+            <div><Credits /></div>
+            <div>
+                <button on:click="{save}">Save</button>
+                Load <input type="file" id="file-selector" on:change="{upload}">
+            </div>
+        </div>
     </div>
 
     <div class="tools">
@@ -66,6 +63,17 @@
             </div>
 
             <WordFit />
+
+            <div class="content-block">
+                <h2>External Tools</h2>
+                <ul>
+                    <li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li>
+                    <li><a href="https://www.dictionary.com/" target="_blank">Free dictionary</a></li>
+                    <li><a href="https://www.thesaurus.com/" target="_blank">Free thesaurus</a></li>
+                    <li><a href="https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|" target="_blank">Different clue types</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Crossword_abbreviations" target="_blank">Clues for letters</a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="right-column">
@@ -74,8 +82,6 @@
             <Anagrams />
         </div>
     </div>
-
-    <Credits />
 </div>
 
 <style lang="scss">
@@ -91,6 +97,29 @@
         color: $darker-colour;
         &:visited {
             color: $medium-colour;
+        }
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+    }
+
+    .header-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        div:first-child {
+            padding-bottom: 0.2em;
+        }
+        div:last-child {
+            padding-top: 0.2em;
         }
     }
 
