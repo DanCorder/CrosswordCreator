@@ -7,8 +7,8 @@
     export let state: ClueAndAnswer;
 
     function showAddToGridButton(state: ClueAndAnswer): boolean {
-        return state.answerPosition.letters.toLowerCase() !== state.answer.toLowerCase() &&
-            state.answerPosition.matchesAnswer(state.answer);
+        return state.answerPosition.letters.toLowerCase() !== state.strippedAnswer.toLowerCase() &&
+            state.answerPosition.matchesAnswer(state.strippedAnswer);
     }
 </script>
 
@@ -25,7 +25,7 @@
                     state.answerPosition.row,
                     state.answerPosition.column,
                     state.answerPosition.direction,
-                    state.answer)}">Add to grid</button>
+                    state.strippedAnswer)}">Add to grid</button>
         {/if}
     </div>
     <div class="clue-row">

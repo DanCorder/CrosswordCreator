@@ -25,7 +25,7 @@
         {#if state.unassignedClues.length > 0}
             <div>
                 <h3>Unassigned</h3>
-                {#each state.unassignedClues as clueAndAnswer, index}
+                {#each state.unassignedClues as clueAndAnswer}
                     <UnassignedClueInput state={clueAndAnswer} />
                 {/each}
             </div>

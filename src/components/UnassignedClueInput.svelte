@@ -2,7 +2,6 @@
     import type { AnswerPosition } from "../modules/SharedTypes";
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     import { CrosswordStateStore } from "../modules/CrosswordStateStore";
-import { CrosswordState } from "../modules/CrosswordState";
 
     export let state: ClueAndAnswer;
     let selectedPosition: AnswerPosition;

@@ -71,7 +71,7 @@ export class ClueState {
         this.unassignedClues = newUnassigned.filter(ca => ca.clue.trim() !== "" || ca.answer.trim() !== "");
         this.unassignedClues.forEach(ca => {
             ca.answerPosition = null;
-            ca.possiblePositions = this.findPossiblePositions(ca.answer, gridAnswers);
+            ca.possiblePositions = this.findPossiblePositions(ca.strippedAnswer, gridAnswers);
         });
 
         this.sortClues();
@@ -111,7 +111,7 @@ export class ClueState {
                 return false;
             }
 
-        return clueAndAnswer.answer.trim() === "" || gridAnswer.matchesAnswer(clueAndAnswer.answer);
+        return clueAndAnswer.answer.trim() === "" || gridAnswer.matchesAnswer(clueAndAnswer.strippedAnswer);
     }
 
     private sortClues() {
