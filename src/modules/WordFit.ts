@@ -9,10 +9,10 @@ export class WordFit {
         if (this.pattern === '') {
             return this;
         }
-    
+
         const wordsOfSameLength = wordList[this.pattern.length];
         const regex = new RegExp(this.pattern.toLowerCase().replaceAll('.', '\\w').replaceAll(' ', '\\w'));
-    
+
         Object.keys(wordsOfSameLength).forEach(candidate => {
             if (regex.test(candidate)) {
                 this.matches = this.matches.concat(wordsOfSameLength[candidate]);

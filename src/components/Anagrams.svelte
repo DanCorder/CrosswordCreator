@@ -3,9 +3,8 @@
     import Result from './AnagramResult.svelte';
     import { WordListStore } from "../modules/WordListStore";
 
-    let wordList = $WordListStore;
-    let anagramList: AnagramList;
-    $: anagramList = !wordList ? null : createAnagramList(wordList);
+    let anagramList: AnagramList = null;
+    WordListStore.subscribe(wl => anagramList = createAnagramList(wl));
 
     let results: AnagramResult[] = [];
     let letters = "";
@@ -18,14 +17,14 @@
     $: includedWords = includedWordsString.split("\n").filter(w => w !== "");
 
     function findSingleWordAnagrams () {
-        if (!wordList) {
+        if (!anagramList) {
             alert("Word list not downloaded yet, please try again");
         }
         results = findAllSingleWordAnagrams(letters, anagramList, minimumWordLength, excludedWords);
 	}
 
     function findAllAnagrams () {
-        if (!wordList) {
+        if (!anagramList) {
             alert("Word list not downloaded yet, please try again");
         }
         results = findAnagrams(letters, anagramList, minimumWordLength, excludedWords, includedWords);

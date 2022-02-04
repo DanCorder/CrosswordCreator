@@ -15,6 +15,10 @@ export function createAnagramList(wordList: WordList): AnagramList {
     const maxWordLength = 15;
     const ret = new AnagramList();
 
+    if (wordList === null) {
+        return ret;
+    }
+
     for (let i = 1; i <= maxWordLength; i++) {
         const words = wordList[i];
         const processed: { [index: string]: string[] } = {};
