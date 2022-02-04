@@ -36,9 +36,9 @@ Planned tools:
 * [ ] Reference pages
   * [ ] letter clues
   * [ ] keywords
+  * [ ] help page
 * [ ] Print out
 * [x] Saving/loading crosswords
-* [ ] Instructions
 
 ## Word List
 

@@ -1,9 +1,11 @@
+import type { AnswerPosition } from "./SharedTypes";
 import { GridAnswer } from "./GridAnswer";
 
 export class ClueAndAnswer {
     clue: string = "";
     answer: string = "";
     answerPosition: GridAnswer = null;
+    possiblePositions: AnswerPosition[] = [];
 
     constructor(object: ReturnType<ClueAndAnswer["toObject"]> = null) {
         if (!!object) {

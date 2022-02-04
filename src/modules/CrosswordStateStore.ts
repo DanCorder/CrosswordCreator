@@ -1,5 +1,7 @@
 // Make the crossword state available globally so we don't have to pass it down everywhere
 import { writable } from 'svelte/store';
+import type { AnswerPosition } from './SharedTypes';
+import type { ClueAndAnswer } from './ClueAndAnswer';
 import { CrosswordState } from './CrosswordState';
 
 function createCrosswordStateStore() {
@@ -8,18 +10,19 @@ function createCrosswordStateStore() {
 	return {
 		subscribe,
         set,
+        assignClue: (position: AnswerPosition, clue: ClueAndAnswer) =>
+            update(s => s.assignClue(position, clue)),
+        deleteClue: (clue: ClueAndAnswer) =>
+            update(s => s.deleteClue(clue)),
+        refresh: () => update(s => s.refresh()),
         setGridLetters: (row: number, column: number, direction: "a"|"d", answer: string ) =>
-            update(g => g.setGridLetters(row, column, direction, answer)),
+            update(s => s.setGridLetters(row, column, direction, answer)),
         toggleCell: (rowIndex: number, columnIndex: number) =>
-            update(g => g.toggleCell(rowIndex, columnIndex)),
-        setAnswerText: (clueNumber: number, direction: "a"|"d", answerText: string) =>
-            update(g => g.setAnswerText(clueNumber, direction, answerText)),
-        setClueText: (clueNumber: number, direction: "a"|"d", clueText: string) =>
-            update(g => g.setClueText(clueNumber, direction, clueText)),
+            update(s => s.toggleCell(rowIndex, columnIndex)),
         setCellLetter: (rowIndex: number, columnIndex: number, letter: string) =>
-            update(g => g.setCellLetter(rowIndex, columnIndex, letter)),
+            update(s => s.setCellLetter(rowIndex, columnIndex, letter)),
         sizeGrid: (newSize: number) =>
-            update(g => g.sizeGrid(newSize)),
+            update(s => s.sizeGrid(newSize)),
 	};
 }
 

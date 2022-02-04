@@ -1,4 +1,4 @@
-import type { WordList } from "./WordList";
+import type { WordList } from "./SharedTypes"
 
 export class AnagramList {
     wordsByLength: AnagramListEntry[][];
@@ -14,6 +14,10 @@ export type AnagramResult = string[][];
 export function createAnagramList(wordList: WordList): AnagramList {
     const maxWordLength = 15;
     const ret = new AnagramList();
+
+    if (wordList === null) {
+        return ret;
+    }
 
     for (let i = 1; i <= maxWordLength; i++) {
         const words = wordList[i];

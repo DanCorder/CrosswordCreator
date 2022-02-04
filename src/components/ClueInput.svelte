@@ -1,47 +1,42 @@
 <script lang="ts">
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     import { CrosswordStateStore } from "../modules/CrosswordStateStore";
+    import { wildcardChar } from "../modules/GridAnswer";
+    import { WordFitStore } from "../modules/WordFitStore";
 
     export let state: ClueAndAnswer;
 
     function showAddToGridButton(state: ClueAndAnswer): boolean {
-        return state.answerPosition.letters.toLowerCase() !== state.answer.toLowerCase() &&
-            state.answerPosition.matchesAnswer(state.answer);
-    }
-
-    function setClueText() {
-        CrosswordStateStore.setClueText(
-            state.answerPosition.number,
-            state.answerPosition.direction,
-            state.clue);
-    }
-
-    function setAnswerText() {
-        CrosswordStateStore.setAnswerText(
-            state.answerPosition.number,
-            state.answerPosition.direction,
-            state.answer);
+        return state.answerPosition.letters.toLowerCase() !== state.strippedAnswer.toLowerCase() &&
+            state.answerPosition.matchesAnswer(state.strippedAnswer);
     }
 </script>
 
 <div class="clue-container">
     <div class="clue-row">
         {state.answerPosition.number}
-        <textarea bind:value={state.clue} on:blur={setClueText} />
+        <textarea bind:value={state.clue} on:blur={CrosswordStateStore.refresh} />
     </div>
     <div class="clue-row">
-        <label>Answer: <input bind:value={state.answer} on:blur={setAnswerText} /></label>
+        <label>Answer: <input bind:value={state.answer} on:blur={CrosswordStateStore.refresh} /></label>
         {#if showAddToGridButton(state)}
             <button on:click="{() =>
                 CrosswordStateStore.setGridLetters(
                     state.answerPosition.row,
                     state.answerPosition.column,
                     state.answerPosition.direction,
-                    state.answer)}">Add to grid</button>
+                    state.strippedAnswer)}">Add to grid</button>
         {/if}
     </div>
     <div class="clue-row">
-        Grid letters: {state.answerPosition.letters}<br/>
+        <span>Grid letters: {state.answerPosition.letters}</span>
+        {#if state.answerPosition.letters.split("").some(c => c === "_") 
+            && state.answerPosition.letters.split("").some(c => c !== "_") }
+            <button on:click="{() => {
+                $WordFitStore.pattern = state.answerPosition.letters.replaceAll(wildcardChar, ".");
+                WordFitStore.findWords();
+            }}">Find possibilities</button>
+        {/if}
     </div>
 </div>
 
@@ -61,7 +56,7 @@
             height: 55px;
             width: 300px;
         }
-            
+
         input {
             width: 170px;
         }

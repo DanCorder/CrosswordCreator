@@ -1,5 +1,6 @@
 import type { GridAnswer } from "./GridAnswer";
 import { ClueAndAnswer } from "./ClueAndAnswer";
+import type { AnswerPosition } from "./SharedTypes";
 
 export class ClueState {
     acrossClues: ClueAndAnswer[] = [];
@@ -25,6 +26,31 @@ export class ClueState {
         };
     }
 
+    assignClue(position: GridAnswer, clue: ClueAndAnswer) {
+        const cluesToCheck = position.direction === "a" ? this.acrossClues : this.downClues;
+        const removeIndex = cluesToCheck.findIndex(c => c.answerPosition.number === position.number);
+        if (removeIndex !== -1) {
+            const clueToUnassign = cluesToCheck[removeIndex];
+            cluesToCheck.splice(removeIndex, 1);
+            clueToUnassign.answerPosition = null;
+            if (!!clueToUnassign.answer || !!clueToUnassign.clue) {
+                this.unassignedClues.push(clueToUnassign);
+            }
+        }
+
+        const clueIndex = this.unassignedClues.indexOf(clue);
+        this.unassignedClues.splice(clueIndex, 1);
+        clue.answerPosition = position;
+        cluesToCheck.push(clue);
+
+        this.sortClues();
+    }
+
+    deleteClue(clue: ClueAndAnswer) {
+        const clueIndex = this.unassignedClues.indexOf(clue);
+        this.unassignedClues.splice(clueIndex, 1);
+    }
+
     syncToGrid(gridAnswers: GridAnswer[]) {
         const gridAcross = gridAnswers.filter(ga => ga.direction === "a");
         const gridDown = gridAnswers.filter(ga => ga.direction === "d");
@@ -39,12 +65,31 @@ export class ClueState {
         gridDown.forEach(ga => this.updateClues(ga, this.downClues, newDown));
         newUnassigned.push(...this.downClues);
 
-        newUnassigned.forEach(ca => { ca.answerPosition = null });
-
         this.acrossClues = newAcross;
         this.downClues = newDown;
         // Remove empty clues
         this.unassignedClues = newUnassigned.filter(ca => ca.clue.trim() !== "" || ca.answer.trim() !== "");
+        this.unassignedClues.forEach(ca => {
+            ca.answerPosition = null;
+            ca.possiblePositions = this.findPossiblePositions(ca.strippedAnswer, gridAnswers);
+        });
+
+        this.sortClues();
+    }
+
+    private findPossiblePositions(answer: string, gridAnswers: GridAnswer[]): AnswerPosition[] {
+        const positions: AnswerPosition[] = [];
+
+        gridAnswers.forEach(ga => {
+            if (ga.matchesAnswer(answer)) {
+                positions.push({
+                    direction: ga.direction,
+                    number: ga.number
+                });
+            }
+        });
+
+        return positions;
     }
 
     private updateClues(gridAnswer: GridAnswer, existingClues: ClueAndAnswer[], newClues: ClueAndAnswer[]) {
@@ -66,6 +111,11 @@ export class ClueState {
                 return false;
             }
 
-        return clueAndAnswer.answer.trim() === "" || gridAnswer.matchesAnswer(clueAndAnswer.answer);
+        return clueAndAnswer.answer.trim() === "" || gridAnswer.matchesAnswer(clueAndAnswer.strippedAnswer);
+    }
+
+    private sortClues() {
+        this.acrossClues = this.acrossClues.sort((a, b) => a.answerPosition.number - b.answerPosition.number);
+        this.downClues = this.downClues.sort((a, b) => a.answerPosition.number - b.answerPosition.number);
     }
 }

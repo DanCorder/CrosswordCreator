@@ -9,7 +9,7 @@
 
 <div class="content-block">
     <h2>Clues and Answers</h2>
-    <div class="columns">
+    <div class="column-container">
         <div>
             <h3>Across</h3>
             {#each state.acrossClues as clueAndAnswer}
@@ -25,7 +25,7 @@
         {#if state.unassignedClues.length > 0}
             <div>
                 <h3>Unassigned</h3>
-                {#each state.unassignedClues as clueAndAnswer, index}
+                {#each state.unassignedClues as clueAndAnswer}
                     <UnassignedClueInput state={clueAndAnswer} />
                 {/each}
             </div>
@@ -39,7 +39,7 @@
         margin-bottom: 8px;
     }
 
-    .columns {
+    .column-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;

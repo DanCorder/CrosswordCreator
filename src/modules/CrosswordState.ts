@@ -1,3 +1,5 @@
+import type { AnswerPosition } from "./SharedTypes";
+import type { ClueAndAnswer } from "./ClueAndAnswer";
 import { ClueState } from "./ClueState";
 import { GridState } from "./GridState";
 
@@ -16,6 +18,23 @@ export class CrosswordState {
 
     serialize(): string {
         return JSON.stringify(this.toObject());
+    }
+
+    assignClue(position: AnswerPosition, clue: ClueAndAnswer): CrosswordState {
+        const gridAnswers = this.grid.findAnswers();
+        const gridAnswer = gridAnswers.find(ga => ga.direction === position.direction && ga.number === position.number);
+        this.clues.assignClue(gridAnswer, clue);
+        return this;
+    }
+
+    deleteClue(clue: ClueAndAnswer): CrosswordState {
+        this.clues.deleteClue(clue);
+        return this;
+    }
+
+    refresh() {
+        this.syncCluesAndGrid();
+        return this;
     }
 
     toggleCell(rowIndex: number, columnIndex: number): CrosswordState {
@@ -74,6 +93,7 @@ export class CrosswordState {
 
         this.clues = new ClueState(data.clues);
         this.grid = new GridState(data.grid);
+        this.clues.syncToGrid(this.grid.findAnswers());
 
         return this;
     }
