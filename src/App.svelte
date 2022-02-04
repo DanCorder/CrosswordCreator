@@ -7,6 +7,7 @@
     import Anagrams from './components/Anagrams.svelte';
     import ClueInputs from "./components/ClueInputs.svelte";
     import ClueDisplay from "./components/ClueDisplay.svelte";
+    import Help from "./components/Help.svelte";
 
     function save() {
         const filename = "crossword.json";
@@ -46,7 +47,7 @@
     <div class="content-block header">
         <h1>Cryptic Crossword Creator</h1>
         <div class="header-links">
-            <div><Credits /></div>
+            <div><Help /> <Credits /></div>
             <div>
                 <button on:click="{save}">Save</button>
                 Load <input type="file" id="file-selector" on:change="{upload}">
@@ -70,7 +71,8 @@
                     <li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li>
                     <li><a href="https://www.dictionary.com/" target="_blank">Free dictionary</a></li>
                     <li><a href="https://www.thesaurus.com/" target="_blank">Free thesaurus</a></li>
-                    <li><a href="https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide|" target="_blank">Different clue types</a></li>
+                    <li><a href="https://puzzling.stackexchange.com/questions/45984/cryptic-clue-guide" target="_blank">Different clue types 1</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Cryptic_crossword#Types_of_cryptic_clues" target="_blank">Different clue types 2</a></li>
                     <li><a href="https://en.wikipedia.org/wiki/Crossword_abbreviations" target="_blank">Clues for letters</a></li>
                 </ul>
             </div>
