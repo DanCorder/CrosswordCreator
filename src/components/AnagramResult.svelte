@@ -6,7 +6,7 @@
     const dictionaryUrlPrefix = 'https://www.dictionary.com/browse/';
 </script>
 
-<div>
+<div class="content-section">
     {#each result as wordSet}
         <ul>
             {#each wordSet as word}
@@ -29,6 +29,5 @@
         padding: 0.3em;
         border-radius: 2px;
         margin: 0.2em;
-        box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.1);
     }
 </style>

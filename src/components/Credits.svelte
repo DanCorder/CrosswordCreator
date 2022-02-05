@@ -7,12 +7,15 @@
     <span slot="content">
         <h2>Credits/Copyright</h2>
 
-        <h3>This Website</h3>
-        <p>This website was created by Dan Corder. <a href="https://github.com/DanCorder/CrosswordCreator/" target="_blank">The source</a> is available under the <a href="https://github.com/DanCorder/CrosswordCreator/blob/main/LICENSE.txt" target="_blank">GPL3 licence</a> on Github so you can run your own version or make customisations.</p>
+        <div class="content-section">
+            <h3>This Website</h3>
+            <p>This website was created by Dan Corder. <a href="https://github.com/DanCorder/CrosswordCreator/" target="_blank">The source</a> is available under the <a href="https://github.com/DanCorder/CrosswordCreator/blob/main/LICENSE.txt" target="_blank">GPL3 licence</a> on Github so you can run your own version or make customisations.</p>
+        </div>
 
-        <h3>Word List</h3>
-        <p>The word list used by this site comes from <a href="http://app.aspell.net/create" target="_blank">http://app.aspell.net/create</a> and has the following notice:</p>
-        <pre>
+        <div class="content-section">
+            <h3>Word List</h3>
+            <p>The word list used by this site comes from <a href="http://app.aspell.net/create" target="_blank">http://app.aspell.net/create</a> and has the following notice:</p>
+            <pre>
     Copyright 2000-2019 by Kevin Atkinson
 
     Permission to use, copy, modify, distribute and sell these word
@@ -45,6 +48,7 @@
     SCOWL readme.
 
     <a href="http://wordlist.aspell.net/" target="_blank">http://wordlist.aspell.net/</a>
-        </pre>
+            </pre>
+        </div>
     </span>
 </Overlay>

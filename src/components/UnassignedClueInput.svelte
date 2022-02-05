@@ -16,7 +16,7 @@
     }
 </script>
 
-<div class="clue-container">
+<div class="clue-container content-section">
     <div class="clue-row">
         ? <textarea bind:value={state.clue} on:blur={CrosswordStateStore.refresh} />
     </div>
@@ -51,6 +51,7 @@
         textarea {
             height: 55px;
             width: 300px;
+            margin-left: 0.7em;
         }
 
         input {

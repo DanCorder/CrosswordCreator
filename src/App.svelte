@@ -42,15 +42,15 @@
 <div class='main'>
     <div class="content-block">
         <h1>Under Construction</h1>
-        This site is still under active development so saved files may become incompatible without warning. Use this at your own risk.<br/>
+        This site is still under active development so saved files may become incompatible without warning. Use at your own risk.<br/>
     </div>
     <div class="content-block header">
         <h1>Cryptic Crossword Creator</h1>
         <div class="header-links">
-            <div><Help /> <Credits /></div>
-            <div>
-                <button on:click="{save}">Save</button>
-                Load <input type="file" id="file-selector" on:change="{upload}">
+            <div class="content-section"><Help /> <Credits /></div>
+            <div class="content-section file-section">
+                <div class="content-section"><button on:click="{save}">Save</button></div>
+                <div class="content-section">Load <input type="file" id="file-selector" on:change="{upload}"></div>
             </div>
         </div>
     </div>
@@ -95,8 +95,17 @@
         box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
     }
 
-    :global(a) {
+    :global(.content-section) {
+        background-color: rgba(0,0,0,0.1);
+        margin: 5px;
+        padding: 5px;
+        border-radius: 4px;
+    }
+
+    :global(a), :global(.link) {
         color: $darker-colour;
+        text-decoration: underline;
+        cursor: pointer;
         &:visited {
             color: $medium-colour;
         }
@@ -114,15 +123,15 @@
 
     .header-links {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-between;
+        align-items: center;
+    }
 
-        div:first-child {
-            padding-bottom: 0.2em;
-        }
-        div:last-child {
-            padding-top: 0.2em;
-        }
+    .file-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
 
     .tools {
