@@ -7,9 +7,11 @@ export class CrosswordState {
     grid = new GridState();
     clues = new ClueState();
 
-    constructor(jsonData: string = null) {
-        if (!!jsonData) {
-            this.hydrate(jsonData);
+    constructor(data: ReturnType<CrosswordState["toObject"]> = null) {
+        if (!!data) {
+            this.clues = new ClueState(data.clues);
+            this.grid = new GridState(data.grid);
+            this.clues.syncToGrid(this.grid.findAnswers());
         }
         else {
             this.syncCluesAndGrid();
@@ -81,20 +83,10 @@ export class CrosswordState {
         return this;
     }
 
-    private toObject() {
+    toObject() {
         return {
             clues: this.clues.toObject(),
             grid: this.grid.toObject()
         };
-    }
-
-    private hydrate(jsonData: string): CrosswordState {
-        const data: ReturnType<CrosswordState["toObject"]> = JSON.parse(jsonData);
-
-        this.clues = new ClueState(data.clues);
-        this.grid = new GridState(data.grid);
-        this.clues.syncToGrid(this.grid.findAnswers());
-
-        return this;
     }
 }
