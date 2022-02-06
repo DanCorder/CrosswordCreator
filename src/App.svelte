@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CrosswordState } from "./modules/CrosswordState";
+    import { getSaveData, parseSaveData } from "./modules/AppState";
     import { CrosswordStateStore } from "./modules/CrosswordStateStore";
     import Credits from './components/Credits.svelte';
     import Grid from './components/Grid.svelte';
@@ -10,18 +10,16 @@
     import Help from "./components/Help.svelte";
 
     function save() {
-        const filename = "crossword.json";
-        const data = $CrosswordStateStore.serialize();
-        const blob = new Blob([data], {type: 'application/json;charset=utf-8;'});
+        const saveData = getSaveData();
 
         if(window.navigator && window.navigator.msSaveBlob) {
-            window.navigator.msSaveBlob(blob, filename);
+            window.navigator.msSaveBlob(saveData.fileData, saveData.filename);
         }
         else {
             const link = window.document.createElement('a');
             link.style.display = "none";
-            link.href = window.URL.createObjectURL(blob);
-            link.download = filename;
+            link.href = window.URL.createObjectURL(saveData.fileData);
+            link.download = saveData.filename;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -32,10 +30,7 @@
     function upload(event: Event) {
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
-        file.text().then(text => {
-            CrosswordStateStore.set(new CrosswordState(text));
-        })
-        .catch(reason => alert("Upload failed: " + reason));
+        parseSaveData(file);
     }
 </script>
 
@@ -164,6 +159,6 @@
     .right-column {
         display: flex;
         flex-direction: column;
-        min-width: 380px;
+        min-width: 760px;
     }
 </style>

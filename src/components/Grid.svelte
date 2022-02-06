@@ -184,7 +184,7 @@
     .black {
         background-color: black;
         color-adjust: exact; // Firefox
-        -webkit-print-color-adjust: exact; // IE, Chrome, Safari
+        -webkit-print-color-adjust: exact; // Edge, Chrome, Safari
         &:focus {
             background-color: rgb(80, 107, 116);
         }
