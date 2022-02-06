@@ -164,6 +164,6 @@
     .right-column {
         display: flex;
         flex-direction: column;
-        min-width: 380px;
+        min-width: 760px;
     }
 </style>
