@@ -71,7 +71,7 @@
 </script>
 
 <div>
-    <p>
+    <p class="dont-print">
         <span class="grid-setting">
             Size: <select bind:value={gridSizeInput} on:change={sizeChangeHandler}>
                 <option value={1}>1</option>
@@ -137,17 +137,31 @@
         height: 50px;
         width: 50px;
         border: solid 2px black;
+
+        @media print {
+            height: 40px;
+            width: 40px;
+        }
     }
     .cell-layout {
         display: grid;
         grid-template-columns: 14px 34px;
         grid-template-rows: 14px 34px;
+
+        @media print {
+            grid-template-columns: 14px 24px;
+            grid-template-rows: 14px 24px;
+        }
     }
     .cell-number {
         font-size: 11px;
         grid-row: 1 / 2;
         grid-column: 1 / 2;
         z-index: 1;
+
+        @media print {
+            font-size: 9px;
+        }
     }
     .cell-letter {
         text-align: center;
@@ -155,6 +169,11 @@
         grid-row: 1 / 3;
         grid-column: 1 / 3;
         font-size: 30px;
+
+        @media print {
+            line-height: 38px;
+            font-size: 20px;
+        }
     }
     .white {
         background-color: white;
@@ -164,6 +183,8 @@
     }
     .black {
         background-color: black;
+        color-adjust: exact; // Firefox
+        -webkit-print-color-adjust: exact; // IE, Chrome, Safari
         &:focus {
             background-color: rgb(80, 107, 116);
         }

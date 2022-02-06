@@ -55,8 +55,7 @@
 
         <div class="content-section">
             <h3>Printing</h3>
-            <p>For now you can use the "Hide answers" checkbox on the grid to make it suitable for printing. A better solution
-            is in the works.</p>
+            <p>Printing the page should just print the grid and clues ready to solve (use the "Hide answers" checkbox to clear the grid).</p>
         </div>
 
         <div class="content-section">

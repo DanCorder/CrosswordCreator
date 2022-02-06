@@ -40,13 +40,13 @@
 </script>
 
 <div class='main'>
-    <div class="content-block">
+    <div class="content-block dont-print">
         <h1>Under Construction</h1>
         This site is still under active development so saved files may become incompatible without warning. Use at your own risk.<br/>
     </div>
-    <div class="content-block header">
+    <div class="content-block header dont-print">
         <h1>Cryptic Crossword Creator</h1>
-        <div class="header-links">
+        <div class="header-links dont-print">
             <div class="content-section"><Help /> <Credits /></div>
             <div class="content-section file-section">
                 <div class="content-section"><button on:click="{save}">Save</button></div>
@@ -57,15 +57,17 @@
 
     <div class="tools">
         <div class="left-column">
-            <div class="content-block grid-and-clues">
+            <div class="content-block">
                 <Grid state="{$CrosswordStateStore.grid}" />
                 <br/>
                 <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
             </div>
 
-            <WordFit />
+            <div class="content-block dont-print">
+                <WordFit />
+            </div>
 
-            <div class="content-block">
+            <div class="content-block dont-print">
                 <h2>External Tools</h2>
                 <ul>
                     <li><a href="https://www.wordplays.com/anagrammer" target="_blank">Anagrams</a></li>
@@ -78,7 +80,7 @@
             </div>
         </div>
 
-        <div class="right-column">
+        <div class="right-column dont-print">
             <ClueInputs state="{$CrosswordStateStore.clues}" />
 
             <Anagrams />
@@ -93,6 +95,13 @@
         padding: 20px;
         border-radius: 4px;
         box-shadow: 4px 4px 2px 2px rgba(0,0,0,0.1);
+
+        @media print {
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
+        }
     }
 
     :global(.content-section) {
@@ -102,12 +111,20 @@
         border-radius: 4px;
     }
 
-    :global(a), :global(.link) {
+    :global(a),
+    :global(.link) {
         color: $darker-colour;
         text-decoration: underline;
         cursor: pointer;
         &:visited {
             color: $medium-colour;
+        }
+    }
+
+    :global(.dont-print),
+    :global(.dont-print>*) {
+        @media print {
+            display: none !important; // Yuck :(
         }
     }
 
