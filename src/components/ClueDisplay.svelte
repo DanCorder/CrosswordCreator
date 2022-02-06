@@ -26,10 +26,18 @@
     h2 {
         font-size: 15px;
         margin-bottom: 3px;
+
+        @media print {
+            font-size: 12px;
+        }
     }
     ul {
         list-style-type: none;
         padding: 0;
         font-size: 12px;
+
+        @media print {
+            font-size: 10px;
+        }
     }
 </style>

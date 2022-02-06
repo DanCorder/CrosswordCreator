@@ -10,20 +10,20 @@
 <div class="content-block">
     <h2>Clues and Answers</h2>
     <div class="column-container">
-        <div>
+        <div class="content-section">
             <h3>Across</h3>
             {#each state.acrossClues as clueAndAnswer}
                 <ClueInput state={clueAndAnswer} />
             {/each}
         </div>
-        <div>
+        <div class="content-section">
             <h3>Down</h3>
             {#each state.downClues as clueAndAnswer}
                 <ClueInput state={clueAndAnswer} />
             {/each}
         </div>
         {#if state.unassignedClues.length > 0}
-            <div>
+            <div class="content-section">
                 <h3>Unassigned</h3>
                 {#each state.unassignedClues as clueAndAnswer}
                     <UnassignedClueInput state={clueAndAnswer} />

@@ -13,7 +13,7 @@
     }
 </script>
 
-<div class="content-block">
+<div>
     <h2>Find Words That Fit</h2>
     <p>Enter the pattern to match below. Use letters where you have them and '.' or space for empty spaces</p>
     <input bind:value={$WordFitStore.pattern} on:keydown={handleKeyDown}/> <button on:click={handleClick}>Search</button>

@@ -36,10 +36,7 @@
         margin: 30px;
         overflow-y: scroll;
     }
-    .link {
-        text-decoration: underline;
-        cursor: pointer;
-    }
+
     .close {
         text-align: right;
     }
