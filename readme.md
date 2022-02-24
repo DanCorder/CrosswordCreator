@@ -42,7 +42,7 @@ Planned tools:
 * [x] Print out
 * [x] Saving/loading crosswords
   * [ ] Save with same filename as loaded
-* [ ] Title and author
+* [x] Title and author
 
 ## Word List
 

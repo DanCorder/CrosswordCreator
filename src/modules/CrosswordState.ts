@@ -2,15 +2,18 @@ import type { AnswerPosition } from "./SharedTypes";
 import type { ClueAndAnswer } from "./ClueAndAnswer";
 import { ClueState } from "./ClueState";
 import { GridState } from "./GridState";
+import { SettingsState } from "./SettingsState";
 
 export class CrosswordState {
     grid = new GridState();
     clues = new ClueState();
+    settings = new SettingsState();
 
     constructor(data: ReturnType<CrosswordState["toObject"]> = null) {
         if (!!data) {
             this.clues = new ClueState(data.clues);
             this.grid = new GridState(data.grid);
+            this.settings = new SettingsState(data.settings);
             this.clues.syncToGrid(this.grid.findAnswers());
         }
         else {
@@ -86,7 +89,8 @@ export class CrosswordState {
     toObject() {
         return {
             clues: this.clues.toObject(),
-            grid: this.grid.toObject()
+            grid: this.grid.toObject(),
+            settings: this.settings.toObject(),
         };
     }
 }

@@ -8,6 +8,8 @@
     import ClueInputs from "./components/ClueInputs.svelte";
     import ClueDisplay from "./components/ClueDisplay.svelte";
     import Help from "./components/Help.svelte";
+    import Title from "./components/Title.svelte";
+    import Settings from "./components/Settings.svelte";
 
     function save() {
         const saveData = getSaveData();
@@ -52,7 +54,12 @@
 
     <div class="tools">
         <div class="left-column">
+            <div class="content-block dont-print">
+                <Settings bind:author={$CrosswordStateStore.settings.author} bind:title={$CrosswordStateStore.settings.title} />
+            </div>
+
             <div class="content-block">
+                <Title author="{$CrosswordStateStore.settings.author}" title="{$CrosswordStateStore.settings.title}"/>
                 <Grid state="{$CrosswordStateStore.grid}" />
                 <br/>
                 <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
