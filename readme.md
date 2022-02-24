@@ -21,6 +21,8 @@ Planned tools:
 * [x] Area for clues and answers
   * [x] Automatic matching of answers to grid answers
 * [x] Find words to fit with existing clues
+* [ ] Find words containing other words
+* [ ] Find words that match alternating letters
 * [ ] Anagram generation
   * [x] Same length word
   * [x] Multiple shorter words
@@ -39,6 +41,8 @@ Planned tools:
   * [x] help page
 * [x] Print out
 * [x] Saving/loading crosswords
+  * [ ] Save with same filename as loaded
+* [ ] Title and author
 
 ## Word List
 

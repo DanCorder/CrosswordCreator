@@ -131,6 +131,8 @@
     }
     .grid {
         border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
     }
     .cell {
         padding: 0;
