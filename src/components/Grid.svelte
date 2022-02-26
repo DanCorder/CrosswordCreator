@@ -157,6 +157,7 @@
     }
     .cell-number {
         font-size: 11px;
+        padding-left: 2px;
         grid-row: 1 / 2;
         grid-column: 1 / 2;
         z-index: 1;
