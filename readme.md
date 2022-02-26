@@ -70,6 +70,8 @@ The javascript and most of the CSS on the site is built using [Svelte](https://s
 
 To release:
 * Merge the main branch into the release branch
+* Stop the dev server if it's running
+* Delete the contents of `docs/build`
 * On the release branch run `npm run build`
 * Commit and push the release branch to Github
 * (If you've forked this project you'll need to configure your [Github pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) appropriately)
