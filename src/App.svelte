@@ -8,6 +8,8 @@
     import ClueInputs from "./components/ClueInputs.svelte";
     import ClueDisplay from "./components/ClueDisplay.svelte";
     import Help from "./components/Help.svelte";
+    import Title from "./components/Title.svelte";
+    import Settings from "./components/Settings.svelte";
 
     function save() {
         const saveData = getSaveData();
@@ -42,8 +44,11 @@
     <div class="content-block header dont-print">
         <h1>Cryptic Crossword Creator</h1>
         <div class="header-links dont-print">
-            <div class="content-section"><Help /> <Credits /></div>
-            <div class="content-section file-section">
+            <div class="content-section header-section">
+                <div class="content-section"><Help /></div>
+                <div class="content-section"><Credits /></div>
+            </div>
+            <div class="content-section header-section">
                 <div class="content-section"><button on:click="{save}">Save</button></div>
                 <div class="content-section">Load <input type="file" id="file-selector" on:change="{upload}"></div>
             </div>
@@ -52,7 +57,12 @@
 
     <div class="tools">
         <div class="left-column">
+            <div class="content-block dont-print">
+                <Settings bind:author={$CrosswordStateStore.settings.author} bind:title={$CrosswordStateStore.settings.title} />
+            </div>
+
             <div class="content-block">
+                <Title author="{$CrosswordStateStore.settings.author}" title="{$CrosswordStateStore.settings.title}"/>
                 <Grid state="{$CrosswordStateStore.grid}" />
                 <br/>
                 <ClueDisplay clueState="{$CrosswordStateStore.clues}" />
@@ -101,8 +111,7 @@
 
     :global(.content-section) {
         background-color: rgba(0,0,0,0.1);
-        margin: 5px;
-        padding: 5px;
+        padding: 10px;
         border-radius: 4px;
     }
 
@@ -131,6 +140,10 @@
             margin-right: 20px;
             margin-bottom: 0;
         }
+
+        .content-section:not(:last-child) {
+            margin-right: 10px;
+        }
     }
 
     .header-links {
@@ -140,7 +153,7 @@
         align-items: center;
     }
 
-    .file-section {
+    .header-section {
         display: flex;
         flex-direction: row;
         justify-content: space-between;

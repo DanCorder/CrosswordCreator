@@ -18,9 +18,13 @@ Planned tools:
   * [x] Write letters in cells
   * [x] Navigate cells with arrow keys
 * [ ] Area for notes
-* [x] Area for clues and answers
+* [ ] Area for clues and answers
   * [x] Automatic matching of answers to grid answers
+  * [ ] Allow multi answer clues (e.g. one clue for 4 across & 7 down)
 * [x] Find words to fit with existing clues
+* [x] Find words containing other words
+* [x] Find words that match alternating letters
+* [x] Find words beginning/ending with letters
 * [ ] Anagram generation
   * [x] Same length word
   * [x] Multiple shorter words
@@ -39,6 +43,8 @@ Planned tools:
   * [x] help page
 * [x] Print out
 * [x] Saving/loading crosswords
+  * [ ] Save with same filename as loaded
+* [x] Title and author
 
 ## Word List
 
@@ -66,6 +72,8 @@ The javascript and most of the CSS on the site is built using [Svelte](https://s
 
 To release:
 * Merge the main branch into the release branch
+* Stop the dev server if it's running
+* Delete the contents of `docs/build`
 * On the release branch run `npm run build`
 * Commit and push the release branch to Github
 * (If you've forked this project you'll need to configure your [Github pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) appropriately)

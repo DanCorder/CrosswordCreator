@@ -131,6 +131,8 @@
     }
     .grid {
         border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
     }
     .cell {
         padding: 0;
@@ -139,8 +141,8 @@
         border: solid 2px black;
 
         @media print {
-            height: 40px;
-            width: 40px;
+            height: 30px;
+            width: 30px;
         }
     }
     .cell-layout {
@@ -149,18 +151,19 @@
         grid-template-rows: 14px 34px;
 
         @media print {
-            grid-template-columns: 14px 24px;
-            grid-template-rows: 14px 24px;
+            grid-template-columns: 14px 14px;
+            grid-template-rows: 14px 14px;
         }
     }
     .cell-number {
         font-size: 11px;
+        padding-left: 2px;
         grid-row: 1 / 2;
         grid-column: 1 / 2;
         z-index: 1;
 
         @media print {
-            font-size: 9px;
+            font-size: 8px;
         }
     }
     .cell-letter {
@@ -171,8 +174,8 @@
         font-size: 30px;
 
         @media print {
-            line-height: 38px;
-            font-size: 20px;
+            line-height: 28px;
+            font-size: 15px;
         }
     }
     .white {

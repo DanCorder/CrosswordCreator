@@ -27,9 +27,11 @@ export function parseSaveData(file: File) {
     .catch(reason => alert("Couldn't understand save file: " + reason));
 }
 
+// File format version history
+// v2 - Add top level settings section containng author and title
 function toObject() {
     return {
-        version: 1,
+        version: 2,
         crosswordState: get(CrosswordStateStore).toObject()
     };
 }
