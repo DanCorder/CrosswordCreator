@@ -2,6 +2,7 @@
     import type { ClueAndAnswer } from "../modules/ClueAndAnswer";
     import { CrosswordStateStore } from "../modules/CrosswordStateStore";
     import { wildcardChar } from "../modules/GridAnswer";
+    import { PatternPosition, AlternateLetterMatch } from "../modules/WordFit";
     import { WordFitStore } from "../modules/WordFitStore";
 
     export let state: ClueAndAnswer;
@@ -33,8 +34,7 @@
         {#if state.answerPosition.letters.split("").some(c => c === "_") 
             && state.answerPosition.letters.split("").some(c => c !== "_") }
             <button on:click="{() => {
-                $WordFitStore.pattern = state.answerPosition.letters.replaceAll(wildcardChar, ".");
-                WordFitStore.findWords();
+                WordFitStore.setOptionsAndFindWords(state.answerPosition.letters.replaceAll(wildcardChar, "."), PatternPosition.Exact, AlternateLetterMatch.DontAlternate);
             }}">Find possibilities</button>
         {/if}
     </div>

@@ -26,6 +26,7 @@ wordListFile.on('line', function(word) {
     // Remove apostrophes (and anything else)
     cleanWord = clean(word);
 
+    // TODO: Remove this limit, some of our tools would be happy finding longer words
     // We're not supporting crosswords larger than 15x15
     if (cleanWord.length > maxWordLength) {
         return;

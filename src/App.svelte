@@ -44,8 +44,11 @@
     <div class="content-block header dont-print">
         <h1>Cryptic Crossword Creator</h1>
         <div class="header-links dont-print">
-            <div class="content-section"><Help /> <Credits /></div>
-            <div class="content-section file-section">
+            <div class="content-section header-section">
+                <div class="content-section"><Help /></div>
+                <div class="content-section"><Credits /></div>
+            </div>
+            <div class="content-section header-section">
                 <div class="content-section"><button on:click="{save}">Save</button></div>
                 <div class="content-section">Load <input type="file" id="file-selector" on:change="{upload}"></div>
             </div>
@@ -108,8 +111,7 @@
 
     :global(.content-section) {
         background-color: rgba(0,0,0,0.1);
-        margin: 5px;
-        padding: 5px;
+        padding: 10px;
         border-radius: 4px;
     }
 
@@ -138,6 +140,10 @@
             margin-right: 20px;
             margin-bottom: 0;
         }
+
+        .content-section:not(:last-child) {
+            margin-right: 10px;
+        }
     }
 
     .header-links {
@@ -147,7 +153,7 @@
         align-items: center;
     }
 
-    .file-section {
+    .header-section {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
