@@ -59,21 +59,32 @@ If you want a different word list you can edit `getWordList.js` or manually down
 
 ## Development
 
-The javascript and most of the CSS on the site is built using [Svelte](https://svelte.dev/), [TypeScript](https://www.typescriptlang.org/), and [SASS](https://sass-lang.com/).
+The site has two versions built from the same codebase:
+
+* **Svelte version** (`index.html`) — built with [Svelte](https://svelte.dev/), [TypeScript](https://www.typescriptlang.org/), and [SASS](https://sass-lang.com/) via Rollup. Source in `src/`.
+* **React version** (`index-react.html`) — built with [React](https://react.dev/) and [TypeScript](https://www.typescriptlang.org/) via Vite. Source in `react-src/`.
 
 ### Running locally
 
+**Svelte version:**
 * Open a command prompt in the project's root directory
 * Before running for the first time run `npm install`
 * `npm run dev`
 * View the site at http://localhost:5000/
 
+**React version:**
+* Open a command prompt in the `react-src` directory
+* Before running for the first time run `npm install`
+* `npm run dev`
+* View the site at http://localhost:5173/index-react.html (the browser should open automatically)
+
 ### Releases
 
 To release:
 * Merge the main branch into the release branch
-* Stop the dev server if it's running
+* Stop any dev servers if they are running
 * Delete the contents of `docs/build`
-* On the release branch run `npm run build`
+* On the release branch, from the **project root**, run `npm run build` to build the Svelte version
+* From the **`react-src` directory**, run `npm run build` to build the React version
 * Commit and push the release branch to Github
 * (If you've forked this project you'll need to configure your [Github pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) appropriately)

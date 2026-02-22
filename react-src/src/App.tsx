@@ -46,7 +46,8 @@ export default function App() {
       <div className="content-block dont-print">
         <h1>Under Construction</h1>
         This site is still under active development so saved files may become incompatible
-        without warning. Use at your own risk.
+        without warning. Use at your own risk.{' '}
+        <a href="index.html">Switch to Svelte version</a>
       </div>
 
       <div className="content-block app-header dont-print">
