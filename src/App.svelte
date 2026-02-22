@@ -11,17 +11,19 @@
     import Title from "./components/Title.svelte";
     import Settings from "./components/Settings.svelte";
 
+    let filename: string = "crossword.json";
+
     function save() {
         const saveData = getSaveData();
 
         if(window.navigator && window.navigator.msSaveBlob) {
-            window.navigator.msSaveBlob(saveData.fileData, saveData.filename);
+            window.navigator.msSaveBlob(saveData, filename);
         }
         else {
             const link = window.document.createElement('a');
             link.style.display = "none";
-            link.href = window.URL.createObjectURL(saveData.fileData);
-            link.download = saveData.filename;
+            link.href = window.URL.createObjectURL(saveData);
+            link.download = filename;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -32,6 +34,7 @@
     function upload(event: Event) {
         const target = event.target as HTMLInputElement;
         const file = target.files[0];
+        filename = file.name;
         parseSaveData(file);
     }
 </script>

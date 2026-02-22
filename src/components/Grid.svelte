@@ -63,32 +63,39 @@
         cells[currentCellRow][currentCellColumn].focus();
     }
 
-    function sizeChangeHandler() {
-        CrosswordStateStore.sizeGrid(gridSizeInput);
-        currentCellRow = Math.min(currentCellRow, gridSizeInput - 1);
-        currentCellColumn = Math.min(currentCellColumn, gridSizeInput - 1);
+    function sizeChangeHandler(event: Event) {
+        const newSize = parseInt((event.target as HTMLSelectElement).value);
+        // Update gridSizeInput directly rather than using bind:value on the select.
+        // bind:value causes Svelte to emit a select_change_handler that uses
+        // querySelector(':checked') which is unreliable in Chrome — it can return
+        // the previously selected option, causing the reactive $: gridSizeInput = state.size
+        // to run with stale data and reset the dropdown back to the old value.
+        gridSizeInput = newSize;
+        CrosswordStateStore.sizeGrid(newSize);
+        currentCellRow = Math.min(currentCellRow ?? 0, newSize - 1);
+        currentCellColumn = Math.min(currentCellColumn ?? 0, newSize - 1);
     }
 </script>
 
 <div>
     <p class="dont-print">
         <span class="grid-setting">
-            Size: <select bind:value={gridSizeInput} on:change={sizeChangeHandler}>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-                <option value={11}>11</option>
-                <option value={12}>12</option>
-                <option value={13}>13</option>
-                <option value={14}>14</option>
-                <option value={15}>15</option>
+            Size: <select on:change={sizeChangeHandler}>
+                <option value={1} selected={gridSizeInput === 1}>1</option>
+                <option value={2} selected={gridSizeInput === 2}>2</option>
+                <option value={3} selected={gridSizeInput === 3}>3</option>
+                <option value={4} selected={gridSizeInput === 4}>4</option>
+                <option value={5} selected={gridSizeInput === 5}>5</option>
+                <option value={6} selected={gridSizeInput === 6}>6</option>
+                <option value={7} selected={gridSizeInput === 7}>7</option>
+                <option value={8} selected={gridSizeInput === 8}>8</option>
+                <option value={9} selected={gridSizeInput === 9}>9</option>
+                <option value={10} selected={gridSizeInput === 10}>10</option>
+                <option value={11} selected={gridSizeInput === 11}>11</option>
+                <option value={12} selected={gridSizeInput === 12}>12</option>
+                <option value={13} selected={gridSizeInput === 13}>13</option>
+                <option value={14} selected={gridSizeInput === 14}>14</option>
+                <option value={15} selected={gridSizeInput === 15}>15</option>
             </select>
         </span>
         <span class="grid-setting">

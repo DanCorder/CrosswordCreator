@@ -2,21 +2,12 @@ import { CrosswordState } from "./CrosswordState";
 import { CrosswordStateStore } from "./CrosswordStateStore";
 import { get } from "svelte/store";
 
-type SaveData = {
-    filename: string,
-    fileData: Blob
-};
-
-export function getSaveData(): SaveData {
-    const filename = "crossword.json";
+export function getSaveData(): Blob {
     const data = toObject();
     const dataString = JSON.stringify(data);
     const blob = new Blob([dataString], {type: 'application/json;charset=utf-8;'});
 
-    return { 
-        filename: filename,
-        fileData: blob
-    };
+    return blob;
 }
 
 export function parseSaveData(file: File) {

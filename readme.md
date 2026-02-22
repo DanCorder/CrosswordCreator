@@ -43,7 +43,7 @@ Planned tools:
   * [x] help page
 * [x] Print out
 * [x] Saving/loading crosswords
-  * [ ] Save with same filename as loaded
+  * [x] Save with same filename as loaded
 * [x] Title and author
 
 ## Word List
