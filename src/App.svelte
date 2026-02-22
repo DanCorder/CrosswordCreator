@@ -43,6 +43,7 @@
     <div class="content-block dont-print">
         <h1>Under Construction</h1>
         This site is still under active development so saved files may become incompatible without warning. Use at your own risk.<br/>
+        <a href="index-react.html">Switch to React version</a>
     </div>
     <div class="content-block header dont-print">
         <h1>Cryptic Crossword Creator</h1>

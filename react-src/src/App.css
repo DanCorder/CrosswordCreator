@@ -1,0 +1,104 @@
+/* ── CSS custom properties (mirrors _variables.scss) ── */
+:root {
+  --content-margin: 10px;
+  --lighter-colour: #c9a3c4;
+  --medium-colour: #b869ad;
+  --darker-colour: #b3199e;
+  --text-background-colour: #fafafa;
+  --text-colour: #292929;
+}
+
+/* ── Global layout helpers ── */
+.content-block {
+  background-color: var(--text-background-colour);
+  margin: var(--content-margin);
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 4px 4px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.content-section {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+a,
+.link {
+  color: var(--darker-colour);
+  text-decoration: underline;
+  cursor: pointer;
+}
+a:visited,
+.link:visited {
+  color: var(--medium-colour);
+}
+
+/* Print: hide editing UI */
+@media print {
+  .dont-print,
+  .dont-print > * {
+    display: none !important;
+  }
+
+  .content-block {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+/* Screen: hide print-only elements */
+@media screen {
+  .only-print,
+  .only-print > * {
+    display: none !important;
+  }
+}
+
+/* ── App shell ── */
+.app-main {
+  color: var(--text-colour);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+}
+.app-header h1 {
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+.app-header .content-section:not(:last-child) {
+  margin-right: 10px;
+}
+
+.header-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tools {
+  display: flex;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  width: 810px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 760px;
+}

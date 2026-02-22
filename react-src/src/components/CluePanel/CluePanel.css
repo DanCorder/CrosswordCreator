@@ -1,0 +1,33 @@
+.clue-panel h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.column-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.clue-container {
+  font-size: 12px;
+  margin-bottom: 1em;
+  width: 320px;
+}
+
+.clue-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.clue-row textarea {
+  height: 55px;
+  width: 300px;
+  margin-left: 0.7em;
+}
+
+.clue-row input[type='text'] {
+  width: 170px;
+}
