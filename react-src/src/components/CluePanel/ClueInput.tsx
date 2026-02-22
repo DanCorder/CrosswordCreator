@@ -32,6 +32,17 @@ export default function ClueInput({ entry }: Props) {
       clue: localClue,
       answer: localAnswer,
     });
+
+    // If the answer doesn't fit this grid slot, syncCluesToGrid will move the clue
+    // to unassigned and reset this slot to empty. The useEffect([entry.clue, entry.answer])
+    // won't fire in that case because entry.answer was already "" before and after.
+    // We can predict the outcome: if the stripped answer is non-empty and doesn't match
+    // the grid pattern, this slot will become empty — so clear local state now.
+    const stripped = strippedAnswer(localAnswer);
+    if (stripped !== '' && !matchesAnswer(entry.answerPosition, stripped)) {
+      setLocalClue('');
+      setLocalAnswer('');
+    }
   }
 
   const stripped = strippedAnswer(localAnswer);
