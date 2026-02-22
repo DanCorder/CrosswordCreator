@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ command }) => ({
   plugins: [react()],
+  base: './',
   // In dev mode, serve static files (reset.css, word list json) from the docs folder
   publicDir: command === 'serve' ? '../docs' : false,
   server: {
