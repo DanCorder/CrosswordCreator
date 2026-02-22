@@ -1,0 +1,18 @@
+.word-fit-panel .content-section:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.no-results {
+  color: #666;
+  font-style: italic;
+}
+
+.word-result {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5em;
+}
+
+.word-result a {
+  color: var(--darker-colour);
+}

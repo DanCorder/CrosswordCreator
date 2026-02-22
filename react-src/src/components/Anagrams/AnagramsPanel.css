@@ -1,0 +1,22 @@
+.anagrams-panel .content-section:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.anagram-result {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5em;
+}
+
+.anagram-result ul {
+  background-color: #ffe7ff;
+  list-style-type: none;
+  padding: 0.3em;
+  border-radius: 2px;
+  margin: 0.2em;
+}
+
+.no-results {
+  color: #666;
+  font-style: italic;
+}
